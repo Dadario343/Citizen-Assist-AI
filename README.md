@@ -122,7 +122,7 @@ Uma residência de baixa renda típica (3-4 pessoas) consome aproximadamente **1
 |------|----------|-------------|-------------|
 | Geladeira antiga | 150 W | 24h/dia | 108 kWh |
 | Chuveiro elétrico | 5.500 W | 15 min/dia | 41 kWh |
-| TV + iluminação + outros | — | — | ~1 kWh |
+| TV + iluminação + outros | ~100 W | 6h a 8h/dia | 55 kWh |
 | **Total estimado** | | | **~150 kWh/mês** |
 
 **Custo sem desconto:** 150 kWh × R\$0,75/kWh (tarifa média residencial, fonte ANEEL 2024) = **R\$112,50/mês**
