@@ -1,0 +1,42 @@
+[
+  {
+    "data": "2026-11-05 10:58:52",
+    "origem": "pergunta",
+    "pergunta": "como tirar meu RG identidade",
+    "id_orientacao": 1,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0
+  },
+  {
+    "data": "2026-11-05 10:58:52",
+    "origem": "categoria",
+    "pergunta": "[navegação] Documentos > Tirar o RG (Identidade / CIN)",
+    "id_orientacao": 1,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0
+  },
+  {
+    "data": "2026-11-05 11:04:27",
+    "origem": "pergunta",
+    "pergunta": "como que eu tiro meu rg",
+    "id_orientacao": 1,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0
+  },
+  {
+    "data": "2026-11-05 11:05:33",
+    "origem": "pergunta",
+    "pergunta": "meu cpf é 123.456.789-00",
+    "id_orientacao": 2,
+    "encontrou": true,
+    "ajudou": false,
+    "tentativas": 1,
+    "tempo_segundos": 0.0
+  }
+]
