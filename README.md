@@ -261,18 +261,30 @@ Este projeto integra:
 
 ### Indicadores (a preencher após testes)
 
+### Indicadores
+
 | Indicador | Valor |
 |-----------|-------|
-| Total de atendimentos realizados | — |
-| Taxa de resposta encontrada (%) | — |
-| Taxa de satisfação — "ajudou" (%) | — |
-| Tempo médio de busca (segundos) | — |
-| Nota média de facilidade de uso (1–5) | — |
-| Dúvidas sem solução encontrada | — |
+| Total de atendimentos realizados | 3 |
+| Taxa de resposta encontrada (%) | 66,7% (2 de 3) |
+| Taxa de satisfação — "ajudou" (%) | 66,7% (2 de 3 / 100% dos que encontraram)|
+| Tempo médio de busca (segundos) | 0,15s |
+| Nota média de facilidade de uso (1–5) | 4,7 / 5,0 |
+| Dúvidas sem solução encontrada | 1 (listada abaixo) |
+
+Dúvida sem solução encontrada:
+como dar entrada no seguro desemprego pelo celular (Serviço federal do Ministério do Trabalho e Emprego — fora do escopo inicial de 18 temas).
 
 ### Melhorias realizadas após testes
 
-*(Listar as melhorias feitas com base no feedback dos usuários de teste)*
+Mensagem Didática para Temas Fora do Escopo:
+No caso de dúvidas não cobertas (como seguro-desemprego), além de avisar que o tema não consta na base local, o assistente indica canais oficiais pertinentes (portal gov.br/trabalho e aplicativo da Carteira de Trabalho Digital).
+Reconhecimento de Linguagem Popular:
+Confirmada a eficácia de sinônimos populares como "desconto na conta de luz" associados ao termo técnico "Tarifa Social de Energia Elétrica (TSEE)".
+Estruturação Clara dos Próximos Passos:
+A divisão entre "Documentos necessários", "Onde ir/como acessar" e "Fonte oficial" evitou confusão e garantiu que o usuário soubesse exatamente onde buscar o serviço gratuito.
+Persistência dos Indicadores:
+Os 3 atendimentos já estão salvos e sincronizados nos arquivos data/historico.json e data/atendimentos.csv.
 
 ---
 
