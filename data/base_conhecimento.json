@@ -3,10 +3,14 @@
     "id": 1,
     "categoria": "Documentos",
     "titulo": "Tirar o RG (Identidade / CIN)",
-    "palavras_chave": ["rg", "identidade", "registro geral", "carteira de identidade", "cin", "documento de identidade"],
-    "resposta": "O RG (agora chamado CIN – Carteira de Identidade Nacional) pode ser tirado gratuitamente em postos do Instituto de Identificação do seu estado ou em agências do Banco do Brasil credenciadas. O novo modelo unifica vários documentos em um só. Leve a certidão de nascimento original. Para menores de 12 anos, o responsável deve estar presente.",
-    "documentos": ["Certidão de nascimento original", "Comprovante de residência (opcional para o novo modelo)"],
-    "onde": "Posto do Instituto de Identificação estadual ou agência do Banco do Brasil credenciada",
+    "palavras_chave": [
+      "rg", "identidade", "registro geral", "carteira de identidade", "cin",
+      "documento de identidade", "tirar rg", "fazer rg", "segunda via rg",
+      "novo rg", "documento", "documentos", "perdi meu rg", "carteira nacional de identificacao"
+    ],
+    "resposta": "O RG (agora chamado CIN – Carteira de Identidade Nacional) pode ser tirado gratuitamente em postos do Instituto de Identificação do seu estado, Poupatempo/Vapt-Vupt/SIM ou em agências do Banco do Brasil credenciadas. O novo modelo unifica vários documentos em um só tendo o CPF como número único. Leve a certidão de nascimento original (ou casamento). Para menores de 16 anos, o responsável deve estar presente com documento.",
+    "documentos": ["Certidão de nascimento original (ou casamento)", "CPF", "Comprovante de residência"],
+    "onde": "Posto do Instituto de Identificação estadual (ex.: Poupatempo, Detran, Vapt-Vupt) ou agência credenciada",
     "fonte": "https://www.gov.br/pt-br/servicos/emitir-carteira-de-identidade",
     "verificado_em": "2026-11-05"
   },
@@ -14,10 +18,14 @@
     "id": 2,
     "categoria": "Documentos",
     "titulo": "Cadastrar ou regularizar o CPF",
-    "palavras_chave": ["cpf", "cadastro de pessoa fisica", "regularizar cpf", "tirar cpf", "inscricao cpf"],
-    "resposta": "O CPF pode ser emitido gratuitamente pelos Correios, agências da Caixa Econômica Federal, Banco do Brasil, Bradesco e pelo site da Receita Federal. Para crianças, o CPF já pode ser incluído na certidão de nascimento gratuitamente. Para regularizar um CPF com pendências, acesse o portal da Receita Federal.",
-    "documentos": ["Documento de identidade com foto", "Certidão de nascimento (para menores)"],
-    "onde": "Agências dos Correios, Caixa Econômica Federal, Banco do Brasil ou pelo site da Receita Federal",
+    "palavras_chave": [
+      "cpf", "cadastro de pessoa fisica", "regularizar cpf", "tirar cpf",
+      "inscricao cpf", "fazer cpf", "consultar cpf", "segunda via cpf",
+      "cpf irregular", "cpf suspenso", "regularizacao cpf"
+    ],
+    "resposta": "O CPF pode ser emitido gratuitamente pelos Correios, agências da Caixa Econômica Federal, Banco do Brasil e diretamente pelo site da Receita Federal. Para recém-nascidos, o CPF já é emitido gratuitamente na certidão de nascimento. Para regularizar pendências cadastrais ou situação suspensa, o pedido é feito online sem custo no portal da Receita Federal.",
+    "documentos": ["Documento de identidade com foto (RG/CIN ou CNH)", "Certidão de nascimento (para menores)", "Título de eleitor (se tiver)"],
+    "onde": "Site oficial da Receita Federal (gov.br/receitafederal), agências dos Correios ou Caixa Econômica",
     "fonte": "https://www.gov.br/receitafederal/pt-br/assuntos/cpf",
     "verificado_em": "2026-11-05"
   },
@@ -25,9 +33,13 @@
     "id": 3,
     "categoria": "Documentos",
     "titulo": "Carteira de Trabalho Digital (CTPS Digital)",
-    "palavras_chave": ["carteira de trabalho", "ctps", "carteira digital", "trabalho formal", "emprego registrado", "carteira assinada"],
-    "resposta": "A Carteira de Trabalho é digital desde 2019 e pode ser acessada pelo aplicativo 'Carteira de Trabalho Digital' (disponível para Android e iOS) ou pelo portal gov.br. Não é mais necessário ir a uma agência para emitir. Basta se cadastrar no gov.br com CPF. A carteira física ainda é válida, mas a digital tem as mesmas funcionalidades.",
-    "documentos": ["CPF", "Conta no gov.br (pode ser criada gratuitamente)"],
+    "palavras_chave": [
+      "carteira de trabalho", "ctps", "carteira digital", "trabalho formal",
+      "emprego registrado", "carteira assinada", "carteira de trabalho digital",
+      "ctps digital", "primeiro emprego", "trabalho", "emprego", "assinar carteira"
+    ],
+    "resposta": "A Carteira de Trabalho é totalmente digital e pode ser acessada pelo aplicativo 'Carteira de Trabalho Digital' (Android e iOS) ou pelo portal gov.br. O número da sua carteira de trabalho é o próprio CPF! Não é mais necessário emitir a caderneta física de papel para ser contratado. Basta informar o seu CPF ao empregador.",
+    "documentos": ["CPF", "Conta gov.br (nível bronze, prata ou ouro)"],
     "onde": "Aplicativo 'Carteira de Trabalho Digital' (celular) ou portal empregabrasil.mte.gov.br",
     "fonte": "https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/trabalhador/carteira-de-trabalho",
     "verificado_em": "2026-11-05"
@@ -36,10 +48,14 @@
     "id": 4,
     "categoria": "Documentos",
     "titulo": "Título de Eleitor",
-    "palavras_chave": ["titulo de eleitor", "titulo eleitoral", "votar", "eleicao", "alistamento eleitoral", "segunda via titulo"],
-    "resposta": "O Título de Eleitor pode ser emitido, transferido ou regularizado pelo aplicativo 'e-Título' do TSE ou pelo site do Tribunal Superior Eleitoral. Jovens entre 16 e 18 anos podem fazer o alistamento obrigatório. Para quem está com título cancelado, é possível regularizar no próprio aplicativo. O e-Título também funciona como documento de identidade nas eleições.",
-    "documentos": ["CPF", "Comprovante de residência", "Documento de identidade"],
-    "onde": "Aplicativo 'e-Título' (celular) ou site do TSE (tse.jus.br)",
+    "palavras_chave": [
+      "titulo de eleitor", "titulo eleitoral", "votar", "eleicao",
+      "alistamento eleitoral", "segunda via titulo", "titulo", "titulos",
+      "e-titulo", "etitulo", "votacao", "eleicoes", "justificar voto", "regularizar titulo"
+    ],
+    "resposta": "O Título de Eleitor pode ser emitido, transferido ou regularizado pelo aplicativo oficial 'e-Título' do TSE ou pelo serviço Autoatendimento Eleitoral no site tse.jus.br. Jovens de 16 e 17 anos têm voto facultativo; a partir de 18 anos o alistamento é obrigatório. O e-Título com foto substitui o título em papel e serve como documento oficial no dia da eleição.",
+    "documentos": ["Documento oficial de identidade com foto", "Comprovante de residência atualizado", "Comprovante de quitação militar (para homens de 18 a 45 anos)"],
+    "onde": "Aplicativo móvel 'e-Título' ou site oficial do TSE (tse.jus.br) / Cartório Eleitoral",
     "fonte": "https://www.tse.jus.br/servicos-eleitorais/autoatendimento-eleitoral",
     "verificado_em": "2026-11-05"
   },
@@ -47,32 +63,46 @@
     "id": 5,
     "categoria": "Documentos",
     "titulo": "Certidão de Nascimento (1ª via ou 2ª via)",
-    "palavras_chave": ["certidao de nascimento", "certidao", "segunda via certidao", "registro civil", "nascimento"],
-    "resposta": "A primeira via da certidão de nascimento é gratuita e deve ser registrada logo após o nascimento no Cartório de Registro Civil. A segunda via também é gratuita para quem não tem condição de pagar (faça a declaração de pobreza). É possível solicitar pelo site do CNJ (Central de Certidões). Municípios conveniados permitem o registro em maternidades públicas.",
-    "documentos": ["Declaração de nascido vivo (DNV) emitida pela maternidade", "Documentos dos pais"],
-    "onde": "Cartório de Registro Civil de Pessoas Naturais mais próximo ou pelo site do CNJ",
+    "palavras_chave": [
+      "certidao de nascimento", "certidao", "segunda via certidao",
+      "registro civil", "nascimento", "certidoes", "certidao nascimento",
+      "segunda via", "primeira via", "cartorio", "declaracao de nascido vivo"
+    ],
+    "resposta": "A primeira via da certidão de nascimento é um direito garantido por lei e 100% gratuita para todos os brasileiros, feita no Cartório de Registro Civil logo após o nascimento. A segunda via também é gratuita para pessoas em situação de vulnerabilidade que declararem pobreza (Lei Federal 9.534/1997). É possível solicitar presencialmente no cartório ou online pelo portal Registro Civil.",
+    "documentos": ["Declaração de Nascido Vivo (DNV) emitida pelo hospital/maternidade", "Documentos pessoais dos pais (RG e CPF)"],
+    "onde": "Cartório de Registro Civil de Pessoas Naturais mais próximo ou portal registrocivil.org.br",
     "fonte": "https://www.gov.br/pt-br/servicos/registrar-nascimento",
     "verificado_em": "2026-11-05"
   },
   {
     "id": 6,
     "categoria": "Saúde",
-    "titulo": "Cartão SUS (como tirar ou consultar número)",
-    "palavras_chave": ["cartao sus", "sus", "sistema unico de saude", "cns", "cartao nacional de saude", "numero sus"],
-    "resposta": "O Cartão do SUS (CNS – Cartão Nacional de Saúde) é gratuito e garante atendimento em qualquer unidade de saúde pública do Brasil. Para tirar, vá a qualquer Unidade Básica de Saúde (UBS) ou posto de saúde do seu município. O número do CNS também pode ser consultado no aplicativo 'Meu SUS Digital' (antigo ConecteSUS) com seu CPF.",
-    "documentos": ["CPF", "Documento de identidade", "Comprovante de residência"],
-    "onde": "Unidade Básica de Saúde (UBS/Posto de Saúde) mais próxima ou aplicativo 'Meu SUS Digital'",
+    "titulo": "Cartão SUS e Atendimento no Posto de Saúde (UBS)",
+    "palavras_chave": [
+      "cartao sus", "cartao do sus", "sus", "sistema unico de saude", "cns",
+      "cartao nacional de saude", "numero sus", "meu sus", "meu sus digital",
+      "ubs", "posto de saude", "consulta", "consulta medica", "marcar consulta",
+      "atendimento medico", "dor", "dor de garganta", "doente", "sintomas", "medico gratis"
+    ],
+    "resposta": "O Cartão do SUS (CNS – Cartão Nacional de Saúde) é gratuito e garante atendimento médico, exames e vacinas em qualquer unidade pública de saúde do Brasil. Para emitir ou consultar, vá a qualquer UBS/Posto de Saúde ou acesse o aplicativo 'Meu SUS Digital'. Se estiver com sintomas de saúde (dor de garganta, febre, mal-estar ou precisando de consulta), dirija-se à UBS mais próxima com documento e cartão do SUS.",
+    "documentos": ["CPF", "Documento de identidade oficial com foto", "Comprovante de residência"],
+    "onde": "Unidade Básica de Saúde (UBS/Posto de Saúde) mais próxima da sua residência ou aplicativo 'Meu SUS Digital'",
     "fonte": "https://www.gov.br/saude/pt-br/assuntos/saude-digital/meu-sus-digital",
     "verificado_em": "2026-11-05"
   },
   {
     "id": 7,
     "categoria": "Saúde",
-    "titulo": "Vacinação gratuita pelo SUS",
-    "palavras_chave": ["vacina", "vacinacao", "imunizacao", "calendário vacinal", "vacina gratis", "posto de vacinacao"],
-    "resposta": "O SUS oferece diversas vacinas gratuitas para todas as faixas etárias, seguindo o Calendário Nacional de Vacinação. As vacinas incluem: BCG, hepatite A e B, pólio, tríplice viral (sarampo, caxumba, rubéola), influenza (gripe), COVID-19, entre outras. Vá a qualquer UBS ou posto de saúde com cartão de vacinas e documento de identidade. Crianças precisam levar a caderneta de vacinação.",
-    "documentos": ["Cartão de vacinação (caderneta)", "Documento de identidade ou CPF", "Cartão do SUS (se tiver)"],
-    "onde": "Unidade Básica de Saúde (UBS), posto de saúde ou durante campanhas de vacinação",
+    "titulo": "Vacinação gratuita e Vacinas pelo SUS",
+    "palavras_chave": [
+      "vacina", "vacinas", "vacinacao", "imunizacao", "calendário vacinal",
+      "vacina gratis", "posto de vacinacao", "vacinar", "tomar vacina",
+      "posto de vacina", "gotinha", "caderneta de vacinacao", "cartao de vacina",
+      "imunizacoes", "gripe vacina", "covid vacina"
+    ],
+    "resposta": "O SUS oferece gratuitamente todas as vacinas do Calendário Nacional de Vacinação para bebês, crianças, adolescentes, adultos e idosos. Estão disponíveis vacinas contra gripe (influenza), COVID-19, tétano, hepatite B, febre amarela, sarampo, HPV, entre outras. Para se vacinar, basta comparecer a qualquer Posto de Saúde / UBS portando documento de identificação e a caderneta de vacinação.",
+    "documentos": ["Caderneta de vacinação / Cartão de vacinas", "Documento de identificação com foto ou CPF", "Cartão do SUS (se tiver)"],
+    "onde": "Qualquer Unidade Básica de Saúde (UBS) ou sala de vacinação municipal",
     "fonte": "https://www.gov.br/saude/pt-br/vacinacao",
     "verificado_em": "2026-11-05"
   },
@@ -80,10 +110,14 @@
     "id": 8,
     "categoria": "Saúde",
     "titulo": "Remédio gratuito - Farmácia Popular e RENAME",
-    "palavras_chave": ["remedio gratis", "farmacia popular", "medicamento gratuito", "rename", "remedio barato", "farmacia do povo"],
-    "resposta": "O Programa Farmácia Popular oferece medicamentos gratuitos (como insulina, metformina para diabetes, remédios para pressão alta, asma e anticoncepcionais) em farmácias credenciadas privadas e nas Farmácias Populares do governo. Basta apresentar receita médica e CPF. Consulte farmácias participantes pelo site Aqui tem Farmácia Popular. No SUS, medicamentos da lista RENAME são fornecidos gratuitamente nas UBS.",
-    "documentos": ["Receita médica válida", "CPF", "Documento de identidade"],
-    "onde": "Farmácias credenciadas ao Programa Farmácia Popular (consulte o site) ou UBS para medicamentos do SUS",
+    "palavras_chave": [
+      "remedio gratis", "remedio", "remedios", "medicamento", "medicamentos",
+      "remedios gratis", "medicamento gratis", "farmacia popular", "rename",
+      "remedio barato", "farmacia do povo", "farmacia", "pegar remedio", "insulina gratis"
+    ],
+    "resposta": "O Programa Farmácia Popular disponibiliza medicamentos 100% gratuitos para diabetes, hipertensão, asma, osteoporose e anticoncepcionais em farmácias particulares credenciadas com a placa 'Aqui Tem Farmácia Popular'. Beneficiários do Bolsa Família têm acesso gratuito a todos os 40 medicamentos do programa. Além disso, as farmácias das UBS distribuem gratuitamente remédios da lista RENAME do SUS.",
+    "documentos": ["Receita médica válida (do SUS ou particular)", "Documento oficial com foto", "CPF do paciente"],
+    "onde": "Drogarias credenciadas ao Programa Farmácia Popular ou farmácia da UBS do seu município",
     "fonte": "https://www.gov.br/saude/pt-br/assuntos/farmacia-popular",
     "verificado_em": "2026-11-05"
   },
@@ -91,10 +125,15 @@
     "id": 9,
     "categoria": "Saúde",
     "titulo": "CAPS - Centro de Atenção Psicossocial",
-    "palavras_chave": ["caps", "saude mental", "psiquiatra gratis", "psicologo gratis", "dependencia quimica", "alcoolismo", "drogas", "ansiedade tratamento"],
-    "resposta": "O CAPS (Centro de Atenção Psicossocial) oferece atendimento gratuito de saúde mental pelo SUS. Atende pessoas com transtornos mentais graves, dependência química (álcool e drogas) e crianças e adolescentes com necessidades em saúde mental. O atendimento inclui consultas com psiquiatra, psicólogo, assistente social e outros profissionais. Não precisa de encaminhamento médico: você mesmo pode procurar o CAPS mais próximo.",
-    "documentos": ["Documento de identidade", "CPF", "Cartão do SUS (se tiver)"],
-    "onde": "CAPS mais próximo da sua residência (consulte a prefeitura ou digitando 'CAPS + seu município' no Google)",
+    "palavras_chave": [
+      "caps", "saude mental", "psiquiatra gratis", "psicologo gratis",
+      "dependencia quimica", "alcoolismo", "drogas", "ansiedade tratamento",
+      "psicologo", "psiquiatra", "depressao", "ansiedade", "apoio psicologico",
+      "atendimento psicologico", "dependencia", "saude mental gratuita"
+    ],
+    "resposta": "O CAPS (Centro de Atenção Psicossocial) oferece atendimento público, especializado e gratuito de saúde mental no SUS. Atende pessoas em sofrimento psíquico decorrente de depressão, ansiedade, transtornos mentais graves e dependência de álcool e outras drogas. O atendimento conta com psicólogos, psiquiatras, terapeutas e assistentes sociais. Não é necessário encaminhamento prévio: basta comparecer ao CAPS da sua região.",
+    "documentos": ["Documento de identidade com foto", "CPF", "Cartão do SUS (se possuir)", "Comprovante de endereço"],
+    "onde": "Unidade de CAPS mais próxima da sua residência (consulte na UBS local ou na Secretaria Municipal de Saúde)",
     "fonte": "https://www.gov.br/saude/pt-br/assuntos/saude-mental/sobre-a-politica-nacional-de-saude-mental/caps",
     "verificado_em": "2026-11-05"
   },
@@ -102,10 +141,14 @@
     "id": 10,
     "categoria": "Direitos",
     "titulo": "CRAS - Centro de Referência de Assistência Social",
-    "palavras_chave": ["cras", "assistencia social", "beneficio social", "ajuda governo", "servico social", "protecao social"],
-    "resposta": "O CRAS (Centro de Referência de Assistência Social) é a porta de entrada para os serviços sociais do governo. É gratuito e atende famílias em situação de vulnerabilidade. No CRAS você pode: se inscrever no CadÚnico, solicitar benefícios sociais, ter orientação jurídica básica, participar de cursos e oficinas, e receber acompanhamento familiar. Procure o CRAS mais próximo da sua casa.",
-    "documentos": ["Documento de identidade de todos os membros da família", "CPF", "Comprovante de residência", "Comprovante de renda (se tiver)"],
-    "onde": "CRAS mais próximo (consulte cras.social ou ligue 156 na prefeitura)",
+    "palavras_chave": [
+      "cras", "assistencia social", "beneficio social", "ajuda governo",
+      "servico social", "protecao social", "centro de referencia", "assistente social",
+      "atendimento cras", "ajuda social", "vulnerabilidade", "apoio social"
+    ],
+    "resposta": "O CRAS é a porta de entrada para todas as políticas de assistência social pública do Brasil. É onde as famílias de baixa renda realizam a inscrição e atualização no CadÚnico, solicitam auxílios emergenciais, recebem cestas de alimentação quando disponíveis, e participam de programas de apoio à família. Todos os atendimentos são totalmente gratuitos.",
+    "documentos": ["RG e CPF de todos os membros que moram na casa", "Comprovante de endereço recente", "Comprovante de renda ou carteira de trabalho"],
+    "onde": "CRAS do seu bairro ou município (ligue 156 na prefeitura ou consulte na assistência social local)",
     "fonte": "https://www.mds.gov.br/webarq/vmc/webarquivos/CRAS/index.html",
     "verificado_em": "2026-11-05"
   },
@@ -113,10 +156,15 @@
     "id": 11,
     "categoria": "Direitos",
     "titulo": "Bolsa Família e CadÚnico",
-    "palavras_chave": ["bolsa familia", "cadunico", "cadastro unico", "beneficio", "auxilio", "renda baixa", "programa social"],
-    "resposta": "O CadÚnico (Cadastro Único) é o registro de famílias de baixa renda do governo federal, e é a porta de entrada para o Bolsa Família e outros programas. Para se inscrever, vá ao CRAS com documentos de toda a família. O Bolsa Família paga benefícios mensais a famílias com renda per capita de até R$ 218,00. O valor varia conforme composição familiar. Você pode consultar o status pelo aplicativo 'Bolsa Família' ou pelo site do governo.",
-    "documentos": ["RG ou CNH de todos os membros maiores", "CPF de todos os membros", "Certidão de nascimento das crianças", "Comprovante de residência", "Comprovante de renda"],
-    "onde": "CRAS mais próximo para inscrição no CadÚnico",
+    "palavras_chave": [
+      "bolsa familia", "cadunico", "cadastro unico", "beneficio", "auxilio",
+      "renda baixa", "programa social", "bolsa-familia", "cad-unico",
+      "cadastro social", "auxilio brasil", "beneficios", "nis", "numero do nis",
+      "consultar bolsa familia", "receber beneficio"
+    ],
+    "resposta": "O Cadastro Único (CadÚnico) é a base de dados do governo federal para identificar famílias com renda mensal de até meio salário mínimo por pessoa. O programa Bolsa Família garante renda mínima de R$ 600,00 por família, mais adicionais de R$ 150 por criança até 6 anos e R$ 50 para gestantes e jovens de 7 a 18 anos. Para se cadastrar ou atualizar os dados, o responsável familiar deve procurar o CRAS do seu município.",
+    "documentos": ["CPF ou Título de Eleitor do responsável", "Documento de cada membro da família (certidão, RG ou CPF)", "Comprovante de residência e de matrícula escolar das crianças"],
+    "onde": "CRAS (Centro de Referência de Assistência Social) do seu município ou posto do CadÚnico",
     "fonte": "https://www.gov.br/mds/pt-br/acoes-e-programas/bolsa-familia",
     "verificado_em": "2026-11-05"
   },
@@ -124,10 +172,15 @@
     "id": 12,
     "categoria": "Direitos",
     "titulo": "PROCON - Reclamação do consumidor",
-    "palavras_chave": ["procon", "consumidor", "reclamacao", "direito consumidor", "produto defeituoso", "servico ruim", "nota fiscal", "codigo de defesa"],
-    "resposta": "O PROCON defende os direitos do consumidor e é gratuito. Se você teve um produto defeituoso, serviço mal prestado, cobrança indevida ou qualquer problema com uma empresa, procure o PROCON. Você também pode registrar reclamações pelo site consumidor.gov.br (plataforma oficial), que é gratuita e tem boa taxa de resolução. O PROCON pode multar empresas que descumprem o Código de Defesa do Consumidor.",
-    "documentos": ["Documento de identidade", "CPF", "Nota fiscal ou comprovante da compra/contrato", "Fotos ou evidências do problema"],
-    "onde": "PROCON municipal (na prefeitura) ou estadual, ou pelo site consumidor.gov.br",
+    "palavras_chave": [
+      "procon", "consumidor", "reclamacao", "direito consumidor", "produto defeituoso",
+      "servico ruim", "nota fiscal", "codigo de defesa", "reclamacoes",
+      "consumidor.gov", "direitos do consumidor", "cobrança indevida",
+      "empresa enganosa", "golpe compra", "cancelar compra"
+    ],
+    "resposta": "O PROCON é o órgão público gratuito responsável por proteger os direitos do consumidor. Se você comprou um produto com defeito, foi vítima de propaganda enganosa, teve serviço mal executado ou foi cobrado indevidamente, o PROCON notifica a empresa e busca a solução amigável ou ressarcimento. Você também pode registrar reclamações pela plataforma oficial online consumidor.gov.br.",
+    "documentos": ["Documento de identificação (RG/CIN e CPF)", "Comprovante de residência", "Nota fiscal, cupom fiscal ou contrato da compra", "Protocolos de atendimento e comprovantes de pagamento"],
+    "onde": "Posto do PROCON municipal (geralmente na prefeitura) ou pela internet no site consumidor.gov.br",
     "fonte": "https://www.consumidor.gov.br",
     "verificado_em": "2026-11-05"
   },
@@ -135,10 +188,14 @@
     "id": 13,
     "categoria": "Direitos",
     "titulo": "Justiça Gratuita e Defensoria Pública",
-    "palavras_chave": ["justica gratuita", "defensoria publica", "advogado gratis", "processo judicial", "assistencia juridica", "juizado especial"],
-    "resposta": "Quem não tem dinheiro para pagar advogado pode usar a Defensoria Pública, que é gratuita. A Defensoria atua em causas trabalhistas, família (divórcio, pensão alimentícia), criminal e outras áreas. Para causas de até 40 salários mínimos, o Juizado Especial Cível (JEC) não exige advogado e é gratuito. Procure a Defensoria Pública do seu estado ou o Juizado Especial no fórum mais próximo.",
-    "documentos": ["Documento de identidade", "CPF", "Comprovante de renda (para Defensoria)", "Documentos relacionados ao caso"],
-    "onde": "Defensoria Pública Estadual ou Federal / Juizado Especial Cível no fórum da cidade",
+    "palavras_chave": [
+      "justica gratuita", "defensoria publica", "advogado gratis", "processo judicial",
+      "assistencia juridica", "juizado especial", "defensoria", "advogado gratuito",
+      "advogados gratis", "sem dinheiro para advogado", "processo gratuito", "orientacao juridica", "dpu"
+    ],
+    "resposta": "Todo cidadão que não tem condições financeiras de pagar as custas de um advogado tem direito à assistência jurídica integral e gratuita prestada pela Defensoria Pública (Estadual e da União). Atua em pensão alimentícia, divórcio, ações contra o governo, defesa criminal e cobranças indevidas. Além disso, nos Juizados Especiais Cíveis (Pequenas Causas), causas de até 20 salários mínimos não necessitam de advogado.",
+    "documentos": ["RG e CPF", "Comprovante de residência", "Comprovante de renda familiar (holerite, extrato ou declaração de isento)", "Documentos e provas sobre o caso"],
+    "onde": "Núcleo da Defensoria Pública Estadual mais próximo ou fórum da sua comarca",
     "fonte": "https://www.dpu.def.br/",
     "verificado_em": "2026-11-05"
   },
@@ -146,10 +203,15 @@
     "id": 14,
     "categoria": "Energia",
     "titulo": "Tarifa Social de Energia Elétrica (TSEE) - como solicitar",
-    "palavras_chave": ["tarifa social", "conta de luz", "desconto energia", "tsee", "luz social", "energia barata", "desconto eletricidade", "conta de energia"],
-    "resposta": "A Tarifa Social de Energia Elétrica (TSEE) dá descontos na conta de luz para famílias de baixa renda. Os descontos são: 65% nos primeiros 30 kWh; 40% de 31 a 100 kWh; 10% de 101 a 220 kWh. Para ter direito, você deve estar inscrito no CadÚnico com renda per capita de até meio salário mínimo, ou receber BPC/Loas, ou ter alguém com doença grave que usa equipamento elétrico em casa. Ligue para a sua distribuidora de energia (número no verso da conta) ou procure o CRAS para se inscrever.",
-    "documentos": ["Número do CadÚnico (NIS)", "CPF do titular da conta de luz", "Número da conta de energia (UC – Unidade Consumidora)"],
-    "onde": "Distribuidora de energia local (ligue no número da sua conta de luz) ou CRAS",
+    "palavras_chave": [
+      "tarifa social", "conta de luz", "desconto energia", "tsee", "luz social",
+      "energia barata", "desconto eletricidade", "conta de energia", "desconto na luz",
+      "desconto conta de luz", "tarifa social energia", "tarifa baixa renda",
+      "luz baixa renda", "desconto luz", "abater conta de luz"
+    ],
+    "resposta": "A Tarifa Social de Energia Elétrica (TSEE) concede descontos de até 65% na conta de luz para famílias de baixa renda: 65% de desconto para consumo até 30 kWh/mês; 40% de 31 a 100 kWh/mês; e 10% de 101 a 220 kWh/mês. Têm direito famílias inscritas no CadÚnico com renda per capita de até meio salário mínimo, beneficiários do BPC/LOAS ou famílias com pessoa com deficiência que use aparelho vital ligado à tomada. Se já estiver no CadÚnico, a concessão deve ser automática, mas caso não receba, contate a distribuidora informando seu NIS.",
+    "documentos": ["Número de Inscrição Social (NIS) do CadÚnico atualizado", "CPF e RG do titular", "Conta de energia recente com o código da unidade consumidora (UC)"],
+    "onde": "Canais de atendimento da distribuidora de energia da sua região (telefone no verso da conta) ou CRAS",
     "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifa-social",
     "verificado_em": "2026-11-05"
   },
@@ -157,21 +219,31 @@
     "id": 15,
     "categoria": "Energia",
     "titulo": "Como economizar energia elétrica em casa",
-    "palavras_chave": ["economizar energia", "conta de luz alta", "reducao consumo", "eficiencia energetica", "gastar menos luz", "dicas energia"],
-    "resposta": "Dicas para reduzir o consumo de energia em casa: 1) Use lâmpadas LED (consomem até 80% menos que incandescentes). 2) Desligue aparelhos da tomada quando não usar (modo standby consome energia). 3) Geladeira: não deixe a porta aberta, afaste da parede 15 cm, evite colocar alimentos quentes. 4) Chuveiro elétrico: use na posição verão e reduza o tempo. 5) Lave roupas com carga cheia na máquina. 6) Ar-condicionado: 23°C já é confortável; limpe o filtro mensalmente. 7) Consulte o selo PROCEL ao comprar eletrodomésticos.",
+    "palavras_chave": [
+      "economizar energia", "conta de luz alta", "reducao consumo", "eficiencia energetica",
+      "gastar menos luz", "dicas energia", "economia de energia", "economizar luz",
+      "diminuir conta de luz", "gastar menos energia", "reduzir conta", "lampada led",
+      "selo procel", "consumo consciente"
+    ],
+    "resposta": "Medidas práticas para diminuir a conta de luz sem custo inicial: 1) Chuveiro elétrico: banhos de no máximo 5 minutos na posição 'verão' (economiza até 30% da energia do chuveiro). 2) Iluminação: substitua lâmpadas antigas por lâmpadas LED (economizam até 80% e duram mais). 3) Geladeira: mantenha a borracha de vedação limpa e ajustada, nunca guarde alimentos quentes e não seque roupas atrás do aparelho. 4) Standby: retire aparelhos da tomada quando não estiver usando, pois o modo de espera consome eletricidade 24h por dia. 5) Eletrodomésticos: priorize sempre aparelhos com Selo Procel A.",
     "documentos": [],
-    "onde": "Essas dicas podem ser aplicadas em casa. Consulte também o site do Procel para mais informações.",
+    "onde": "Ações que podem ser aplicadas imediatamente em casa. Orientações disponíveis no portal Procel / Ministério de Minas e Energia",
     "fonte": "https://www.gov.br/mme/pt-br/assuntos/secretarias/sntep/eficiencia-energetica",
     "verificado_em": "2026-11-05"
   },
   {
     "id": 16,
     "categoria": "Energia",
-    "titulo": "Energia Solar Fotovoltaica Residencial - como funciona e como financiar",
-    "palavras_chave": ["energia solar", "painel solar", "placa solar", "fotovoltaica", "solar residencial", "financiamento solar", "progd", "bndes solar"],
-    "resposta": "A energia solar fotovoltaica transforma a luz do sol em eletricidade usando painéis solares instalados no telhado. Com a Lei 14.300/2022 (Marco Legal da Microgeração), você injeta o excedente na rede e recebe créditos na conta de luz. Um sistema de 1 kWp gera cerca de 120 kWh/mês no Brasil. Custo estimado: R$ 5.000 a R$ 8.000 para sistemas pequenos. Payback: 4 a 6 anos. Financiamento: Caixa Econômica Federal (linha habitação verde), BNDES, e financiamento direto com instaladoras credenciadas. Consulte empresas certificadas pela ABSOLAR.",
-    "documentos": ["Conta de energia (para análise de consumo)", "Documentos pessoais", "Escritura ou contrato de aluguel (para financiamento)"],
-    "onde": "Empresas instaladoras credenciadas (veja lista na ABSOLAR) / Caixa Econômica Federal ou bancos parceiros para financiamento",
+    "titulo": "Energia Solar Fotovoltaica e Fontes Renováveis de Energia Limpa",
+    "palavras_chave": [
+      "energia solar", "painel solar", "placa solar", "fotovoltaica", "solar residencial",
+      "financiamento solar", "progd", "bndes solar", "energia limpa", "energias limpas",
+      "energia renovavel", "energias renovaveis", "fontes renovaveis", "tipos de energia",
+      "tipos de energia limpa", "energia verde", "placas solares", "paineis solares", "microgeracao"
+    ],
+    "resposta": "As principais fontes de energia limpa e renovável no Brasil são a solar fotovoltaica, eólica, biomassa e hidrelétrica. No âmbito residencial, a energia solar fotovoltaica é a mais viável: placas instaladas no telhado convertem a radiação solar diretamente em eletricidade. Pelo Marco Legal da Microgeração (Lei 14.300/2022), a energia gerada excedente é injetada na rede da distribuidora e vira créditos para abater até 80% a 90% da conta de luz. Um sistema residencial básico de 1,5 kWp gera cerca de 180 kWh/mês e evita a emissão de aproximadamente 75 kg de CO2 por mês. Existem linhas de microcrédito e financiamento verde em bancos públicos como Caixa e BNDES.",
+    "documentos": ["Últimas 12 contas de energia elétrica", "Documento de identidade e CPF", "Comprovante de posse ou escritura do imóvel"],
+    "onde": "Empresas instaladoras de energia solar credenciadas pela ABSOLAR ou agências da Caixa Econômica Federal",
     "fonte": "https://www.gov.br/aneel/pt-br/assuntos/geracao-distribuida",
     "verificado_em": "2026-11-05"
   },
@@ -179,10 +251,14 @@
     "id": 17,
     "categoria": "Energia",
     "titulo": "Programa Luz para Todos",
-    "palavras_chave": ["luz para todos", "energia rural", "eletrificacao rural", "sem energia", "ligar energia", "zona rural energia"],
-    "resposta": "O Programa Luz para Todos leva energia elétrica gratuitamente para famílias da zona rural que ainda não têm acesso. O governo paga a instalação da rede elétrica. Para se inscrever, a família deve estar em área rural sem energia, estar inscrita no CadÚnico (prioritário) e solicitar na prefeitura ou na distribuidora de energia da região. O programa é coordenado pelo Ministério de Minas e Energia.",
-    "documentos": ["Documento de identidade", "CPF", "Comprovante de residência rural", "Número do CadÚnico (NIS) se tiver"],
-    "onde": "Prefeitura municipal ou distribuidora de energia elétrica da região",
+    "palavras_chave": [
+      "luz para todos", "energia rural", "eletrificacao rural", "sem energia",
+      "ligar energia", "zona rural energia", "luz rural", "energia no campo",
+      "sem luz", "eletrificacao", "programa de energia rural"
+    ],
+    "resposta": "O Programa Luz para Todos leva acesso à eletricidade gratuitamente para residências e comunidades em áreas rurais e remotas que ainda não possuem fornecimento de energia. O governo federal custeia a instalação dos postes, fiação e medidores (ou sistemas solares isolados onde a rede não alcança). Famílias inscritas no CadÚnico têm atendimento prioritário. Para solicitar a ligação, o morador deve procurar a distribuidora de energia que atende a região ou a prefeitura local.",
+    "documentos": ["Documento de identidade com foto", "CPF", "Comprovante de posse ou moradia na área rural", "NIS do CadÚnico (se tiver)"],
+    "onde": "Agência de atendimento da distribuidora de energia local ou prefeitura do município",
     "fonte": "https://www.gov.br/mme/pt-br/assuntos/secretarias/sntep/luz-para-todos",
     "verificado_em": "2026-11-05"
   },
@@ -190,10 +266,15 @@
     "id": 18,
     "categoria": "Energia",
     "titulo": "Como calcular o consumo de eletrodomésticos",
-    "palavras_chave": ["calcular consumo", "consumo eletrodomestico", "kwh", "quanto gasta", "conta de luz calculo", "potencia eletrica"],
-    "resposta": "Para calcular o consumo de um aparelho, use a fórmula: Consumo (kWh) = Potência (W) ÷ 1000 × Horas de uso por dia × 30 dias. Exemplos: Chuveiro 5500W, 15 min/dia = 5500 ÷ 1000 × 0,25 × 30 = 41,25 kWh/mês. Geladeira 150W, 24h/dia = 0,15 × 24 × 30 = 108 kWh/mês. TV 100W, 6h/dia = 0,1 × 6 × 30 = 18 kWh/mês. Multiplique pelo valor do kWh da sua conta de luz para saber o custo. A ANEEL tem uma calculadora online gratuita.",
+    "palavras_chave": [
+      "calcular consumo", "consumo eletrodomestico", "kwh", "quanto gasta",
+      "conta de luz calculo", "potencia eletrica", "calculo consumo", "calculadora consumo",
+      "quanto gasta chuveiro", "quanto gasta geladeira", "calcular kwh",
+      "consumo de energia", "consumo aparelho"
+    ],
+    "resposta": "Para descobrir quanto um aparelho consome por mês em kWh, use a fórmula matemática oficial da ANEEL: Consumo (kWh) = (Potência em Watts ÷ 1000) × Horas de uso por dia × 30 dias. Exemplos reais: 1) Chuveiro 5.500W usado 15 min/dia (0,25h): 5,5 × 0,25 × 30 = 41,25 kWh/mês. 2) Geladeira 150W ligada 24h: 0,15 × 24 × 30 = 108 kWh/mês. 3) TV LED 100W ligada 6h/dia: 0,10 × 6 × 30 = 18 kWh/mês. Para saber o custo em reais (R$), multiplique os kWh totais pelo valor da tarifa da sua conta (em média R$ 0,75 por kWh).",
     "documentos": [],
-    "onde": "Calculadora online da ANEEL: www.aneel.gov.br ou verifique a etiqueta de potência do aparelho",
+    "onde": "Etiqueta Nacional de Conservação de Energia (ENCE) no aparelho ou calculadora online gratuita da ANEEL",
     "fonte": "https://www.aneel.gov.br/calculo-do-consumo",
     "verificado_em": "2026-11-05"
   }

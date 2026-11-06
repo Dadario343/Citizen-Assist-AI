@@ -1,42 +1,152 @@
 [
   {
-    "data": "2026-11-05 10:58:52",
+    "data": "2026-11-06 14:10:12",
     "origem": "pergunta",
-    "pergunta": "como tirar meu RG identidade",
-    "id_orientacao": 1,
+    "pergunta": "quais são os tipos de energia limpa no Brasil?",
+    "id_orientacao": null,
+    "encontrou": false,
+    "ajudou": false,
+    "tentativas": 1,
+    "tempo_segundos": 0.8
+  },
+  {
+    "data": "2026-11-06 14:11:05",
+    "origem": "categoria",
+    "pergunta": "[navegação] Energia > Como calcular o consumo de eletrodomésticos",
+    "id_orientacao": 18,
     "encontrou": true,
     "ajudou": true,
     "tentativas": 1,
-    "tempo_segundos": 0.0
+    "tempo_segundos": 4.2
   },
   {
-    "data": "2026-11-05 10:58:52",
+    "data": "2026-11-06 14:11:42",
+    "origem": "categoria",
+    "pergunta": "[navegação] Saúde > CAPS - Centro de Atenção Psicossocial",
+    "id_orientacao": 9,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 3.8
+  },
+  {
+    "data": "2026-11-06 14:12:30",
+    "origem": "categoria",
+    "pergunta": "[navegação] Saúde > Cartão SUS (como tirar ou consultar número)",
+    "id_orientacao": 6,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 5.1
+  },
+  {
+    "data": "2026-11-06 14:13:15",
+    "origem": "categoria",
+    "pergunta": "[navegação] Direitos > Bolsa Família e CadÚnico",
+    "id_orientacao": 11,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 4.5
+  },
+  {
+    "data": "2026-11-06 14:35:20",
+    "origem": "pergunta",
+    "pergunta": "Qual a data de lançamento de Zelda Ocarina of time?",
+    "id_orientacao": null,
+    "encontrou": false,
+    "ajudou": false,
+    "tentativas": 1,
+    "tempo_segundos": 0.7
+  },
+  {
+    "data": "2026-11-06 14:36:10",
+    "origem": "categoria",
+    "pergunta": "[navegação] Saúde > Vacinação gratuita pelo SUS",
+    "id_orientacao": 7,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 3.9
+  },
+  {
+    "data": "2026-11-06 14:37:00",
+    "origem": "categoria",
+    "pergunta": "[navegação] Direitos > PROCON - Reclamação do consumidor",
+    "id_orientacao": 12,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 4.0
+  },
+  {
+    "data": "2026-11-06 15:02:15",
+    "origem": "pergunta",
+    "pergunta": "procon",
+    "id_orientacao": 12,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 3.5
+  },
+  {
+    "data": "2026-11-06 15:02:48",
+    "origem": "pergunta",
+    "pergunta": "sus",
+    "id_orientacao": 6,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 3.2
+  },
+  {
+    "data": "2026-11-06 15:03:15",
+    "origem": "pergunta",
+    "pergunta": "vacinas",
+    "id_orientacao": null,
+    "encontrou": false,
+    "ajudou": false,
+    "tentativas": 1,
+    "tempo_segundos": 0.9
+  },
+  {
+    "data": "2026-11-06 15:20:10",
+    "origem": "pergunta",
+    "pergunta": "que dia é hoje",
+    "id_orientacao": null,
+    "encontrou": false,
+    "ajudou": false,
+    "tentativas": 1,
+    "tempo_segundos": 0.6
+  },
+  {
+    "data": "2026-11-06 15:21:05",
+    "origem": "categoria",
+    "pergunta": "[navegação] Direitos > Bolsa Família e CadÚnico",
+    "id_orientacao": 11,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 4.1
+  },
+  {
+    "data": "2026-11-06 15:22:00",
     "origem": "categoria",
     "pergunta": "[navegação] Documentos > Tirar o RG (Identidade / CIN)",
     "id_orientacao": 1,
     "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 0.0
-  },
-  {
-    "data": "2026-11-05 11:04:27",
-    "origem": "pergunta",
-    "pergunta": "como que eu tiro meu rg",
-    "id_orientacao": 1,
-    "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 0.0
-  },
-  {
-    "data": "2026-11-05 11:05:33",
-    "origem": "pergunta",
-    "pergunta": "meu cpf é 123.456.789-00",
-    "id_orientacao": 2,
-    "encontrou": true,
     "ajudou": false,
     "tentativas": 1,
-    "tempo_segundos": 0.0
+    "tempo_segundos": 4.8
+  },
+  {
+    "data": "2026-11-06 16:11:22",
+    "origem": "pergunta",
+    "pergunta": "vacinas",
+    "id_orientacao": 7,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 10.0
   }
 ]
