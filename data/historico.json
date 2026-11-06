@@ -148,5 +148,25 @@
     "ajudou": true,
     "tentativas": 1,
     "tempo_segundos": 10.0
+  },
+  {
+    "data": "2026-11-06 17:21:41",
+    "origem": "categoria",
+    "pergunta": "[navegação] Saúde > Cartão SUS e Atendimento no Posto de Saúde (UBS)",
+    "id_orientacao": 6,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 4.5
+  },
+  {
+    "data": "2026-11-06 17:22:11",
+    "origem": "pergunta",
+    "pergunta": "quero saber sobre o CAPS",
+    "id_orientacao": 9,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 6.1
   }
 ]

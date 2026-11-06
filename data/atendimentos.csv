@@ -14,3 +14,5 @@ data,origem,pergunta,id_orientacao,encontrou,ajudou,tentativas,tempo_segundos
 2026-11-06 15:21:05,categoria,[navegação] Direitos > Bolsa Família e CadÚnico,11,True,True,1,4.1
 2026-11-06 15:22:00,categoria,[navegação] Documentos > Tirar o RG (Identidade / CIN),1,True,False,1,4.8
 2026-11-06 16:11:22,pergunta,vacinas,7,True,True,1,10.0
+2026-11-06 17:21:41,categoria,[navegação] Saúde > Cartão SUS e Atendimento no Posto de Saúde (UBS),6,True,True,1,4.5
+2026-11-06 17:22:11,pergunta,quero saber sobre o CAPS,9,True,True,1,6.1
