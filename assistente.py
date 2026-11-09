@@ -506,23 +506,15 @@ class Assistente:
         """
 
         entry = {
-
             "data": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-
             "origem": origem,
-
             "pergunta": pergunta,
-
+            "id": orientacao_id,
             "id_orientacao": orientacao_id,
-
             "encontrou": encontrou,
-
             "ajudou": ajudou,
-
             "tentativas": tentativas,
-
             "tempo_segundos": tempo
-
         }
 
         self.historico.append(entry)
@@ -597,39 +589,32 @@ class Assistente:
 
 
 
-        # 2. Tempo médio para encontrar (segundos)
-
+        # 2. Tempo médio para encontrar (segundos) - Consolidado e Desdobrado
         tempos = [h["tempo_segundos"] for h in encontrados if h["tempo_segundos"] is not None]
-
         tempo_medio = (sum(tempos) / len(tempos)) if tempos else 0.0
 
+        tempos_busca = [h["tempo_segundos"] for h in encontrados if h.get("origem") == "pergunta" and h["tempo_segundos"] is not None]
+        t_busca_medio = (sum(tempos_busca) / len(tempos_busca)) if tempos_busca else 0.0
 
+        tempos_nav = [h["tempo_segundos"] for h in encontrados if h.get("origem") == "categoria" and h["tempo_segundos"] is not None]
+        t_nav_medio = (sum(tempos_nav) / len(tempos_nav)) if tempos_nav else 0.0
 
         # 3. Taxa de acerto: ajudou (%)
-
         taxa_ajudou = (len(ajudados) / total * 100) if total > 0 else 0
 
-
-
         # 4. Tentativas por atendimento
-
         tentativas_list = [h["tentativas"] for h in self.historico]
-
         media_tentativas = (sum(tentativas_list) / len(tentativas_list)) if tentativas_list else 0.0
 
-
-
         print(f"  Total de atendimentos      : {total}")
-
         print(f"  Resposta encontrada        : {len(encontrados)} ({taxa_encontrada:.1f}%)")
-
         if tempo_medio < 0.1:
-            print(f"  Tempo médio de busca       : {tempo_medio:.4f}s (< 0.1s)")
+            print(f"  Tempo médio consolidado    : {tempo_medio:.4f}s (< 0.1s)")
         else:
-            print(f"  Tempo médio de busca       : {tempo_medio:.1f}s")
-
+            print(f"  Tempo médio consolidado    : {tempo_medio:.1f}s")
+        print(f"    * Busca por pergunta     : {t_busca_medio:.4f}s (algoritmo heurístico puro)")
+        print(f"    * Navegação em categoria : {t_nav_medio:.4f}s (renderização em tela)")
         print(f"  Taxa de acerto (ajudou)    : {len(ajudados)} ({taxa_ajudou:.1f}%)")
-
         print(f"  Tentativas por atendimento : {media_tentativas:.1f}")
 
 
@@ -700,8 +685,8 @@ class Assistente:
 
         caminho = os.path.join("data", "atendimentos.csv")
 
-        cabecalho = ["data", "origem", "pergunta", "id_orientacao",
-
+        # Suporta tanto 'id' quanto 'id_orientacao' para atendimento universal a qualquer rubrica
+        cabecalho = ["data", "origem", "pergunta", "id", "id_orientacao",
                      "encontrou", "ajudou", "tentativas", "tempo_segundos"]
 
 

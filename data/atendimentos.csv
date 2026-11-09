@@ -1,15 +1,15 @@
-data,origem,pergunta,id_orientacao,encontrou,ajudou,tentativas,tempo_segundos
-2026-11-09 14:57:30,pergunta,como solicitar tarifa social de energia,14,True,True,1,0.0009
-2026-11-09 14:57:30,pergunta,meu chuveiro gasta muito como economizar,15,True,True,1,0.0008
-2026-11-09 14:57:30,pergunta,consultar numero do nis bolsa familia cadunico,11,True,True,1,0.0008
-2026-11-09 14:57:30,pergunta,energia solar vale a pena para baixa renda,16,True,True,1,0.0008
-2026-11-09 14:57:30,pergunta,como faco o cartao do sus,6,True,True,1,0.0008
-2026-11-09 14:57:30,pergunta,onde tomar vacinas no posto de saude,6,True,True,1,0.0008
-2026-11-09 14:57:30,pergunta,como emitir a nova carteira de identidade cin,1,True,True,1,0.0008
-2026-11-09 14:57:30,pergunta,reclamar de compra defeituosa no procon,12,True,True,1,0.0015
-2026-11-09 14:57:30,pergunta,qual o melhor jogo do ano,,False,False,1,0.0008
-2026-11-09 14:57:30,pergunta,como calcular o consumo dos meus eletrodomesticos,18,True,True,1,0.0008
-2026-11-09 14:57:30,categoria,[navegação] Energia > Estudo Comparativo: Tarifa Social vs. Energia Solar,14,True,True,1,0.0
-2026-11-09 14:57:30,pergunta,como conseguir advogado de graca defensoria,13,True,True,1,0.0008
-2026-11-09 14:57:30,pergunta,receita de bolo de fuba,,False,False,1,0.0009
-2026-11-09 14:57:30,categoria,[navegação] Saúde > CAPS - Centro de Atenção Psicossocial,9,True,True,1,0.0
+data,origem,pergunta,id,id_orientacao,encontrou,ajudou,tentativas,tempo_segundos
+2026-11-09 14:57:30,pergunta,como solicitar tarifa social de energia,14,14,True,True,1,0.0009
+2026-11-09 14:57:30,pergunta,meu chuveiro gasta muito como economizar,15,15,True,True,1,0.0008
+2026-11-09 14:57:30,pergunta,consultar numero do nis bolsa familia cadunico,11,11,True,True,1,0.0008
+2026-11-09 14:57:30,pergunta,energia solar vale a pena para baixa renda,16,16,True,True,1,0.0008
+2026-11-09 14:57:30,pergunta,como faco o cartao do sus,6,6,True,True,1,0.0008
+2026-11-09 14:57:30,pergunta,onde tomar vacinas no posto de saude,6,6,True,True,1,0.0008
+2026-11-09 14:57:30,pergunta,como emitir a nova carteira de identidade cin,1,1,True,True,1,0.0008
+2026-11-09 14:57:30,pergunta,reclamar de compra defeituosa no procon,12,12,True,True,1,0.0015
+2026-11-09 14:57:30,pergunta,qual o melhor jogo do ano,,,False,False,1,0.0008
+2026-11-09 14:57:30,pergunta,como calcular o consumo dos meus eletrodomesticos,18,18,True,True,1,0.0008
+2026-11-09 14:57:30,categoria,[navegação] Energia > Estudo Comparativo: Tarifa Social vs. Energia Solar,14,14,True,True,1,0.0
+2026-11-09 14:57:30,pergunta,como conseguir advogado de graca defensoria,13,13,True,True,1,0.0008
+2026-11-09 14:57:30,pergunta,receita de bolo de fuba,,,False,False,1,0.0009
+2026-11-09 14:57:30,categoria,[navegação] Saúde > CAPS - Centro de Atenção Psicossocial,9,9,True,True,1,0.0
