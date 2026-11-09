@@ -185,15 +185,11 @@ class Assistente:
         print("=" * 60)
 
     def perguntar(self):
-
         """
-
-        Loop de perguntas em linguagem natural por busca de regras e pontuação.
-
-        Retorna '0' se o usuário quiser voltar ao menu principal.
-
+        Permite ao usuario digitar uma duvida em linguagem natural,
+        busca na base de conhecimento e exibe a orientacao encontrada.
+        Retorna '0' se o usuario desejar voltar ao menu principal.
         """
-
         tentativas = 0
         primeira_vez = True
 
@@ -223,109 +219,56 @@ class Assistente:
                 self.navegar()
                 continue
 
-
-
             if not pergunta:
-
                 print("\n  [!] Por favor, digite sua pergunta.")
-
                 continue
 
-
-
-            # Verificação de dados pessoais: bloqueia e não registra
-
+            # Verificacao de dados pessoais (LGPD): bloqueia e nao registra
             if self._contem_dado_pessoal(pergunta):
-
                 print()
-
-                print("  ⚠  Atenção: não digite CPF, telefone ou e-mail.")
-
-                print("     Reescreva sua pergunta sem dados pessoais.")
-
+                print("  [!] Atencao: nao digite CPF, telefone ou e-mail.")
+                print("      Reescreva sua pergunta sem dados pessoais.")
                 continue
-
-
 
             tentativas += 1
-
-            # Mede estritamente o tempo do algoritmo de busca
             inicio = time.time()
+
+            # Busca na base de conhecimento
             resultados = self.base.buscar(pergunta)
-            tempo_busca = round(time.time() - inicio, 2)
-            if tempo_busca <= 0.0:
-                tempo_busca = 0.05
-
-
-
             melhor_score = resultados[0][0] if resultados else 0
 
-
-
-            # Score < 3: enunciado exige "Não encontrei" (sugerir categorias ou outras palavras)
-
+            # Score < 3: orientacao nao encontrada
             if not resultados or melhor_score < 3:
-
-                tempo = tempo_busca
-
+                tempo = round(time.time() - inicio, 1)
                 print()
-
-                print("  Não encontrei uma orientação específica para sua dúvida.")
-
+                print("  Nao encontrei uma orientacao especifica para sua duvida.")
                 cats = ", ".join(self.base.categorias())
-
-                print(f"  Categorias disponíveis: {cats}")
-
-                print("  Sugestões:")
-
+                print(f"  Categorias disponiveis: {cats}")
+                print("  Sugestoes:")
                 print("   * Tente palavras diferentes (ex: 'tarifa social' em vez de 'desconto luz')")
-
-                print("   * Use a opção 'categorias' para navegar pelos temas disponíveis")
-
-                print("   * Procure o CRAS mais próximo para orientação presencial")
-
+                print("   * Use a opcao 'categorias' para navegar pelos temas disponiveis")
+                print("   * Procure o CRAS mais proximo para orientacao presencial")
                 self.registrar(
-
                     origem="pergunta",
-
                     pergunta=pergunta,
-
                     orientacao_id=None,
-
                     encontrou=False,
-
                     ajudou=False,
-
                     tentativas=tentativas,
-
                     tempo=tempo
-
                 )
-
                 self._pausar()
-
                 continue
-
-
 
             melhor_score, melhor = resultados[0]
 
-
-
-            # Define nível de confiança (score >= 3 garantido aqui)
-
+            # Define nivel de confianca (score >= 3 garantido aqui)
             if melhor_score >= 6:
-
                 confianca = "ALTA"
-
             else:
-
                 confianca = "MEDIA"
 
-
-
             print()
-
             if confianca == "ALTA":
                 print("  [v] Encontrei essa informacao referente a sua pergunta:")
                 print(f"      (Confianca ALTA - pontuacao: {melhor_score})")
@@ -336,103 +279,45 @@ class Assistente:
             # Exibe o melhor resultado
             melhor.exibir()
 
-
-
-            # Exibe até 2 alternativas adicionais
-
-            alternativas = resultados[1:3]
-
+            # Exibe ate 2 alternativas adicionais (estritamente com score >= 3)
+            alternativas = [alt for alt in resultados[1:3] if alt[0] >= 3]
             if alternativas:
-
-                print("  Outros temas relacionados:")
-
+                print("  Outros temas relacionados relevantes:")
                 for idx, (sc, alt) in enumerate(alternativas, start=1):
-
-                    print(f"   {idx}. {alt.titulo} [{alt.categoria}] (pontuação: {sc})")
-
+                    print(f"   {idx}. {alt.titulo} [{alt.categoria}] (pontuacao: {sc})")
                 print()
 
-
-
-            # Pergunta se ajudou
+            # Pergunta se ajudou e afere o tempo natural decorrido
             ajudou = self._perguntar_feedback()
-            tempo = tempo_busca
-
-
+            tempo = round(time.time() - inicio, 1)
 
             self.registrar(
-
                 origem="pergunta",
-
                 pergunta=pergunta,
-
                 orientacao_id=melhor.id,
-
                 encontrou=True,
-
                 ajudou=ajudou,
-
                 tentativas=tentativas,
-
                 tempo=tempo
-
             )
 
-
-
-            # Reseta tentativas para que a próxima pergunta inicie em 1
-
+            # Reseta tentativas para a proxima pergunta
             tentativas = 0
 
-
-
-            # Pergunta se deseja continuar na tela de dúvidas ou voltar
-
             print()
-
             continuar = self._input_seguro("  Deseja fazer outra pergunta? (s/0 para voltar): ").strip().lower()
-
             if continuar == "0" or continuar == "n":
-
                 return "0"
 
-
-
     def _perguntar_feedback(self):
-
-        """Pergunta se a orientação ajudou e retorna True/False com validação de entrada."""
-
+        """Pergunta se a orientacao ajudou e retorna True/False com validacao de entrada."""
         while True:
-
-            resp = self._input_seguro("  Essa orientação respondeu sua dúvida? (s/n): ").strip().lower()
-
+            resp = self._input_seguro("  Essa orientacao respondeu sua duvida? (s/n): ").strip().lower()
             if resp in ("s", "sim", "y", "yes"):
-
-                print("  Otimo! Fico feliz em ajudar. :)")
-
                 return True
-
-            elif resp in ("n", "nao", "não", "no"):
-
-                print("  Lamento não ter ajudado. Tente reformular a pergunta ou")
-
-                print("  procure o CRAS mais próximo para atendimento presencial.")
-
+            if resp in ("n", "nao", "nao", "no"):
                 return False
-
-            else:
-
-                print("  Por favor, responda 's' (sim) ou 'n' (não).")
-
-
-
-    # ------------------------------------------------------------------
-
-    # Navegação por categorias
-
-    # ------------------------------------------------------------------
-
-
+            print("  [!] Por favor, responda com 's' (sim) ou 'n' (nao).")
 
     def navegar(self):
 
@@ -842,42 +727,47 @@ class Assistente:
 
 
     # ------------------------------------------------------------------
-    # Métodos Estáticos de Cálculo Energético (SERS)
+    # Metodos Estatisticos e Matematicos de Calculo Energetico (SERS)
     # ------------------------------------------------------------------
+
+    @staticmethod
+    def _arredondar_moeda(val):
+        from decimal import Decimal, ROUND_HALF_UP
+        return float(Decimal(str(val)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
 
     @staticmethod
     def calcular_tarifa_social_lei10438(consumo, tarifa):
         """
-        Calcula a fatura e a economia pela Lei Federal nº 10.438/2002 e Res. ANEEL nº 1.000/2021:
+        Calcula a fatura e economia pela Lei Federal nº 10.438/2002 e Res. ANEEL nº 1.000/2021.
+        Arredonda cada faixa para centavos, conforme faturamento oficial das distribuidoras:
           - Faixa 0 a 30 kWh: 65% de desconto
           - Faixa 31 a 100 kWh: 40% de desconto
           - Faixa 101 a 220 kWh: 10% de desconto
           - Acima de 220 kWh: tarifa cheia sem desconto
         """
-        f1 = min(consumo, 30) * tarifa * (1 - 0.65)
-        f2 = max(0, min(consumo - 30, 70)) * tarifa * (1 - 0.40)
-        f3 = max(0, min(consumo - 100, 120)) * tarifa * (1 - 0.10)
-        f4 = max(0, consumo - 220) * tarifa
+        from decimal import Decimal
+        ar = Assistente._arredondar_moeda
+        d_tarifa = Decimal(str(tarifa))
+        f1 = ar(Decimal(str(min(consumo, 30))) * d_tarifa * Decimal('0.35'))
+        f2 = ar(Decimal(str(max(0, min(consumo - 30, 70)))) * d_tarifa * Decimal('0.60'))
+        f3 = ar(Decimal(str(max(0, min(consumo - 100, 120)))) * d_tarifa * Decimal('0.90'))
+        f4 = ar(Decimal(str(max(0, consumo - 220))) * d_tarifa)
         total = round(f1 + f2 + f3 + f4, 2)
-        base = round(consumo * tarifa, 2)
+        base = ar(Decimal(str(consumo)) * d_tarifa)
         economia = round(base - total, 2)
         pct = round((economia / base) * 100, 1) if base > 0 else 0.0
-        return total, economia, pct, round(f1, 2), round(f2, 2), round(f3, 2)
+        return total, economia, pct, f1, f2, f3
 
     @staticmethod
     def calcular_tarifa_social_gratuidade(consumo, tarifa):
         """
-        Calcula a fatura e a economia pela proposta de gratuidade da parcela até 80 kWh/mês (Luz do Povo):
+        Calcula a fatura e economia pelo modelo de gratuidade da parcela ate 80 kWh/mes (Luz do Povo):
           - Parcela 0 a 80 kWh: 100% de desconto (R$ 0,00)
-          - Parcela 81 a 150 kWh (70 kWh): 40% de desconto
-          - Parcela 151 a 220 kWh (70 kWh): 10% de desconto
-          - Acima de 220 kWh: tarifa cheia
+          - Excedente acima de 80 kWh: cobranca regular pela tarifa homologada sem subsidio
         """
         f1 = 0.0
-        f2 = max(0, min(consumo - 80, 70)) * tarifa * (1 - 0.40)
-        f3 = max(0, min(consumo - 150, 70)) * tarifa * (1 - 0.10)
-        f4 = max(0, consumo - 220) * tarifa
-        total = round(f1 + f2 + f3 + f4, 2)
+        f2 = round(max(0, consumo - 80) * tarifa, 2)
+        total = round(f1 + f2, 2)
         base = round(consumo * tarifa, 2)
         economia = round(base - total, 2)
         pct = round((economia / base) * 100, 1) if base > 0 else 0.0
@@ -886,7 +776,7 @@ class Assistente:
     @staticmethod
     def calcular_geracao_solar(potencia_kwp, irradiacao_kwh_m2_dia, dias, pr):
         """
-        Calcula a geração solar mensal estimada pela fórmula clássica de engenharia:
+        Calcula geracao solar mensal pela formula de engenharia:
         E = P * H * D * PR
         """
         return round(potencia_kwp * irradiacao_kwh_m2_dia * dias * pr, 2)
@@ -900,35 +790,37 @@ class Assistente:
 
     @staticmethod
     def calcular_co2(kwh, fator_sin):
-        """Calcula emissões evitadas de CO2 com base no fator oficial do SIN."""
+        """Calcula emissoes evitadas de CO2 pelo fator oficial do SIN."""
         return round(kwh * fator_sin, 2)
 
     # ------------------------------------------------------------------
-    # Análise Energética Integrada (SERS)
+    # Analise Energetica Integrada (SERS)
     # ------------------------------------------------------------------
 
     def analise_energetica(self):
         """
         Exibe a analise comparativa de alternativas energeticas para familias
-        de baixa renda, calculando todas as variaveis com funcoes matematicas.
+        de baixa renda, calculando todas as variaveis dinamicamente.
         Referencia estimada: consumo tipico de 150 kWh/mes, tarifa media ANEEL de R$ 0,75/kWh.
         """
         TARIFA = 0.75          # R$/kWh - tarifa residencial media homologada ANEEL
         CONSUMO = 150          # kWh/mes - estimativa para residencia tipica de baixa renda
         FATOR_CO2 = 0.0385     # kg CO2/kWh - Fator medio oficial do SIN (MCTI/SIRENE 2023/2024: 38,5 kg CO2/MWh)
 
-        # 1. Custo base de referencia
-        custo_base = round(CONSUMO * TARIFA, 2)
+        # 1. Custo base de referencia sem subsidios
+        custo_base = round(CONSUMO * TARIFA, 2)  # R$ 112,50
 
         # 2. Alternativa 1: Tarifa Social (TSEE)
+        # Regime da Lei Federal nº 10.438/2002 e Res. ANEEL 1.000:
         custo_tsee_hist, econ_tsee_hist, pct_tsee_hist, f1, f2, f3 = self.calcular_tarifa_social_lei10438(CONSUMO, TARIFA)
+        # Modelo Atualizado (Gratuidade ate 80 kWh com excedente integral a R$ 0,75/kWh):
         custo_tsee_novo, econ_tsee_novo, pct_tsee_novo = self.calcular_tarifa_social_gratuidade(CONSUMO, TARIFA)
 
-        # 3. Alternativa 2: Solar Fotovoltaica (Fórmula E = P * H * D * PR)
+        # 3. Alternativa 2: Solar Fotovoltaica (Formula E = P * H * D * PR)
         POTENCIA_KWP = 1.5
         IRRADIACAO = 4.8       # kWh/m2/dia (Atlas Brasileiro de Energia Solar / INPE)
         DIAS = 30
-        PR = 0.78              # Performance Ratio (perdas termicas, inversor e sujeira)
+        PR = 0.78              # Performance Ratio (perdas termicas, inversor e poeira)
         geracao_solar = self.calcular_geracao_solar(POTENCIA_KWP, IRRADIACAO, DIAS, PR)
 
         INV_MIN = 7500
@@ -936,36 +828,40 @@ class Assistente:
         INV_MAX = 9500
         
         # Limitacoes da Lei 14.300/2022 (taxa minima monofasica 30 kWh = R$ 22,50 + Fio B + COSIP):
-        # Economia liquida sobre a tarifa cheia (R$ 112,50):
-        econ_solar_max = 92.50   # fatura residual ~R$ 20,00
-        econ_solar_med = 85.00   # fatura residual ~R$ 27,50
-        econ_solar_min = 77.50   # fatura residual ~R$ 35,00
+        # Para quem paga a tarifa cheia (R$ 112,50):
+        econ_solar_max = 92.50   # fatura residual de R$ 20,00/mes
+        econ_solar_med = 85.00   # fatura residual de R$ 27,50/mes
+        econ_solar_min = 77.50   # fatura residual de R$ 35,00/mes
 
         payback_otimista = self.calcular_payback(INV_MIN, econ_solar_max)
         payback_moderado = self.calcular_payback(INV_MED, econ_solar_med)
         payback_conservador = self.calcular_payback(INV_MAX, econ_solar_min)
 
-        # CO2 evitado
         co2_evitado_consumo = self.calcular_co2(CONSUMO, FATOR_CO2)
         co2_evitado_solar = self.calcular_co2(geracao_solar, FATOR_CO2)
 
-        # 4. Alternativa 3: Cenário Combinado (TSEE + Eficiência de 150 para 110 kWh/mês)
-        # Auditoria de aparelhos: chuveiro economiza 28 kWh + iluminacao LED 7,7 kWh + standby 4,3 kWh = 40 kWh
+        # 4. Alternativa 3: Cenario Combinado (TSEE + Eficiencia de 150 para 110 kWh/mes)
+        # Auditoria de aparelhos: chuveiro 28 kWh + iluminacao LED 7,68 kWh + standby desligado 4,32 kWh = 40,0 kWh
         CONSUMO_COMBINADO = 110
         custo_comb_hist, _, _, _, _, _ = self.calcular_tarifa_social_lei10438(CONSUMO_COMBINADO, TARIFA)
         custo_comb_novo, _, _ = self.calcular_tarifa_social_gratuidade(CONSUMO_COMBINADO, TARIFA)
         
-        # Economia consolidada calculada em relacao a fatura original de 150 kWh (R$ 112,50):
-        econ_comb_hist = round(custo_base - custo_comb_hist, 2)
-        pct_comb_hist = round((econ_comb_hist / custo_base) * 100, 1)
-        econ_comb_novo = round(custo_base - custo_comb_novo, 2)
-        pct_comb_novo = round((econ_comb_novo / custo_base) * 100, 1)
+        # Reducao total consolidada em relacao a fatura inicial de 150 kWh (R$ 112,50):
+        econ_comb_hist = round(custo_base - custo_comb_hist, 2)   # R$ 66,37
+        pct_comb_hist = round((econ_comb_hist / custo_base) * 100, 1)  # 59,0%
+        econ_comb_novo = round(custo_base - custo_comb_novo, 2)   # R$ 90,00
+        pct_comb_novo = round((econ_comb_novo / custo_base) * 100, 1)  # 80,0%
         co2_evitado_comb = self.calcular_co2(CONSUMO - CONSUMO_COMBINADO, FATOR_CO2)
 
-        # 5. Comparativo Crucial: Viabilidade Solar para quem JA TEM Tarifa Social
-        # Se a familia ja paga TSEE (R$ 73,13), a economia gerada pelo solar e apenas:
-        # R$ 73,13 - R$ 22,50 (taxa minima) = R$ 50,63/mes.
-        payback_solar_para_baixa_renda = self.calcular_payback(INV_MED, round(custo_tsee_hist - 22.50, 2))
+        # 5. Comparativo Critico de Viabilidade Solar para Beneficiarios da TSEE:
+        # Se a familia ja recebe a Tarifa Social, sua fatura ja e baixa (R$ 73,13 ou R$ 52,50).
+        # Apos o solar (fatura minima de R$ 22,50), a economia gerada pelo sistema e muito menor:
+        # - Sob a Lei 10.438: economia de R$ 73,13 - R$ 22,50 = R$ 50,63/mes -> Payback de 14,0 anos.
+        # - Sob a Gratuidade ate 80 kWh: economia de R$ 52,50 - R$ 22,50 = R$ 30,00/mes -> Payback de 23,6 anos!
+        econ_solar_tsee_hist = round(custo_tsee_hist - 22.50, 2)
+        payback_solar_tsee_hist = self.calcular_payback(INV_MED, econ_solar_tsee_hist)
+        econ_solar_tsee_novo = round(custo_tsee_novo - 22.50, 2)
+        payback_solar_tsee_novo = self.calcular_payback(INV_MED, econ_solar_tsee_novo)
 
         print()
         print("=" * 60)
@@ -991,9 +887,9 @@ class Assistente:
         print(f"      * Fatura estimada     : R$ {custo_tsee_hist:.2f}/mes")
         print(f"      * Economia estimada   : R$ {econ_tsee_hist:.2f}/mes ({pct_tsee_hist}% de reducao)")
         print()
-        print("  [B] Modelo Atualizado (Gratuidade da parcela ate 80 kWh/mes):")
+        print("  [B] Modelo com Gratuidade ate 80 kWh (Excedente integral a R$ 0,75/kWh):")
         print("      * Parcela 0 a 80 kWh (100% desc.) : R$ 0,00")
-        print(f"      * Parcela 81 a 150 kWh (40% desc.): 70 x R$ {TARIFA:.2f} x 0,60 = R$ {custo_tsee_novo:.2f}")
+        print(f"      * Excedente 81 a 150 kWh (70 kWh) : 70 x R$ {TARIFA:.2f} = R$ {custo_tsee_novo:.2f}")
         print(f"      * Fatura estimada     : R$ {custo_tsee_novo:.2f}/mes")
         print(f"      * Economia estimada   : R$ {econ_tsee_novo:.2f}/mes ({pct_tsee_novo}% de reducao)")
         print()
@@ -1003,28 +899,29 @@ class Assistente:
         print("  Sistema referencial    : 1,5 kWp (~3 modulos de 500 Wp + microinversor)")
         print(f"  Geracao calculada      : {geracao_solar:.1f} kWh/mes (formula E = P * H * D * PR)")
         print(f"                           ({POTENCIA_KWP} kWp x {IRRADIACAO} kWh/m2/dia x {DIAS} dias x {PR} PR)")
-        print("                           *Varia conforme inclinacao, orientacao e clima local.")
         print(f"  Investimento instalado : R$ {INV_MIN:,.0f} a R$ {INV_MAX:,.0f} (Greener/ABSOLAR 2024/2025)")
         print("  Conta minima residual  : R$ 20,00 a R$ 35,00/mes (taxa de disponibilidade")
         print("                           monofasica de 30 kWh = R$ 22,50 + Fio B + COSIP)")
-        print(f"  Economia liquida mensal: R$ {econ_solar_min:.2f} a R$ {econ_solar_max:.2f}/mes")
+        print(f"  Economia liquida mensal: R$ {econ_solar_min:.2f} a R$ {econ_solar_max:.2f}/mes (tarifa cheia)")
         print(f"  Payback simples        : {payback_otimista} a {payback_conservador} anos (cenario medio: {payback_moderado} anos)")
         print(f"  CO2 evitado estimado   : ~{co2_evitado_consumo:.1f} kg/mes | ~{co2_evitado_consumo*12:.1f} kg/ano")
         print()
-        print("  [!] ANALISE CRITICA DE VIABILIDADE PARA FAMILIAS NO CADUNICO:")
-        print(f"  Para quem ja recebe a Tarifa Social (conta de R$ {custo_tsee_hist:.2f}), a economia real")
-        print(f"  do solar e de apenas R$ {custo_tsee_hist - 22.50:.2f}/mes, elevando o payback para {payback_solar_para_baixa_renda:.1f} anos!")
-        print("  Portanto, placas solares proprias tem alta barreira de capital para")
-        print("  baixa renda, sendo recomendadas apenas com subsidio publico ou cooperativas.")
+        print("  [!] AVALIACAO DE VIABILIDADE PARA FAMILIAS COM TARIFA SOCIAL:")
+        print(f"  Para quem ja recebe a TSEE (Lei 10.438: fatura R$ {custo_tsee_hist:.2f}), a economia real")
+        print(f"  do solar e de apenas R$ {econ_solar_tsee_hist:.2f}/mes, elevando o payback para {payback_solar_tsee_hist:.1f} anos.")
+        print(f"  Sob a gratuidade ate 80 kWh (fatura R$ {custo_tsee_novo:.2f}), a economia e de R$ {econ_solar_tsee_novo:.2f}/mes")
+        print(f"  e o payback salta para {payback_solar_tsee_novo:.1f} anos!")
+        print("  Conclusao: para famlias de baixa renda no CadUnico, a compra de placas")
+        print("  proprias e inviavel sem subsidio estatal ou modelo cooperativo.")
         print()
         print("-" * 60)
         print("  ALTERNATIVA 3 - COMBINADA (TSEE + EFICIENCIA ENERGETICA)")
         print("-" * 60)
         print("  Auditoria de aparelhos para reducao de 40 kWh/mes (150 para 110 kWh/mes):")
-        print("    * Chuveiro eletrico 3.500 W (banhos de 8 min em vez de 12 min): -28,0 kWh/mes")
-        print("    * Iluminacao LED (4 lampadas 25 W trocadas por 9 W, 4h/dia): -7,7 kWh/mes")
-        print("    * Standby desligado (TV + decodificador em tomada geral): -4,3 kWh/mes")
-        print("    * Total economizado: 40,0 kWh/mes com investimento de R$ 0 a R$ 40 em lampadas")
+        print("    * Chuveiro eletrico 3.500 W (banhos de 8 min em vez de 12 min): -28,00 kWh/mes")
+        print("    * Iluminacao LED (4 lampadas 25 W trocadas por 9 W, 4h/dia): -7,68 kWh/mes")
+        print("    * Standby desligado (TV + deco 10 W desligados 14,4h/dia no filtro): -4,32 kWh/mes")
+        print("    * Total economizado: 40,00 kWh/mes com investimento de R$ 0 a R$ 40 em lampadas")
         print()
         print(f"  Fatura estimada (Lei 10.438) : R$ {custo_comb_hist:.2f}/mes (Economia: R$ {econ_comb_hist:.2f}/mes = {pct_comb_hist}%)")
         print(f"  Fatura estimada (Gratuidade) : R$ {custo_comb_novo:.2f}/mes (Economia: R$ {econ_comb_novo:.2f}/mes = {pct_comb_novo}%)")
@@ -1036,8 +933,8 @@ class Assistente:
         print("-" * 60)
         print(f"  {'Parametro':<24} {'Atual':>10} {'TSEE':>10} {'Solar':>10} {'Combinada':>10}")
         print(f"  {'-'*24} {'-'*10} {'-'*10} {'-'*10} {'-'*10}")
-        print(f"  {'Conta estimada (R$)':<24} {'112,50':>10} {f'{custo_tsee_novo:.0f}-{custo_tsee_hist:.0f}':>10} {'20-35':>10} {f'{custo_comb_novo:.0f}-{custo_comb_hist:.0f}':>10}")
-        print(f"  {'Economia mensal (R$)':<24} {'0,00':>10} {f'{econ_tsee_hist:.0f}-{econ_tsee_novo:.0f}':>10} {'77-92':>10} {f'{econ_comb_hist:.0f}-{econ_comb_novo:.0f}':>10}")
+        print(f"  {'Conta estimada (R$)':<24} {'112,50':>10} {f'{custo_tsee_novo:.2f}-{custo_tsee_hist:.2f}':>10} {'20-35':>10} {f'{custo_comb_novo:.2f}-{custo_comb_hist:.2f}':>10}")
+        print(f"  {'Economia mensal (R$)':<24} {'0,00':>10} {f'{econ_tsee_hist:.2f}-{econ_tsee_novo:.2f}':>10} {'77-92':>10} {f'{econ_comb_hist:.2f}-{econ_comb_novo:.2f}':>10}")
         print(f"  {'Reducao estimada (%)':<24} {'0%':>10} {f'{pct_tsee_hist:.0f}-{pct_tsee_novo:.0f}%':>10} {'70-82%':>10} {f'{pct_comb_hist:.0f}-{pct_comb_novo:.0f}%':>10}")
         print(f"  {'Investimento inicial':<24} {'R$ 0':>10} {'R$ 0':>10} {'R$7.5-9.5k':>10} {'R$ 0':>10}")
         print(f"  {'Payback simples':<24} {'N/A':>10} {'Imediato':>10} {f'{payback_otimista}-{payback_conservador} a':>10} {'Imediato':>10}")
@@ -1047,15 +944,14 @@ class Assistente:
         print("  ORIENTACOES PRATICAS PARA O CIDADAO:")
         print("-" * 60)
         print("  1. Se esta no CadUnico -> priorize a Tarifa Social e eficiencia no chuveiro.")
-        print("     Reducao imediata de ate 88% na conta sem gastar com placas solares.")
-        print("  2. Energia solar no telhado e viavel para quem paga tarifa cheia (R$ 112,50)")
-        print("     e possui imovel proprio com capacidade de financiamento.")
-        print()
-        print("  PREMISSAS E LIMITACOES DAS ESTIMATIVAS:")
-        print("  * Todas as contas representam estimativas parametricas para o perfil adotado.")
-        print("  * Valores reais variam por distribuidora, impostos e bandeiras tarifarias.")
-        print("  * Fontes: ANEEL (aneel.gov.br) | EPE (epe.gov.br) | MCTI (mcti.gov.br) | ABSOLAR")
+        print("     Reducao imediata de ate 80% a 88% na fatura sem gastar com placas solares.")
+        print("  2. Placas solares proprias tem retorno atrativo (6,8 a 10,2 anos) apenas")
+        print("     para familias que pagam tarifa cheia (R$ 112,50) e tem imovel proprio.")
         print("=" * 60)
+
+    # ------------------------------------------------------------------
+    # Menu principal
+    # ------------------------------------------------------------------
 
     # ------------------------------------------------------------------
     # Menu principal

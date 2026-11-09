@@ -49,7 +49,7 @@ Para atender com excelência aos critérios avaliativos de ambas as disciplinas,
 | ODS | Denominação | Contribuição Específica do Assistente |
 |---|---|---|
 | **ODS 1** | Erradicação da Pobreza | Desbloqueia o acesso a programas de transferência de renda e tarifa reduzida de serviços essenciais. |
-| **ODS 7** | Energia Limpa e Acessível | Orienta sobre a TSEE (descontos de 35% a 72%), boas práticas de consumo e viabilidade de energia solar. |
+| **ODS 7** | Energia Limpa e Acessível | Orienta sobre a TSEE (descontos de 35% a 53%), boas práticas de consumo e viabilidade de energia solar. |
 | **ODS 10** | Redução das Desigualdades | Universaliza a orientação jurídica, social e de saúde para populações vulneráveis. |
 | **ODS 16** | Paz, Justiça e Instituições Eficazes | Conecta o cidadão aos órgãos formais de direito e transparência pública sem intermediários. |
 
@@ -69,13 +69,11 @@ Citizen-Assist-AI/
 ├── index.html               # Portal Web interativo para cidadãos e avaliadores
 ├── docs/
 │   └── MEMORIAL_CALCULO_SERS.md # Memória completa de engenharia e cálculo energético
-├── data/
-│   ├── base_conhecimento.json # 19 orientações cadastradas com todos os 9 campos obrigatórios
-│   ├── historico.json         # Histórico de atendimentos persistido em JSON (17 registros)
-│   ├── atendimentos.csv       # Histórico exportado com csv.DictWriter (8 colunas)
-│   └── avaliacoes.json        # Notas de usabilidade coletadas no encerramento (8 avaliações)
-├── entrega_pcp.txt          # Arquivo de entrega formatado para o Portal FIAP (PCP)
-└── entrega_sers.txt         # Arquivo de entrega formatado para o Portal FIAP (SERS)
+└── data/
+    ├── base_conhecimento.json # 19 orientações cadastradas com todos os 9 campos obrigatórios
+    ├── historico.json         # Histórico de atendimentos persistido em JSON (17 registros)
+    ├── atendimentos.csv       # Histórico exportado com csv.DictWriter (8 colunas)
+    └── avaliacoes.json        # Notas de usabilidade coletadas no encerramento (8 avaliações)
 ```
 
 ### 2. Orientação a Objetos e Composição
@@ -85,7 +83,7 @@ O sistema adota o padrão de **composição de objetos**:
 - `BaseConhecimento` **possui uma lista de** instâncias de `Orientacao` em `self.orientacoes`, carregadas do JSON.
 - `Orientacao` encapsula os 9 atributos obrigatórios: `id`, `categoria`, `titulo`, `palavras_chave`, `resposta`, `documentos`, `onde`, `fonte`, `verificado_em`.
 
-### 3. Mecanismo de Busca Heurística e Classificação de Confiança
+### 3. Mecanismo de Busca Heurística e Filtragem Relevante
 
 A busca em linguagem natural implementada em `BaseConhecimento.buscar(pergunta)` segue regras matemáticas determinísticas:
 - **Normalização Textual:** Conversão para minúsculas, remoção de acentos (`á` -> `a`, `ç` -> `c`, etc.) e pontuação.
@@ -97,21 +95,21 @@ A busca em linguagem natural implementada em `BaseConhecimento.buscar(pergunta)`
   - `Score >= 6`: **Confiança ALTA** (mensagem de correspondência direta).
   - `Score 3 a 5`: **Confiança MÉDIA** (mensagem de orientação relacionada).
   - `Score < 3`: **Sem correspondência** (informa educadamente que não encontrou, lista as 4 categorias disponíveis e orienta como reformular).
-- **Filtragem Inteligente de Alternativas:** O sistema exibe o melhor resultado e, havendo outras orientações com **pontuação relevante (`score >= 3`)**, lista até 2 alternativas adicionais. Resultados irrelevantes com 1 ponto são automaticamente filtrados para não poluir a saída.
+- **Filtragem Inteligente de Alternativas:** O sistema exibe o melhor resultado e lista até 2 alternativas adicionais **estritamente se tiverem pontuação relevante (`score >= 3`)**, eliminando recomendações de pontuação espúria.
 
 ### 4. Robustez, Proteção LGPD e Navegação
 
 - **Tratamento de Exceções:** O leitor de JSON trata `FileNotFoundError` e `json.JSONDecodeError`, impedindo encerramento abrupto caso a base esteja ausente ou malformatada.
 - **Proteção de Dados Pessoais (LGPD):** O método `_contem_dado_pessoal` detecta sequências de 8 ou mais dígitos (como CPF ou telefones) e a presença de `@` (e-mails). Mensagens com esses padrões são bloqueadas e **jamais são gravadas no histórico**.
-- **Navegação Categórica e Menus:** Todos os menus e submenus possuem validação rigorosa de entrada numérica e a opção padronizada **`0` para voltar** ou encerrar.
-- **Medição Precisa de Tempo:** O cronômetro de busca afere o tempo decorrido de forma natural (`round(time.time() - inicio, 1)`), sem constantes artificiais no código.
+- **Navegação Categórica e Menus:** Todos os menus e submenus possuem validação de entrada numérica e a opção padronizada **`0` para voltar** ou encerrar.
+- **Medição Precisa de Tempo:** O cronômetro de busca afere o tempo decorrido de forma natural (`round(time.time() - inicio, 1)`), sem nenhuma constante ou piso artificial no código.
 
 ### 5. Registro de Atendimentos, Indicadores e Exportação CSV
 
 - Ao concluir cada busca ou navegação, o atendimento é registrado em `self.historico` e no arquivo `data/historico.json`.
 - O método `indicadores()` calcula e projeta os 6 indicadores obrigatórios:
   1. **Taxa de Encontro (%):** Percentual de atendimentos em que uma orientação foi localizada.
-  2. **Tempo Médio de Busca:** Média em segundos despendida até obter a resposta.
+  2. **Tempo Médio de Busca:** Média em segundos despendida no atendimento até a orientação.
   3. **Taxa de Acerto (%):** Percentual de atendimentos em que o usuário confirmou que a resposta ajudou.
   4. **Tentativas por Atendimento:** Média de consultas efetuadas por sessão.
   5. **Facilidade de Uso (1 a 5):** Média ponderada das avaliações coletadas na saída (iniciando com lista vazia `[]` sem valores fictícios).
@@ -137,14 +135,14 @@ A análise energética do Citizen Assist AI (disponível no menu 4 do terminal, 
 - **Legislação:** Lei Federal nº 10.438/2002, alterada pela Lei nº 12.212/2010 e Resolução Normativa ANEEL nº 1.000/2021 (arts. 177 a 186), e modelo de gratuidade do Programa Luz do Povo.
 - **Investimento:** R$ 0,00 | **Payback:** Imediato.
 - **Modelo Geral de Faixas Progressivas (Lei 10.438/2002):**
-  - 0 a 30 kWh (65% desc.): `30 x 0,75 x 0,35 = R$ 7,88`
-  - 31 a 100 kWh (40% desc.): `70 x 0,75 x 0,60 = R$ 31,50`
-  - 101 a 150 kWh (10% desc.): `50 x 0,75 x 0,90 = R$ 33,75`
+  - 0 a 30 kWh (65% desc.): `round(30 x 0,75 x 0,35, 2) = R$ 7,88`
+  - 31 a 100 kWh (40% desc.): `round(70 x 0,75 x 0,60, 2) = R$ 31,50`
+  - 101 a 150 kWh (10% desc.): `round(50 x 0,75 x 0,90, 2) = R$ 33,75`
   - Nova fatura estimada: **R$ 73,13/mês** -> Economia estimada de **R$ 39,37/mês (35,0% de redução)**.
-- **Modelo Atualizado (Gratuidade da parcela até 80 kWh/mês — Luz do Povo):**
+- **Modelo com Gratuidade até 80 kWh (Luz do Povo, excedente regular a R$ 0,75/kWh):**
   - Parcela 0 a 80 kWh: 100% de isenção -> R$ 0,00
-  - Parcela 81 a 150 kWh (70 kWh com 40% desc.): `70 x 0,75 x 0,60 = R$ 31,50`
-  - Nova fatura estimada: **R$ 31,50/mês** -> Economia estimada de **R$ 81,00/mês (72,0% de redução)**.
+  - Excedente 81 a 150 kWh (70 kWh cobrados pela tarifa normal): `70 x 0,75 = R$ 52,50`
+  - Nova fatura estimada: **R$ 52,50/mês** -> Economia estimada de **R$ 60,00/mês (53,3% de redução)**.
 
 ### 3. Alternativa 2: Microgeração Solar Fotovoltaica Residencial
 - **Fórmula de Engenharia:**
@@ -155,38 +153,39 @@ A análise energética do Citizen Assist AI (disponível no menu 4 do terminal, 
   - Custo de disponibilidade monofásico (30 kWh x R$ 0,75 = R$ 22,50/mês) + Fio B gradual + iluminação pública (COSIP).
   - Conta residual pós-solar estimada: **R$ 20,00 a R$ 35,00/mês**.
   - Economia líquida mensal (tarifa cheia): **R$ 77,50 a R$ 92,50/mês** (70% a 82% de redução).
-- **Payback Simples (Consumidor que paga tarifa cheia):**
+- **Payback Simples (Consumidor que paga tarifa cheia R$ 112,50):**
   - Cenário Otimista: `R$ 7.500 / (R$ 92,50 x 12) = 6,76 anos (~6,8 anos)`
   - Cenário Moderado: `R$ 8.500 / (R$ 85,00 x 12) = 8,33 anos (~8,3 anos)`
   - Cenário Conservador: `R$ 9.500 / (R$ 77,50 x 12) = 10,22 anos (~10,2 anos)`
   - Faixa consolidada: **6,8 a 10,2 anos** (cenário intermediário: **8,3 anos**). Vida útil: 25 anos.
 
-- **ANÁLISE CRÍTICA: Viabilidade do Solar para quem JÁ TEM Tarifa Social:**
-  - Se a família de baixa renda já recebe a Tarifa Social (fatura de R$ 73,13), a economia gerada pelo solar é de apenas `R$ 73,13 - R$ 22,50 = R$ 50,63 / mês`.
-  - O Payback Simples salta para: `R$ 8.500 / (R$ 50,63 x 12) = 13,99 anos (~14 anos)`.
-  - *Conclusão de Engenharia:* Placas solares próprias têm retorno excessivamente lento e barreira financeira de capital para famílias no CadÚnico. Para baixa renda, o solar só é viável via subsídios públicos ou cooperativas de energia solar compartilhada.
+- **AVALIAÇÃO CRÍTICA DE ENGENHARIA: Viabilidade do Solar para quem JÁ TEM Tarifa Social:**
+  - Se a família de baixa renda já recebe a Tarifa Social (fatura de R$ 73,13 pela Lei 10.438 ou R$ 52,50 pelo modelo de 80 kWh), a fatura mínima pós-solar cai para R$ 22,50/mês:
+    - Sob a Lei 10.438: economia de apenas `R$ 73,13 - R$ 22,50 = R$ 50,63 / mês` -> **Payback de 14,0 anos**.
+    - Sob a gratuidade até 80 kWh: economia de apenas `R$ 52,50 - R$ 22,50 = R$ 30,00 / mês` -> **Payback de 23,6 anos**!
+  - *Conclusão de Engenharia:* Placas solares próprias têm retorno excessivamente lento e barreira financeira intransponível para famílias no CadÚnico. Para baixa renda, o solar só é viável via subsídios públicos integrais ou cooperativas de energia solar comunitária.
 
 ### 4. Alternativa 3: Cenário Combinado (TSEE + Eficiência Residencial)
 - **Demonstração Matemática da Redução de 40 kWh/mês (150 para 110 kWh/mês):**
-  - *Chuveiro 3.500 W:* 4 pessoas reduzindo banhos de 12 para 8 min/dia -> Economia de **28,00 kWh/mês** (`3,5 x 0,8 x 30 = 84 kWh` para `3,5 x 0,533 x 30 = 56 kWh`).
-  - *Iluminação:* Troca de 4 lâmpadas fluorescentes 25 W por LEDs de 9 W -> Economia de **7,68 kWh/mês** (`12,0 - 4,32 kWh`).
-  - *Standby:* Desligamento de aparelhos da tomada -> Economia de **4,32 kWh/mês** (`5,4 - 1,08 kWh`).
+  - *Chuveiro 3.500 W:* 4 pessoas reduzindo banhos de 12 para 8 min/dia -> Economia de **28,00 kWh/mês** (`3,5 x 0,8 x 30 = 84,00 kWh` para `3,5 x 0,533 x 30 = 56,00 kWh`).
+  - *Iluminação:* Troca de 4 lâmpadas fluorescentes 25 W por LEDs de 9 W -> Economia de **7,68 kWh/mês** (`12,00 - 4,32 kWh`).
+  - *Standby:* Desligamento de TV e receptor (10 W) no filtro de linha nos períodos ociosos (14,4h/dia) -> Economia de **4,32 kWh/mês** (`0,010 kW x 14,4 h x 30 d = 4,32 kWh` para 0,00 kWh).
   - *Total economizado comprovado:* `28,00 + 7,68 + 4,32 = 40,00 kWh/mês`.
 - **Fatura Estimada:**
-  - No regime de faixas da Lei 10.438: 30 kWh (R$ 7,88) + 70 kWh (R$ 31,50) + 10 kWh (R$ 6,75) = **R$ 46,13/mês** (Economia total de **R$ 66,37/mês — 59% de redução** em relação a R$ 112,50).
-  - No regime de gratuidade até 80 kWh: 0 a 80 kWh (R$ 0) + 30 kWh (R$ 13,50) = **R$ 13,50/mês** (Economia total de **R$ 99,00/mês — 88% de redução**).
+  - No regime de faixas da Lei 10.438: 30 kWh (R$ 7,88) + 70 kWh (R$ 31,50) + 10 kWh (R$ 6,75) = **R$ 46,13/mês** (Economia total de **R$ 66,37/mês — 59,0% de redução** em relação a R$ 112,50).
+  - No regime de gratuidade até 80 kWh (excedente de 30 kWh a R$ 0,75): **R$ 22,50/mês** (Economia total de **R$ 90,00/mês — 80,0% de redução** em relação a R$ 112,50).
 - **Veredito:** Esta é a **melhor alternativa técnica e financeira** para o cidadão de baixa renda, pois proporciona economia imediata sem custo de instalação.
 
 ### 5. Tabela Comparativa Consolidada
 
 | Indicador | Situação Atual | Alt. 1: Tarifa Social (TSEE) | Alt. 2: Solar 1,5 kWp | Alt. 3: Combinada (TSEE + Eficiência) |
 |---|:---:|:---:|:---:|:---:|
-| **Conta Estimada (R$)** | R$ 112,50 | R$ 31,50 a R$ 73,13 | R$ 20,00 a R$ 35,00 | **R$ 13,50 a R$ 46,13** |
-| **Economia Mensal Estimada** | R$ 0,00 | R$ 39,37 a R$ 81,00 | R$ 77,50 a R$ 92,50 | **R$ 66,37 a R$ 99,00** |
-| **Percentual de Redução** | 0% | 35% a 72% | 70% a 82% | **59% a 88%** |
+| **Conta Estimada (R$)** | R$ 112,50 | R$ 52,50 a R$ 73,13 | R$ 20,00 a R$ 35,00 | **R$ 22,50 a R$ 46,13** |
+| **Economia Mensal Estimada** | R$ 0,00 | R$ 39,37 a R$ 60,00 | R$ 77,50 a R$ 92,50 | **R$ 66,37 a R$ 90,00** |
+| **Percentual de Redução** | 0% | 35% a 53% | 70% a 82% | **59% a 80%** |
 | **Investimento Inicial** | R$ 0,00 | R$ 0,00 | R$ 7.500 a R$ 9.500 | **R$ 0,00** |
 | **Payback (Tarifa Cheia)** | N/A | Imediato | 6,8 a 10,2 anos (méd. 8,3) | **Imediato** |
-| **Payback (com TSEE)** | N/A | Imediato | ~14,0 anos | **Imediato** |
+| **Payback (com TSEE prévia)** | N/A | Imediato | 14,0 a 23,6 anos | **Imediato** |
 | **CO₂ Evitado Estimado** | 0 kg | Indireto | ~5,8 a 6,5 kg CO₂/mês | ~1,5 kg CO₂/mês |
 
 ---
@@ -208,7 +207,7 @@ Foram conduzidas sessões de teste com **3 participantes externos à equipe** (p
 | **Total de Atendimentos Realizados** | **17 atendimentos** | ✅ Atende ao mínimo exigido (>= 10) |
 | **Respostas Encontradas** | **13 atendimentos (76,5%)** | ✅ Alta taxa de localização |
 | **Taxa de Acerto (Orientação Ajudou)** | **12 atendimentos (70,6%)** | ✅ Conteúdo relevante e claro |
-| **Tempo Médio de Busca Registrado** | **4,75 segundos** | ✅ Resposta ágil |
+| **Tempo Médio de Atendimento Registrado** | **4,75 segundos** | ✅ Resposta ágil |
 | **Média de Tentativas por Atendimento** | **1,00 tentativa** | ✅ Assertividade imediata |
 | **Avaliações de Facilidade de Uso** | **8 avaliações | Média: 4,50 / 5,00** | ✅ Excelente usabilidade |
 
@@ -292,7 +291,7 @@ python server.py
   2. Modularização nos 4 arquivos: `main.py`, `orientacao.py`, `base_conhecimento.py` e `assistente.py`.
   3. Composição de classes (`Assistente` -> `BaseConhecimento` -> `Orientacao`), destacando `self` e `__init__`.
   4. Carregamento do JSON com tratamento de `FileNotFoundError` e `JSONDecodeError`.
-  5. Busca heurística determinística com retorno em tuplas, classificação de confiança e exibição de até 2 alternativas relevantes.
+  5. Busca heurística determinística com retorno em tuplas, classificação de confiança e exibição de até 2 alternativas relevantes (filtradas com score >= 3).
   6. Navegação por categorias com opção `0` para voltar em todas as telas.
   7. Simulação de alteração ao vivo de palavra-chave no JSON comprovando atualização dinâmica.
   8. Bloqueio de dados pessoais (CPF/e-mail) sem registro no histórico.
@@ -305,14 +304,6 @@ python server.py
   1. Problema da pobreza energética e fatura de referência (150 kWh/mês = R$ 112,50).
   2. Calculadora de consumo e aplicação das regras da Tarifa Social (TSEE).
   3. Dimensionamento solar de 1,5 kWp pela fórmula de engenharia (168,5 kWh/mês), custos (Greener/ABSOLAR) e payback consistente (6,8 a 10,2 anos).
-  4. Análise crítica demonstrando por que placas solares próprias não são viáveis para quem já tem Tarifa Social (payback salta para ~14 anos), destacando a Alternativa Combinada (TSEE + Eficiência) com até 88% de redução sem custos.
+  4. Análise crítica demonstrando por que placas solares próprias não são viáveis para quem já tem Tarifa Social (payback salta para 14 a 24 anos), destacando a Alternativa Combinada (TSEE + Eficiência) com até 80% a 88% de redução sem custos.
   5. Fator oficial do SIN (0,0385 kg CO₂/kWh — MCTI/SIRENE) e emissões evitadas.
 - **Link do Vídeo:** `[A ser inserido pelos integrantes antes do envio final]`
-
----
-
-## 📝 Arquivos de Entrega para o Portal FIAP
-
-Os arquivos `.txt` contendo os dados de submissão acadêmica estão gerados na raiz do repositório:
-- [`entrega_pcp.txt`](entrega_pcp.txt): Modelo de entrega para Pensamento Computacional e Automação com Python.
-- [`entrega_sers.txt`](entrega_sers.txt): Modelo de entrega para Soluções em Energias Renováveis e Sustentáveis.

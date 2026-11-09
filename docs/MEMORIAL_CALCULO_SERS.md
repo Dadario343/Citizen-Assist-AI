@@ -45,30 +45,34 @@ Abaixo é apresentada a auditoria individual de aparelhos elétricos com memóri
 
 | Equipamento Residencial | Potência (W) | Horas/Dia (Antes) | Horas/Dia (Depois) | Consumo Anterior | Consumo Posterior | Economia Mensal Obtida |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Chuveiro Elétrico** | 3.500 W (médio) | 48 min/dia (4 pess. x 12m) = 0,80 h | 32 min/dia (4 pess. x 8m) = 0,533 h | 84,0 kWh/mês | 56,0 kWh/mês | **28,00 kWh/mês** |
-| **Iluminação (4 pontos)** | 4x 25 W (fluoresc.) | 4,0 h/dia por lâmpada | 4x 9 W (LED substituído) x 4,0 h/dia | 12,0 kWh/mês | 4,32 kWh/mês | **7,68 kWh/mês** |
-| **Aparelhos em Standby** | 10 W (TV + deco) | 18 h/dia em standby | Desligado no filtro/tomada (2 W residual) | 5,4 kWh/mês | 1,08 kWh/mês | **4,32 kWh/mês** |
-| **Outros (Geladeira/Ferro)** | Variável | Uso padrão | Manutenção de borrachas e termostato | 48,6 kWh/mês | 48,6 kWh/mês | 0,00 kWh/mês |
-| **TOTAL CONSOLIDADO** | — | — | — | **150,0 kWh/mês** | **110,0 kWh/mês** | **40,00 kWh/mês (26,7%)** |
+| **Chuveiro Elétrico** | 3.500 W (médio) | 48 min/dia (4 pess. x 12m) = 0,80 h | 32 min/dia (4 pess. x 8m) = 0,533 h | 84,00 kWh/mês | 56,00 kWh/mês | **28,00 kWh/mês** |
+| **Iluminação (4 pontos)** | 4x 25 W (fluoresc.) | 4,0 h/dia por lâmpada | 4x 9 W (LED substituído) x 4,0 h/dia | 12,00 kWh/mês | 4,32 kWh/mês | **7,68 kWh/mês** |
+| **Aparelhos em Standby** | 10 W (TV + deco) | 14,4 h/dia em standby | 0,0 h/dia (desligados no filtro de linha) | 4,32 kWh/mês | 0,00 kWh/mês | **4,32 kWh/mês** |
+| **Demais Aparelhos (Geladeira/Ferro)** | Variável | Uso padrão | Manutenção de borrachas e termostato | 49,68 kWh/mês | 49,68 kWh/mês | 0,00 kWh/mês |
+| **TOTAL CONSOLIDADO** | — | — | — | **150,00 kWh/mês** | **110,00 kWh/mês** | **40,00 kWh/mês (26,7%)** |
 
-*Memória de verificação:* `28,00 + 7,68 + 4,32 = 40,00 kWh/mês economizados`.
+*Memória de verificação física:*
+1. Chuveiro: `3,5 kW x 0,80 h x 30 d = 84,00 kWh` -> `3,5 kW x 0,5333 h x 30 d = 56,00 kWh` (Economia: **28,00 kWh/mês**).
+2. Lâmpadas: `4 x 0,025 kW x 4 h x 30 d = 12,00 kWh` -> `4 x 0,009 kW x 4 h x 30 d = 4,32 kWh` (Economia: **7,68 kWh/mês**).
+3. Standby: TV (6 W) + receptor de sinal (4 W) somam 10 W em modo de vigília durante 14,4 horas diárias de inatividade (`0,010 kW x 14,4 h x 30 d = 4,32 kWh/mês`). Com o desligamento completo da régua/filtro de linha, o consumo vai a zero absoluto (Economia: **4,32 kWh/mês**).
+4. Total economizado: `28,00 + 7,68 + 4,32 = 40,00 kWh/mês`.
 
 ---
 
 ## 4. Estudo Comparativo das Alternativas
 
 ### Alternativa 1: Tarifa Social de Energia Elétrica (TSEE)
-- **Marco Legal:** Lei Federal nº 10.438/2002, alterada pela Lei nº 12.212/2010 e regulamentada pela Resolução Normativa ANEEL nº 1.000/2021 (arts. 177 a 186), e modelo de transição de gratuidade do Programa Luz do Povo.
+- **Marco Legal:** Lei Federal nº 10.438/2002, alterada pela Lei nº 12.212/2010 e regulamentada pela Resolução Normativa ANEEL nº 1.000/2021 (arts. 177 a 186), e proposta de gratuidade do Programa Luz do Povo.
 - **Investimento Inicial:** **R$ 0,00** | **Payback:** **Imediato**.
 - **Regime Geral Progressivo (Lei 10.438/2002 e Res. ANEEL 1.000):**
-  - Faixa 0-30 kWh (65% desc.): `30 x 0,75 x 0,35 = R$ 7,88`
-  - Faixa 31-100 kWh (40% desc.): `70 x 0,75 x 0,60 = R$ 31,50`
-  - Faixa 101-150 kWh (10% desc.): `50 x 0,75 x 0,90 = R$ 33,75`
+  - Faixa 0-30 kWh (65% desc.): `round(30 x 0,75 x 0,35, 2) = R$ 7,88`
+  - Faixa 31-100 kWh (40% desc.): `round(70 x 0,75 x 0,60, 2) = R$ 31,50`
+  - Faixa 101-150 kWh (10% desc.): `round(50 x 0,75 x 0,90, 2) = R$ 33,75`
   - Nova fatura estimada: **R$ 73,13 / mês** (Economia estimada de **R$ 39,37 / mês** ou **35,0%**).
-- **Regime Atualizado (Gratuidade até 80 kWh/mês — Luz do Povo / Extrema Pobreza):**
+- **Modelo com Gratuidade até 80 kWh (Luz do Povo, excedente regular a R$ 0,75/kWh):**
   - Parcela 0 a 80 kWh (100% isenção): R$ 0,00
-  - Parcela 81 a 150 kWh (70 kWh com 40% desc.): `70 x 0,75 x 0,60 = R$ 31,50`
-  - Nova fatura estimada: **R$ 31,50 / mês** (Economia estimada de **R$ 81,00 / mês** ou **72,0%**).
+  - Excedente 81 a 150 kWh (70 kWh cobrados pela tarifa normal): `70 x 0,75 = R$ 52,50`
+  - Nova fatura estimada: **R$ 52,50 / mês** (Economia estimada de **R$ 60,00 / mês** ou **53,3%**).
 
 ---
 
@@ -80,7 +84,7 @@ Abaixo é apresentada a auditoria individual de aparelhos elétricos com memóri
   - Performance Ratio (`PR`): **0,78** (considerando perdas por temperatura, poeira, cabeamento e eficiência do microinversor).
   - **Fórmula de Engenharia:**
     `E = P x H x D x PR = 1,5 x 4,8 x 30 x 0,78 = 168,48 kWh/mês (~168,5 kWh/mês)`
-  - *Observação:* A geração mensal calculada (168,5 kWh) cobre 100% da demanda do perfil de 150 kWh/mês com excedente de 18,5 kWh/mês injetado na rede. A produção varia conforme orientação azimutal, inclinação do telhado e sazonalidade climática.
+  - *Observação:* A geração mensal calculada (168,5 kWh) cobre 100% da demanda de 150 kWh/mês com excedente de 18,5 kWh/mês injetado na rede.
 - **Investimento Instalado (Turnkey):**
   - Faixa de mercado: **R$ 7.500,00 a R$ 9.500,00** (Levantamento Benchmark Greener / ABSOLAR 2024/2025 para sistemas residenciais de até 2 kWp).
 - **Limitações Regulatórias e Custo Residual (Lei 14.300/2022):**
@@ -88,21 +92,20 @@ Abaixo é apresentada a auditoria individual de aparelhos elétricos com memóri
     1. Custo de disponibilidade monofásico (30 kWh x R$ 0,75 = R$ 22,50/mês).
     2. Transição gradual da remuneração do Fio B da TUSD.
     3. Contribuição para Custeio da Iluminação Pública (COSIP).
-- **Economia Líquida Mensal e Payback para Consumidor Padrão (Fatura Cheia R$ 112,50):**
+- **Payback para Consumidor que Paga Tarifa Cheia (Fatura R$ 112,50):**
   - Economia líquida mensal: **R$ 77,50 a R$ 92,50 / mês** (redução real de 70% a 82%).
   - *Cenário Otimista:* `R$ 7.500 / (R$ 92,50 x 12) = 6,76 anos (~6,8 anos)`
   - *Cenário Moderado:* `R$ 8.500 / (R$ 85,00 x 12) = 8,33 anos (~8,3 anos)`
   - *Cenário Conservador:* `R$ 9.500 / (R$ 77,50 x 12) = 10,22 anos (~10,2 anos)`
-  - Faixa de Payback Simples: **6,8 a 10,2 anos** (cenário intermediário: **8,3 anos**). Vida útil dos módulos com garantia linear: 25 anos.
+  - Faixa consolidada: **6,8 a 10,2 anos** (cenário intermediário: **8,3 anos**).
 
-- **ANÁLISE CRÍTICA: Viabilidade do Solar para Famílias que JÁ TÊM Tarifa Social:**
-  - Se a família já recebe a Tarifa Social, sua conta mensal já é de apenas **R$ 73,13 / mês** (Lei 10.438) ou **R$ 31,50 / mês** (modelo 80 kWh).
-  - Ao instalar painéis solares, a fatura mínima cai para o custo de disponibilidade de ~R$ 22,50/mês.
-  - A economia mensal adicional gerada pelo solar para esse público é de apenas:
-    `R$ 73,13 - R$ 22,50 = R$ 50,63 / mês`!
-  - O Payback Simples para uma família que já tem Tarifa Social seria:
-    `R$ 8.500 / (R$ 50,63 x 12) = 13,99 anos (~14 anos)!`
-  - **Conclusão de Engenharia:** Para o público de baixa renda no CadÚnico, a compra individual de placas solares apresenta retorno muito lento (~14 anos), além da barreira intransponível de capital inicial (R$ 8.500) e taxas de juros de financiamento bancário. Placas solares para baixa renda só são viáveis através de programas governamentais subsidiados ou cooperativas de energia solar comunitária.
+- **AVALIAÇÃO CRÍTICA DE ENGENHARIA: Viabilidade do Solar para Beneficiários da TSEE:**
+  - Se a família de baixa renda já recebe a Tarifa Social, sua fatura já é reduzida:
+    - Sob a Lei 10.438: fatura atual de **R$ 73,13 / mês**. A economia mensal gerada pelo solar (fatura mínima de R$ 22,50) seria de apenas:
+      `R$ 73,13 - R$ 22,50 = R$ 50,63 / mês` -> **Payback de 14,0 anos** (`R$ 8.500 / (50,63 x 12) = 13,99 anos`).
+    - Sob o modelo de gratuidade até 80 kWh: fatura atual de **R$ 52,50 / mês**. A economia mensal gerada pelo solar seria de apenas:
+      `R$ 52,50 - R$ 22,50 = R$ 30,00 / mês` -> **Payback de 23,6 anos** (`R$ 8.500 / (30,00 x 12) = 23,61 anos`)!
+  - **Conclusão Técnica:** Para famílias de baixa renda no CadÚnico, a aquisição individual de placas solares com recursos próprios é **economicamente desvantajosa e financeiramente inviável** (payback de 14 a 24 anos com investimento inicial proibitivo de R$ 8.500). Placas solares para esse público só fazem sentido em programas sociais de doação pública integral ou cooperativas solares comunitárias.
 
 ---
 
@@ -112,14 +115,14 @@ Abaixo é apresentada a auditoria individual de aparelhos elétricos com memóri
   - *No regime de faixas da Lei 10.438/2002:*
     - 0 a 30 kWh (desc. 65%): R$ 7,88
     - 31 a 100 kWh (desc. 40%): R$ 31,50
-    - 101 a 110 kWh (desc. 10%): `10 x 0,75 x 0,90 = R$ 6,75`
+    - 101 a 110 kWh (desc. 10%): `round(10 x 0,75 x 0,90, 2) = R$ 6,75`
     - **Fatura estimada: R$ 46,13 / mês** -> **Economia total de R$ 66,37 / mês (59,0% de redução)** em relação aos R$ 112,50.
-  - *No regime de gratuidade até 80 kWh:*
+  - *No regime de gratuidade até 80 kWh (excedente a R$ 0,75):*
     - 0 a 80 kWh = R$ 0,00
-    - 81 a 110 kWh (30 kWh com 40% desc.): `30 x 0,75 x 0,60 = R$ 13,50`
-    - **Fatura estimada: R$ 13,50 / mês** -> **Economia total de R$ 99,00 / mês (88,0% de redução)** em relação aos R$ 112,50.
-- **Investimento Necessário:** **R$ 0,00** (ou apenas R$ 30 a R$ 40 na troca gradual das lâmpadas por LED).
-- **Veredito:** Esta é comprovadamente a **melhor alternativa técnica, econômica e social** para famílias de baixa renda, pois oferece redução drástica da fatura sem endividamento familiar.
+    - 81 a 110 kWh (30 kWh x R$ 0,75): `30 x 0,75 = R$ 22,50`
+    - **Fatura estimada: R$ 22,50 / mês** -> **Economia total de R$ 90,00 / mês (80,0% de redução)** em relação aos R$ 112,50.
+- **Investimento Necessário:** **R$ 0,00** (apenas R$ 30 a R$ 40 na troca gradual das lâmpadas por LED).
+- **Veredito:** Esta é comprovadamente a **melhor alternativa técnica, econômica e social** para famílias de baixa renda no Brasil.
 
 ---
 
@@ -127,14 +130,14 @@ Abaixo é apresentada a auditoria individual de aparelhos elétricos com memóri
 
 | Indicador Analisado | Situação Inicial | Alt. 1: TSEE | Alt. 2: Solar 1,5 kWp | Alt. 3: TSEE + Eficiência |
 |---|:---:|:---:|:---:|:---:|
-| **Conta Estimada (R$/mês)** | R$ 112,50 | R$ 31,50 a R$ 73,13 | R$ 20,00 a R$ 35,00 | **R$ 13,50 a R$ 46,13** |
-| **Economia Mensal Estimada** | R$ 0,00 | R$ 39,37 a R$ 81,00 | R$ 77,50 a R$ 92,50 | **R$ 66,37 a R$ 99,00** |
-| **Percentual de Redução** | 0% | 35,0% a 72,0% | 70% a 82% | **59,0% a 88,0%** |
+| **Conta Estimada (R$/mês)** | R$ 112,50 | R$ 52,50 a R$ 73,13 | R$ 20,00 a R$ 35,00 | **R$ 22,50 a R$ 46,13** |
+| **Economia Mensal Estimada** | R$ 0,00 | R$ 39,37 a R$ 60,00 | R$ 77,50 a R$ 92,50 | **R$ 66,37 a R$ 90,00** |
+| **Percentual de Redução** | 0% | 35,0% a 53,3% | 70% a 82% | **59,0% a 80,0%** |
 | **Investimento Inicial** | R$ 0,00 | R$ 0,00 | R$ 7.500 a R$ 9.500 | **R$ 0,00** |
-| **Payback Simples (Tarifa Cheia)** | N/A | Imediato | 6,8 a 10,2 anos (méd. 8,3) | **Imediato** |
-| **Payback Simples (com TSEE prévia)** | N/A | Imediato | ~14,0 anos | **Imediato** |
+| **Payback (Consumidor Tarifa Cheia)** | N/A | Imediato | 6,8 a 10,2 anos (méd. 8,3) | **Imediato** |
+| **Payback (para quem JÁ TEM TSEE)** | N/A | Imediato | 14,0 a 23,6 anos | **Imediato** |
 | **CO₂ Evitado Estimado** | 0 kg | Indireto | ~5,8 a 6,5 kg CO₂/mês | ~1,5 kg CO₂/mês |
-| **Viabilidade para Baixa Renda** | Referência | Imediata (CadÚnico) | Requer telhado e crédito | Imediata e Universal |
+| **Viabilidade para Baixa Renda** | Referência | Imediata (CadÚnico) | Inviável sem subsídio | Imediata e Universal |
 
 ---
 
