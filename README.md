@@ -26,7 +26,9 @@ Muitas famílias brasileiras encontram barreiras severas para acessar seus direi
 3. **Direitos e Assistência Social:** Entrada em programas como Bolsa Família via CadÚnico, atendimento no CRAS, defesa do consumidor lesado pelo PROCON e defensoria pública para justiça gratuita.
 4. **Energia e Sustentabilidade:** Enfrentamento da **pobreza energética**, esclarecendo o acesso à Tarifa Social de Energia Elétrica (TSEE), cálculo real de consumo de eletrodomésticos, dicas práticas de eficiência energética e viabilidade de fontes renováveis (energia solar fotovoltaica residencial).
 
-O **Citizen Assist AI** funciona como um assistente digital em linha de comando (terminal), 100% offline, seguro, transparente, sem coleta de dados pessoais (em conformidade com a LGPD) e fundamentado em fontes oficiais governamentais verificadas.
+O **Citizen Assist AI** disponibiliza duas experiências integradas para o cidadão:
+1. **🌐 Aplicação Web Interativa (Projeto Principal):** Interface web moderna, responsiva para celulares e computadores, com carrossel dinâmico de 3 slides (Boas-vindas, Transparência de Atendimentos em tempo real e Compromissos de Segurança), busca guiada com chat inteligente, calculadora interativa de consumo de eletrodomésticos com simulação da Tarifa Social (TSEE) e painel isolado de indicadores com exportação para CSV. Pronta para execução direta no navegador ou via GitHub Pages.
+2. **💻 Assistente em Linha de Comando (Terminal CLI em Python):** Assistente digital orientado a objetos, 100% autossuficiente (apenas biblioteca padrão Python), com menu interativo, algoritmo de pontuação heurística, proteção LGPD e análise comparativa de soluções em energias renováveis e sustentáveis (SERS).
 
 ---
 

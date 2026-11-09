@@ -158,6 +158,32 @@ class Assistente:
 
 
 
+    def _exibir_instrucoes_pergunta(self):
+        """Exibe instrucoes e exemplos de perguntas esperadas para orientar o cidadao."""
+        print()
+        print("=" * 60)
+        print("  COMO O CITIZEN ASSIST AI PODE TE AJUDAR?")
+        print("=" * 60)
+        print("  Este assistente orienta sobre servicos publicos essenciais:")
+        print("   * DOCUMENTOS : RG (CIN), CPF, Carteira de Trabalho, Titulo")
+        print("   * SAUDE      : Cartao SUS, Posto/UBS, Vacinas, Remedios, CAPS")
+        print("   * DIREITOS   : Bolsa Familia, CadUnico, CRAS, PROCON, Defensoria")
+        print("   * ENERGIA    : Tarifa Social (desconto na luz), Economia, Solar")
+        print()
+        print("  EXEMPLOS DE PERGUNTAS ESPERADAS:")
+        print("   * 'Como tirar a nova carteira de identidade CIN?'")
+        print("   * 'Como pedir desconto da Tarifa Social na conta de luz?'")
+        print("   * 'Onde tomar vacinas gratuitas pelo SUS?'")
+        print("   * 'Como me cadastrar no Bolsa Familia no CRAS?'")
+        print("   * 'Como reclamar de compra com defeito no PROCON?'")
+        print("   * 'Como calcular o consumo dos meus eletrodomesticos?'")
+        print()
+        print("  DICAS PARA UMA BOA RESPOSTA:")
+        print("   - Seja direto e use palavras simples (ex: 'bolsa familia', 'rg').")
+        print("   - NUNCA digite dados pessoais (CPF, telefone ou e-mail).")
+        print("   - Perguntas fora de servicos publicos (jogos, piadas) nao constam.")
+        print("=" * 60)
+
     def perguntar(self):
 
         """
@@ -169,39 +195,32 @@ class Assistente:
         """
 
         tentativas = 0
-
-
+        primeira_vez = True
 
         while True:
+            if primeira_vez:
+                self._exibir_instrucoes_pergunta()
+                primeira_vez = False
 
             print()
-
             print("=" * 60)
-
-            print("  FAZER UMA PERGUNTA")
-
+            print("  DIGITE SUA DUVIDA")
             print("=" * 60)
-
-            print("  Digite '0' para voltar ao menu principal.")
-
-            print("  Digite 'categorias' para navegar por categorias.")
-
+            print("  - Digite '0' para voltar ao menu principal.")
+            print("  - Digite 'ajuda' para rever os exemplos de perguntas.")
+            print("  - Digite 'categorias' para navegar por temas.")
             print("-" * 60)
-
-            pergunta = self._input_seguro("  Sua dúvida: ").strip()
-
-
+            pergunta = self._input_seguro("  Sua duvida: ").strip()
 
             if pergunta == "0":
-
                 return "0"
 
-
+            if pergunta.lower() == "ajuda":
+                self._exibir_instrucoes_pergunta()
+                continue
 
             if pergunta.lower() == "categorias":
-
                 self.navegar()
-
                 continue
 
 
@@ -312,12 +331,14 @@ class Assistente:
 
             print()
 
-            print(f"  [{'v' if confianca == 'ALTA' else '~'}] Confiança da resposta: {confianca} (pontuação: {melhor_score})")
-
-
+            if confianca == "ALTA":
+                print("  [v] Encontrei essa informacao referente a sua pergunta:")
+                print(f"      (Confianca ALTA - pontuacao: {melhor_score})")
+            else:
+                print("  [i] Nao encontrei a informacao exata sobre o assunto, mas encontrei essa informacao relacionada:")
+                print(f"      (Confianca MEDIA - pontuacao: {melhor_score})")
 
             # Exibe o melhor resultado
-
             melhor.exibir()
 
 
@@ -1305,4 +1326,3 @@ class Assistente:
         print("=" * 60)
 
         print()
-

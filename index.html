@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Citizen Assist AI — Portal de Orientação ao Cidadão</title>
+  <style>
+    :root {
+      --primary: #1976d2;
+      --primary-dark: #0d47a1;
+      --primary-light: #e3f2fd;
+      --accent: #2e7d32;
+      --accent-light: #e8f5e9;
+      --bg: #f4f7f6;
+      --surface: #ffffff;
+      --text: #1c2833;
+      --text-muted: #566573;
+      --border: #d5dbdb;
+      --warning: #f39c12;
+      --danger: #e74c3c;
+      --shadow: 0 4px 14px rgba(0,0,0,0.06);
+      --radius: 14px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111827;
+        --surface: #1f2937;
+        --text: #f3f4f6;
+        --text-muted: #9ca3af;
+        --border: #374151;
+        --primary-light: #1e3a8a;
+        --accent-light: #064e3b;
+        --shadow: 0 4px 14px rgba(0,0,0,0.3);
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* TOPBAR / HEADER */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .logo-badge {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 3px 8px rgba(25, 118, 210, 0.35);
+    }
+    .logo-text h1 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--primary);
+    }
+    .logo-text span {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    nav.top-nav {
+      display: flex;
+      gap: 8px;
+    }
+    nav.top-nav a, nav.top-nav button {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    nav.top-nav a:hover, nav.top-nav button:hover, nav.top-nav button.active {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+
+    /* HERO BANNER */
+    .hero {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      border: 1px solid #90caf9;
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      align-items: center;
+      gap: 24px;
+      color: #0d47a1;
+      box-shadow: var(--shadow);
+    }
+    @media (prefers-color-scheme: dark) {
+      .hero {
+        background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+        border-color: #1e40af;
+        color: #dbeafe;
+      }
+    }
+    .hero-content h2 {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      color: inherit;
+    }
+    .hero-content p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 22px;
+      opacity: 0.92;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-cta.primary {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.35);
+    }
+    .btn-cta.primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    .btn-cta.secondary {
+      background: var(--surface);
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+    .btn-cta.secondary:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+    }
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+    }
+    .hero-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 340px;
+      border: 1px solid var(--border);
+    }
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .hero-check {
+      background: #4caf50;
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .hero-card h4 {
+      font-size: 15px;
+      color: var(--text);
+    }
+    .hero-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* 4 CARDS - COMO PODEMOS AJUDAR */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .action-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .action-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 14px;
+    }
+    .c-doc { background: #e3f2fd; color: #1976d2; }
+    .c-sau { background: #e8f5e9; color: #2e7d32; }
+    .c-dir { background: #fff3e0; color: #ef6c00; }
+    .c-ene { background: #f3e5f5; color: #7b1fa2; }
+    .action-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .action-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* STATUS & INFORMAÇÕES (2 COLUNAS) */
+    .info-dual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      .info-dual { grid-template-columns: 1fr; }
+    }
+    .info-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+    }
+    .info-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+    }
+    .status-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .stat-item {
+      text-align: center;
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 12px 6px;
+    }
+    .stat-item b {
+      display: block;
+      font-size: 20px;
+      color: var(--primary);
+    }
+    .stat-item span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .satisfaction-bar {
+      margin-top: 10px;
+    }
+    .sat-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .sat-progress {
+      height: 10px;
+      background: var(--border);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .sat-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4caf50, #81c784);
+      border-radius: 5px;
+      width: 90.9%;
+    }
+    .check-list {
+      list-style: none;
+    }
+    .check-list li {
+      font-size: 13px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      color: var(--text);
+    }
+    .check-list li::before {
+      content: "✓";
+      color: #2e7d32;
+      font-weight: 900;
+    }
+
+    /* SEÇÃO DO ASSISTENTE INTERATIVO (CHAT / CATEGORIAS / CALCULADORA) */
+    .app-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+    }
+    .tabs-bar {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .tab-btn:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* CHAT */
+    #chat {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+      max-height: 520px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .chat-bubble {
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 14.5px;
+      line-height: 1.5;
+      max-width: 88%;
+      transition: background-color 0.4s ease;
+    }
+    .bubble-user {
+      align-self: flex-end;
+      background: var(--primary);
+      color: #ffffff;
+      border-bottom-right-radius: 2px;
+    }
+    .bubble-bot {
+      align-self: flex-start;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-bottom-left-radius: 2px;
+      width: 100%;
+    }
+
+    /* EFEITO DE FADE OUT / HIGHLIGHT CLARO NA NOVA RESPOSTA (FRONT-END DELIGHT) */
+    @keyframes highlightResponseFade {
+      0% {
+        background-color: #e0f2fe;
+        border-color: #38bdf8;
+        box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
+      }
+      40% {
+        background-color: #f0f9ff;
+      }
+      100% {
+        background-color: var(--bg);
+        border-color: var(--border);
+        box-shadow: none;
+      }
+    }
+    @media (prefers-color-scheme: dark) {
+      @keyframes highlightResponseFade {
+        0% {
+          background-color: #1e3a8a;
+          border-color: #60a5fa;
+          box-shadow: 0 0 14px rgba(96, 165, 250, 0.25);
+        }
+        100% {
+          background-color: var(--bg);
+          border-color: var(--border);
+          box-shadow: none;
+        }
+      }
+    }
+    .new-response-fade {
+      animation: highlightResponseFade 2.4s ease-out forwards;
+    }
+
+    .card-orientacao h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 4px 0 8px;
+      color: var(--text);
+    }
+    .card-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 20px;
+      background: var(--primary-light);
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .card-meta-title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin: 14px 0 4px;
+    }
+    .card-orientacao ul {
+      padding-left: 20px;
+      margin: 4px 0;
+    }
+    .card-orientacao a {
+      color: var(--primary);
+      word-break: break-all;
+    }
+    .card-warning {
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px dashed var(--border);
+      margin-top: 14px;
+      padding-top: 10px;
+    }
+
+    /* INPUT SEARCH */
+    .ask-box {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .ask-box input {
+      flex: 1;
+      font-size: 15px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+    }
+    .ask-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .chip {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .chip:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* ENERGIA / CALCULADORA & INDICADOR DE ATUALIZAÇÃO */
+    .energy-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 600px) {
+      .energy-row { grid-template-columns: 1fr 1fr; }
+    }
+    .energy-row label {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .energy-row select, .energy-row input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 14px;
+    }
+    .energy-res {
+      background: var(--primary-light);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin-top: 16px;
+      color: var(--text);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .energy-res b {
+      font-size: 18px;
+    }
+
+    /* BADGE VISUAL DE ATUALIZAÇÃO DA CALCULADORA */
+    .calc-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      transition: opacity 0.3s ease;
+    }
+    .calc-pulse {
+      animation: calcPulseAnim 0.5s ease-out;
+    }
+    @keyframes calcPulseAnim {
+      0% {
+        transform: scale(0.99);
+        box-shadow: 0 0 0 rgba(46, 125, 50, 0.4);
+      }
+      50% {
+        transform: scale(1.01);
+        box-shadow: 0 0 12px rgba(46, 125, 50, 0.3);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: none;
+      }
+    }
+
+    /* TABELA DE HISTÓRICO */
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+    .history-table th, .history-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .history-table th {
+      background: var(--bg);
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    /* ========================================================
+       HERO BANNER CAROUSEL (ESTILO EXATO DO VÍDEO DE DEMONSTRAÇÃO)
+       ======================================================== */
+    .hero-banner-carousel {
+      background: linear-gradient(135deg, #132a5e 0%, #17387a 50%, #153168 100%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 0;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      color: #ffffff;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+    }
+    .hero-banner-track {
+      display: flex;
+      width: 100%;
+      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    .hero-banner-slide {
+      min-width: 100%;
+      width: 100%;
+      flex: 0 0 100%;
+      box-sizing: border-box;
+      padding: 38px 42px 34px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.95fr;
+      gap: 36px;
+      align-items: center;
+    }
+    @media (max-width: 860px) {
+      .hero-banner-slide {
+        padding: 26px 20px 52px;
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+    }
+
+    /* Coluna Esquerda do Slide */
+    .slide-left h2 {
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 14px;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+    .slide-left p {
+      font-size: 14.5px;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 22px;
+      max-width: 480px;
+    }
+    .slide-cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-slide-primary {
+      background: #1976d2;
+      color: #ffffff;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(25, 118, 210, 0.4);
+    }
+    .btn-slide-primary:hover {
+      background: #1565c0;
+      transform: translateY(-2px);
+    }
+    .btn-slide-dark {
+      background: #142033;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-slide-dark:hover {
+      background: #1c2e4a;
+      transform: translateY(-2px);
+    }
+
+    /* Card da Direita - Slide 1 (Escuro translúcido com check verde) */
+    .hero-card-dark {
+      background: rgba(10, 22, 44, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 16px;
+      padding: 24px;
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    .hero-card-dark .card-header-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .hero-card-dark .badge-circle-check {
+      background: #2e7d32;
+      color: #ffffff;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .hero-card-dark h4 {
+      font-size: 15.5px;
+      font-weight: 700;
+      margin: 0;
+      color: #ffffff;
+    }
+    .hero-card-dark p {
+      font-size: 13px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0;
+    }
+
+    /* Card da Direita - Slides 2 e 3 (Card cinza-claro conforme o vídeo) */
+    .hero-card-light {
+      background: #eef2f6;
+      color: #1e293b;
+      border-radius: 16px;
+      padding: 22px 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    .hero-card-light h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 14px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .hero-metric-dark-box {
+      background: #0f1e36;
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 12px 6px;
+      text-align: center;
+    }
+    .hero-metric-dark-box b {
+      display: block;
+      font-size: 20px;
+      color: #38bdf8;
+      font-weight: 800;
+    }
+    .hero-metric-dark-box span {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .hero-sat-bar {
+      margin-top: 10px;
+    }
+    .hero-sat-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 5px;
+    }
+    .hero-sat-track {
+      height: 7px;
+      background: #cbd5e1;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .hero-sat-fill {
+      height: 100%;
+      background: #22c55e;
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+
+    /* Checklist do Slide 3 */
+    .hero-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .hero-checklist li {
+      font-size: 12px;
+      line-height: 1.4;
+      color: #334155;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .hero-checklist li::before {
+      content: "✓";
+      color: #16a34a;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .hero-checklist li strong {
+      color: #0f172a;
+    }
+
+    /* Controles no Canto Inferior Direito Dentro do Banner */
+    .hero-carousel-nav {
+      position: absolute;
+      bottom: 16px;
+      right: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 10;
+    }
+    .hero-nav-arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #1e3a8a;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      transition: all 0.15s;
+    }
+    .hero-nav-arrow:hover {
+      transform: scale(1.1);
+      background: #f1f5f9;
+    }
+    .hero-nav-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-nav-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.45);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .hero-nav-dot.active {
+      width: 22px;
+      border-radius: 4px;
+      background: #38bdf8;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 30px 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 40px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- TOPO / HEADER INSTITUCIONAL -->
+  <header>
+    <div class="header-inner">
+      <a href="#inicio" class="logo-container">
+        <div class="logo-badge">📢</div>
+        <div class="logo-text">
+          <h1>Citizen Assist AI</h1>
+          <span>Portal de Orientação ao Cidadão</span>
+        </div>
+      </a>
+
+      <nav class="top-nav">
+        <button class="active" onclick="showTab('inicio')">Início</button>
+        <button onclick="showTab('perguntar')">Tirar Dúvida</button>
+        <button onclick="showTab('categorias')">Categorias</button>
+        <button onclick="showTab('energia')">Conta de Luz</button>
+        <button onclick="showTab('indicadores')">Transparência</button>
+      </nav>
+
+      <div class="user-pill">
+        <span>🔒 Atendimento Anônimo (LGPD)</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container" id="inicio">
+
+    <!-- HERO BANNER CARROSSEL (ESTILO EXATO DO VÍDEO DE DEMONSTRAÇÃO) -->
+    <div class="hero-banner-carousel" id="heroBannerCarousel">
+      <div class="hero-banner-track" id="heroTrack">
+        
+        <!-- SLIDE 1: BEM-VINDO(A) AO CITIZEN ASSIST AI -->
+        <div class="hero-banner-slide">
+          <div class="slide-left">
+            <h2>Bem-vindo(a) ao Citizen Assist AI</h2>
+            <p>Aqui você consulta orientações verificadas e gratuitas sobre emissão de documentos, saúde pública no SUS, direitos sociais e alternativas sustentáveis para baratear sua conta de luz. Tudo de forma segura, clara e sem intermediários.</p>
+            <div class="slide-cta-row">
+              <button class="btn-slide-primary" onclick="showTab('perguntar')">💬 Tirar Dúvida Agora</button>
+              <button class="btn-slide-dark" onclick="showTab('energia')">⚡ Simular Conta de Luz</button>
+            </div>
+          </div>
+          <div class="slide-right">
+            <div class="hero-card-dark">
+              <div class="card-header-badge">
+                <div class="badge-circle-check">✓</div>
+                <h4>Canal Seguro e Verificado</h4>
+              </div>
+              <p>Base fundamentada nas diretrizes do Gov.br, Ministério da Saúde, MDS, Receita Federal, TSE e ANEEL. Sem formulários longos e sem expor seus dados pessoais.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2: ATENDIMENTO EM DESTAQUE -->
+        <div class="hero-banner-slide">
+          <div class="slide-left">
+            <h2>Atendimento em destaque</h2>
+            <p>Dados atualizados da sessão mostram alcance, desempenho e disponibilidade do assistente.</p>
+          </div>
+          <div class="slide-right">
+            <div class="hero-card-light">
+              <h4>📊 Status dos Atendimentos & Transparência</h4>
+              <div class="hero-metrics-grid">
+                <div class="hero-metric-dark-box">
+                  <b id="carousel-stat-total">15</b>
+                  <span>Resolvidos</span>
+                </div>
+                <div class="hero-metric-dark-box">
+                  <b id="carousel-stat-tempo">4.6 s</b>
+                  <span>Tempo Médio</span>
+                </div>
+                <div class="hero-metric-dark-box">
+                  <b>100%</b>
+                  <span>Disponível</span>
+                </div>
+              </div>
+              <div class="hero-sat-bar">
+                <div class="hero-sat-header">
+                  <span>Índice de satisfação</span>
+                  <span id="carousel-stat-sat">90,9%</span>
+                </div>
+                <div class="hero-sat-track">
+                  <div class="hero-sat-fill" id="carousel-sat-fill-bar" style="width: 90.9%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 3: INFORMAÇÃO SEGURA, SEMPRE -->
+        <div class="hero-banner-slide">
+          <div class="slide-left">
+            <h2>Informação segura, sempre</h2>
+            <p>Conheça os principais compromissos do Citizen Assist AI antes de iniciar seu atendimento.</p>
+          </div>
+          <div class="slide-right">
+            <div class="hero-card-light">
+              <h4>ℹ️ Informações Importantes</h4>
+              <ul class="hero-checklist">
+                <li><span><strong>100% Gratuito:</strong> Todos os serviços de orientação do assistente são gratuitos.</span></li>
+                <li><span><strong>Conforme a LGPD:</strong> Não solicitamos nem armazenaremos seu CPF, telefone ou e-mail.</span></li>
+                <li><span><strong>Fontes Confiáveis:</strong> Informações extraídas de bases públicas e regulamentos da ANEEL, MDS, Saúde e Receita.</span></li>
+                <li><span><strong>Acompanhamento:</strong> Simule o consumo dos seus aparelhos e baixe o histórico em CSV.</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CONTROLES EMBUTIDOS NO CANTO INFERIOR DIREITO DO PRÓPRIO BANNER (IGUAL AO VÍDEO) -->
+      <div class="hero-carousel-nav">
+        <button class="hero-nav-arrow" onclick="prevHeroSlide()" aria-label="Slide Anterior">‹</button>
+        <div class="hero-nav-dots">
+          <button class="hero-nav-dot active" onclick="goHeroSlide(0)" aria-label="Slide 1"></button>
+          <button class="hero-nav-dot" onclick="goHeroSlide(1)" aria-label="Slide 2"></button>
+          <button class="hero-nav-dot" onclick="goHeroSlide(2)" aria-label="Slide 3"></button>
+        </div>
+        <button class="hero-nav-arrow" onclick="nextHeroSlide()" aria-label="Próximo Slide">›</button>
+      </div>
+    </div>
+
+    <!-- SEÇÃO: COMO PODEMOS AJUDAR? (4 CARDS TEMÁTICOS CLICÁVEIS) -->
+    <h2 class="section-title">Como podemos ajudar?</h2>
+    <div class="cards-grid">
+      <div class="action-card" onclick="openCategory('Documentos')">
+        <div class="card-icon c-doc">📄</div>
+        <h3>Documentos Básicos</h3>
+        <p>Emissão de RG (CIN), regularização de CPF, Carteira de Trabalho Digital e Título de Eleitor.</p>
+      </div>
+
+      <div class="action-card" onclick="openCategory('Saúde')">
+        <div class="card-icon c-sau">🏥</div>
+        <h3>Saúde Pública (SUS)</h3>
+        <p>Como emitir o Cartão SUS, calendário de vacinação gratuita, Farmácia Popular e atendimento nos CAPS.</p>
+      </div>
+
+      <div class="action-card" onclick="openCategory('Direitos')">
+        <div class="card-icon c-dir">⚖️</div>
+        <h3>Direitos & Cidadania</h3>
+        <p>Inscrição no CadÚnico, Bolsa Família, apoio no CRAS, reclamações no PROCON e Defensoria Pública.</p>
+      </div>
+
+      <div class="action-card" onclick="openCategory('Energia')">
+        <div class="card-icon c-ene">💡</div>
+        <h3>Energia Sustentável</h3>
+        <p>Descontos de até 65% na Tarifa Social (TSEE), cálculo de consumo e viabilidade de energia solar.</p>
+      </div>
+    </div>
+
+    <!-- ÁREA INTERATIVA DO ASSISTENTE (FUNCIONALIDADES PRINCIPAIS: CHAT, CATEGORIAS, ENERGIA) -->
+    <div class="app-section" id="area-interativa">
+      <div class="tabs-bar">
+        <button class="tab-btn active" id="btn-tab-perguntar" onclick="switchInnerTab('perguntar')">💬 Fazer uma Pergunta</button>
+        <button class="tab-btn" id="btn-tab-categorias" onclick="switchInnerTab('categorias')">🗂 Navegar por Categorias</button>
+        <button class="tab-btn" id="btn-tab-energia" onclick="switchInnerTab('energia')">⚡ Calculadora de Energia</button>
+        <button class="tab-btn" id="btn-tab-indicadores" onclick="switchInnerTab('indicadores')">📈 Indicadores & Histórico</button>
+      </div>
+
+      <!-- ABA 1: CHAT -->
+      <div id="view-perguntar">
+        <div id="chat">
+          <div class="chat-bubble bubble-bot">
+            Olá! 👋 Sou o <strong>Citizen Assist AI</strong>, assistente de utilidade pública para orientação sobre serviços essenciais.
+            <br><br>
+            <strong>Você pode perguntar sobre as 4 categorias de atendimento ou sobre qualquer informação relacionada a elas:</strong>
+            <ul style="margin: 8px 0 0 18px; line-height: 1.5;">
+              <li><strong>Documentos:</strong> RG (CIN), CPF, Carteira de Trabalho Digital e Título de Eleitor.</li>
+              <li><strong>Saúde (SUS):</strong> Cartão SUS, vacinação, medicamentos na Farmácia Popular e CAPS.</li>
+              <li><strong>Direitos:</strong> Bolsa Família, CadÚnico, CRAS, PROCON e Defensoria Pública.</li>
+              <li><strong>Energia:</strong> Tarifa Social (TSEE), cálculo de consumo e energia solar fotovoltaica.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="chips-row">
+          <span style="font-size: 13px; color: var(--text-muted); align-self: center;">Exemplos rápidos:</span>
+          <button class="chip" onclick="askQuestion('Como tirar a nova carteira de identidade CIN?')">Novo RG (CIN)</button>
+          <button class="chip" onclick="askQuestion('Como pedir desconto da Tarifa Social na conta de luz?')">Tarifa Social de Luz</button>
+          <button class="chip" onclick="askQuestion('Onde tomar vacinas gratuitas pelo SUS?')">Vacinas pelo SUS</button>
+          <button class="chip" onclick="askQuestion('Como me cadastrar no Bolsa Família no CRAS?')">Bolsa Família / CRAS</button>
+          <button class="chip" onclick="askQuestion('Como reclamar no PROCON?')">PROCON</button>
+          <button class="chip" onclick="askQuestion('Como calcular o consumo de eletrodomésticos?')">Calcular Consumo kWh</button>
+        </div>
+
+        <div class="ask-box">
+          <input type="text" id="user-input" placeholder="Digite sua dúvida sobre documentos, saúde, direitos ou energia..." autocomplete="off">
+          <button class="btn-cta primary" onclick="sendUserMessage()">Enviar</button>
+        </div>
+      </div>
+
+      <!-- ABA 2: NAVEGAÇÃO POR CATEGORIAS -->
+      <div id="view-categorias" class="hidden">
+        <div class="chips-row" id="cat-chips" style="margin-bottom: 16px;"></div>
+        <div id="cat-items-list" class="chips-row" style="margin-bottom: 16px;"></div>
+        <div id="cat-detail"></div>
+      </div>
+
+      <!-- ABA 3: ENERGIA E TARIFA SOCIAL -->
+      <div id="view-energia" class="hidden">
+        <h3 style="margin-bottom: 12px; font-size: 18px;">⚡ Calculadora de Consumo e Simulação de Economia</h3>
+        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Adicione os aparelhos da sua residência para estimar o consumo em kWh/mês, o valor da conta e quanto você pode economizar com a <strong>Tarifa Social de Energia Elétrica (TSEE)</strong>.</p>
+        
+        <div id="appliances-list"></div>
+        <button class="chip" style="margin: 10px 0 16px;" onclick="addApplianceRow()">+ Adicionar Aparelho</button>
+        
+        <div style="max-width: 250px; margin-bottom: 16px;">
+          <label style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 4px;">Tarifa de Referência (R$/kWh):</label>
+          <input type="number" id="tariff-input" value="0.75" step="0.01" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px;">
+        </div>
+
+        <!-- RESULTADO DA CALCULADORA COM BADGE DINÂMICA DE ATUALIZAÇÃO -->
+        <div class="energy-res" id="energy-result"></div>
+      </div>
+
+      <!-- ABA 4: PÁGINA ISOLADA DE INDICADORES, TRANSPARÊNCIA E HISTÓRICO -->
+      <div id="view-indicadores" class="hidden">
+        <h3 style="margin-bottom: 16px; font-size: 18px;">📊 Painel Isolado de Transparência & Indicadores</h3>
+        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Métricas consolidadas de desempenho, satisfação e histórico de atendimentos realizados nesta sessão.</p>
+        <div class="status-stats" id="ind-stats-grid"></div>
+        
+        <h4 style="font-size: 14px; text-transform: uppercase; color: var(--text-muted); margin: 20px 0 10px;">Atendimentos Registrados na Sessão</h4>
+        <div style="overflow-x: auto;">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Data / Hora</th>
+                <th>Origem</th>
+                <th>Dúvida Registrada</th>
+                <th>Encontrou?</th>
+                <th>Ajudou?</th>
+                <th>Tempo</th>
+              </tr>
+            </thead>
+            <tbody id="history-tbody"></tbody>
+          </table>
+        </div>
+
+        <div style="margin-top: 18px; display: flex; gap: 10px;">
+          <button class="btn-cta primary" onclick="exportCSV()">⬇ Baixar Relatório CSV</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ INSTITUCIONAL -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="#inicio">Início</a>
+        <a href="https://www.gov.br" target="_blank" rel="noopener">Portal Gov.br</a>
+        <a href="https://www.gov.br/saude" target="_blank" rel="noopener">Ministério da Saúde</a>
+        <a href="https://www.gov.br/mds" target="_blank" rel="noopener">MDS (Bolsa Família)</a>
+        <a href="https://www.gov.br/aneel" target="_blank" rel="noopener">ANEEL (Tarifa Social)</a>
+      </div>
+      <p>Telefones de Utilidade Pública: <strong>Disque 156</strong> (Serviços Municipais) · <strong>Disque Saúde 136</strong> · <strong>MDS 121</strong> · <strong>ANEEL 167</strong></p>
+      <p>Projeto Desenvolvido para a Global Solution 2026.2 (FIAP) · Pensamento Computacional & Soluções em Energias Renováveis e Sustentáveis</p>
+      <p style="font-size: 11px;">Aviso: Este assistente é uma ferramenta educativa e orientativa independente. Ele NÃO substitui o atendimento oficial dos órgãos públicos.</p>
+    </div>
+  </footer>
+
+  <script>
+    // BASE DE CONHECIMENTO COMPLETA COM AS 19 ORIENTAÇÕES OFICIAIS
+    const BASE = [
+      {"id": 1, "categoria": "Documentos", "titulo": "Tirar o RG (Identidade / CIN)", "palavras_chave": ["rg", "identidade", "registro geral", "carteira de identidade", "cin", "documento de identidade", "tirar rg", "fazer rg", "segunda via rg", "novo rg", "documento", "documentos", "perdi meu rg", "carteira nacional de identificacao"], "resposta": "O RG (agora chamado CIN – Carteira de Identidade Nacional) pode ser tirado gratuitamente em postos do Instituto de Identificação do seu estado, Poupatempo/Vapt-Vupt/SIM ou em agências do Banco do Brasil credenciadas. O novo modelo unifica vários documentos em um só tendo o CPF como número único. Leve a certidão de nascimento original (ou casamento). Para menores de 16 anos, o responsável deve estar presente com documento.", "documentos": ["Certidão de nascimento original (ou casamento)", "CPF", "Comprovante de residência"], "onde": "Posto do Instituto de Identificação estadual (ex.: Poupatempo, Detran, Vapt-Vupt) ou agência credenciada", "fonte": "https://www.gov.br/pt-br/servicos/emitir-carteira-de-identidade", "verificado_em": "2026-11-05"},
+      {"id": 2, "categoria": "Documentos", "titulo": "Cadastrar ou regularizar o CPF", "palavras_chave": ["cpf", "cadastro de pessoa fisica", "regularizar cpf", "tirar cpf", "inscricao cpf", "fazer cpf", "consultar cpf", "segunda via cpf", "cpf irregular", "cpf suspenso", "regularizacao cpf"], "resposta": "O CPF pode ser emitido gratuitamente pelos Correios, agências da Caixa Econômica Federal, Banco do Brasil e diretamente pelo site da Receita Federal. Para recém-nascidos, o CPF já é emitido gratuitamente na certidão de nascimento. Para regularizar pendências cadastrais ou situação suspensa, o pedido é feito online sem custo no portal da Receita Federal.", "documentos": ["Documento de identidade com foto (RG/CIN ou CNH)", "Certidão de nascimento (para menores)", "Título de eleitor (se tiver)"], "onde": "Site oficial da Receita Federal (gov.br/receitafederal), agências dos Correios ou Caixa Econômica", "fonte": "https://www.gov.br/receitafederal/pt-br/assuntos/cpf", "verificado_em": "2026-11-05"},
+      {"id": 3, "categoria": "Documentos", "titulo": "Carteira de Trabalho Digital (CTPS Digital)", "palavras_chave": ["carteira de trabalho", "ctps", "carteira digital", "trabalho formal", "emprego registrado", "carteira assinada", "carteira de trabalho digital", "ctps digital", "primeiro emprego", "trabalho", "emprego", "assinar carteira"], "resposta": "A Carteira de Trabalho é totalmente digital e pode ser acessada pelo aplicativo 'Carteira de Trabalho Digital' (Android e iOS) ou pelo portal gov.br. O número da sua carteira de trabalho é o próprio CPF! Não é mais necessário emitir a caderneta física de papel para ser contratado. Basta informar o seu CPF ao empregador.", "documentos": ["CPF", "Conta gov.br (nível bronze, prata ou ouro)"], "onde": "Aplicativo 'Carteira de Trabalho Digital' (celular) ou portal empregabrasil.mte.gov.br", "fonte": "https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/trabalhador/carteira-de-trabalho", "verificado_em": "2026-11-05"},
+      {"id": 4, "categoria": "Documentos", "titulo": "Título de Eleitor", "palavras_chave": ["titulo de eleitor", "titulo eleitoral", "votar", "eleicao", "alistamento eleitoral", "segunda via titulo", "titulo", "titulos", "e-titulo", "etitulo", "votacao", "eleicoes", "justificar voto", "regularizar titulo"], "resposta": "O Título de Eleitor pode ser emitido, transferido ou regularizado pelo aplicativo oficial 'e-Título' do TSE ou pelo serviço Autoatendimento Eleitoral no site tse.jus.br. Jovens de 16 e 17 anos têm voto facultativo; a partir de 18 anos o alistamento é obrigatório. O e-Título com foto substitui o título em papel e serve como documento oficial no dia da eleição.", "documentos": ["Documento oficial de identidade com foto", "Comprovante de residência atualizado", "Comprovante de quitação militar (para homens de 18 a 45 anos)"], "onde": "Aplicativo móvel 'e-Título' ou site oficial do TSE (tse.jus.br) / Cartório Eleitoral", "fonte": "https://www.tse.jus.br/servicos-eleitorais/autoatendimento-eleitoral", "verificado_em": "2026-11-05"},
+      {"id": 5, "categoria": "Documentos", "titulo": "Certidão de Nascimento (1ª via ou 2ª via)", "palavras_chave": ["certidao de nascimento", "certidao", "segunda via certidao", "registro civil", "nascimento", "certidoes", "certidao nascimento", "segunda via", "primeira via", "cartorio", "declaracao de nascido vivo"], "resposta": "A primeira via da certidão de nascimento é um direito garantido por lei e 100% gratuita para todos os brasileiros, feita no Cartório de Registro Civil logo após o nascimento. A segunda via também é gratuita para pessoas em situação de vulnerabilidade que declararem pobreza (Lei Federal 9.534/1997). É possível solicitar presencialmente no cartório ou online pelo portal Registro Civil.", "documentos": ["Declaração de Nascido Vivo (DNV) emitida pelo hospital/maternidade", "Documentos pessoais dos pais (RG e CPF)"], "onde": "Cartório de Registro Civil de Pessoas Naturais mais próximo ou portal registrocivil.org.br", "fonte": "https://www.gov.br/pt-br/servicos/registrar-nascimento", "verificado_em": "2026-11-05"},
+      {"id": 6, "categoria": "Saúde", "titulo": "Cartão SUS e Atendimento no Posto de Saúde (UBS)", "palavras_chave": ["cartao sus", "cartao do sus", "sus", "sistema unico de saude", "cns", "cartao nacional de saude", "numero sus", "meu sus", "meu sus digital", "ubs", "posto de saude", "consulta", "consulta medica", "marcar consulta", "atendimento medico", "dor", "dor de garganta", "doente", "sintomas", "medico gratis"], "resposta": "O Cartão do SUS (CNS – Cartão Nacional de Saúde) é gratuito e garante atendimento médico, exames e vacinas em qualquer unidade pública de saúde do Brasil. Para emitir ou consultar, vá a qualquer UBS/Posto de Saúde ou acesse o aplicativo 'Meu SUS Digital'. Se estiver com sintomas de saúde (dor de garganta, febre, mal-estar ou precisando de consulta), dirija-se à UBS mais próxima com documento e cartão do SUS.", "documentos": ["CPF", "Documento de identidade oficial com foto", "Comprovante de residência"], "onde": "Unidade Básica de Saúde (UBS/Posto de Saúde) mais próxima da sua residência ou aplicativo 'Meu SUS Digital'", "fonte": "https://www.gov.br/saude/pt-br/assuntos/saude-digital/meu-sus-digital", "verificado_em": "2026-11-05"},
+      {"id": 7, "categoria": "Saúde", "titulo": "Vacinação gratuita e Vacinas pelo SUS", "palavras_chave": ["vacina", "vacinas", "vacinacao", "imunizacao", "calendário vacinal", "vacina gratis", "posto de vacinacao", "vacinar", "tomar vacina", "posto de vacina", "gotinha", "caderneta de vacinacao", "cartao de vacina", "imunizacoes", "gripe vacina", "covid vacina"], "resposta": "O SUS oferece gratuitamente todas as vacinas do Calendário Nacional de Vacinação para bebês, crianças, adolescentes, adultos e idosos. Estão disponíveis vacinas contra gripe (influenza), COVID-19, tétano, hepatite B, febre amarela, sarampo, HPV, entre outras. Para se vacinar, basta comparecer a qualquer Posto de Saúde / UBS portando documento de identificação e a caderneta de vacinação.", "documentos": ["Caderneta de vacinação / Cartão de vacinas", "Documento de identificação com foto ou CPF", "Cartão do SUS (se tiver)"], "onde": "Qualquer Unidade Básica de Saúde (UBS) ou sala de vacinação municipal", "fonte": "https://www.gov.br/saude/pt-br/vacinacao", "verificado_em": "2026-11-05"},
+      {"id": 8, "categoria": "Saúde", "titulo": "Remédio gratuito - Farmácia Popular e RENAME", "palavras_chave": ["remedio gratis", "remedio", "remedios", "medicamento", "medicamentos", "remedios gratis", "medicamento gratis", "farmacia popular", "rename", "remedio barato", "farmacia do povo", "farmacia", "pegar remedio", "insulina gratis"], "resposta": "O Programa Farmácia Popular disponibiliza medicamentos 100% gratuitos para diabetes, hipertensão, asma, osteoporose e anticoncepcionais em farmácias particulares credenciadas com a placa 'Aqui Tem Farmácia Popular'. Beneficiários do Bolsa Família têm acesso gratuito a todos os 40 medicamentos do programa. Além disso, as farmácias das UBS distribuem gratuitamente remédios da lista RENAME do SUS.", "documentos": ["Receita médica válida (do SUS ou particular)", "Documento oficial com foto", "CPF do paciente"], "onde": "Drogarias credenciadas ao Programa Farmácia Popular ou farmácia da UBS do seu município", "fonte": "https://www.gov.br/saude/pt-br/assuntos/farmacia-popular", "verificado_em": "2026-11-05"},
+      {"id": 9, "categoria": "Saúde", "titulo": "CAPS - Centro de Atenção Psicossocial", "palavras_chave": ["caps", "saude mental", "psiquiatra gratis", "psicologo gratis", "dependencia quimica", "alcoolismo", "drogas", "ansiedade tratamento", "psicologo", "psiquiatra", "depressao", "ansiedade", "apoio psicologico", "atendimento psicologico", "dependencia", "saude mental gratuita"], "resposta": "O CAPS (Centro de Atenção Psicossocial) oferece atendimento público, especializado e gratuito de saúde mental no SUS. Atende pessoas em sofrimento psíquico decorrente de depressão, ansiedade, transtornos mentais graves e dependência de álcool e outras drogas. O atendimento conta com psicólogos, psiquiatras, terapeutas e assistentes sociais. Não é necessário encaminhamento prévio: basta comparecer ao CAPS da sua região.", "documentos": ["Documento de identidade com foto", "CPF", "Cartão do SUS (se possuir)", "Comprovante de endereço"], "onde": "Unidade de CAPS mais próxima da sua residência (consulte na UBS local ou na Secretaria Municipal de Saúde)", "fonte": "https://www.gov.br/saude/pt-br/assuntos/saude-mental/sobre-a-politica-nacional-de-saude-mental/caps", "verificado_em": "2026-11-05"},
+      {"id": 10, "categoria": "Direitos", "titulo": "CRAS - Centro de Referência de Assistência Social", "palavras_chave": ["cras", "assistencia social", "beneficio social", "ajuda governo", "servico social", "protecao social", "centro de referencia", "assistente social", "atendimento cras", "ajuda social", "vulnerabilidade", "apoio social"], "resposta": "O CRAS é a porta de entrada para todas as políticas de assistência social pública do Brasil. É onde as famílias de baixa renda realizam a inscrição e atualização no CadÚnico, solicitam auxílios emergenciais, recebem cestas de alimentação quando disponíveis, e participam de programas de apoio à família. Todos os atendimentos são totalmente gratuitos.", "documentos": ["RG e CPF de todos os membros que moram na casa", "Comprovante de endereço recente", "Comprovante de renda ou carteira de trabalho"], "onde": "CRAS do seu bairro ou município (ligue 156 na prefeitura ou consulte na assistência social local)", "fonte": "https://www.mds.gov.br/webarq/vmc/webarquivos/CRAS/index.html", "verificado_em": "2026-11-05"},
+      {"id": 11, "categoria": "Direitos", "titulo": "Bolsa Família e CadÚnico", "palavras_chave": ["bolsa familia", "cadunico", "cadastro unico", "beneficio", "auxilio", "renda baixa", "programa social", "bolsa-familia", "cad-unico", "cadastro social", "auxilio brasil", "beneficios", "nis", "numero do nis", "consultar bolsa familia", "receber beneficio"], "resposta": "O Cadastro Único (CadÚnico) é a base de dados do governo federal para identificar famílias com renda mensal de até meio salário mínimo por pessoa. O programa Bolsa Família garante renda mínima de R$ 600,00 por família, mais adicionais de R$ 150 por criança até 6 anos e R$ 50 para gestantes e jovens de 7 a 18 anos. Para se cadastrar ou atualizar os dados, o responsável familiar deve procurar o CRAS do seu município.", "documentos": ["CPF ou Título de Eleitor do responsável", "Documento de cada membro da família (certidão, RG ou CPF)", "Comprovante de residência e de matrícula escolar das crianças"], "onde": "CRAS (Centro de Referência de Assistência Social) do seu município ou posto do CadÚnico", "fonte": "https://www.gov.br/mds/pt-br/acoes-e-programas/bolsa-familia", "verificado_em": "2026-11-05"},
+      {"id": 12, "categoria": "Direitos", "titulo": "PROCON - Reclamação do consumidor", "palavras_chave": ["procon", "consumidor", "reclamacao", "direito consumidor", "produto defeituoso", "servico ruim", "nota fiscal", "codigo de defesa", "reclamacoes", "consumidor.gov", "direitos do consumidor", "cobrança indevida", "empresa enganosa", "golpe compra", "cancelar compra"], "resposta": "O PROCON é o órgão público gratuito responsável por proteger os direitos do consumidor. Se você comprou um produto com defeito, foi vítima de propaganda enganosa, teve serviço mal executado ou foi cobrado indevidamente, o PROCON notifica a empresa e busca a solução amigável ou ressarcimento. Você também pode registrar reclamações pela plataforma oficial online consumidor.gov.br.", "documentos": ["Documento de identificação (RG/CIN e CPF)", "Comprovante de residência", "Nota fiscal, cupom fiscal ou contrato da compra", "Protocolos de atendimento e comprovantes de pagamento"], "onde": "Posto do PROCON municipal (geralmente na prefeitura) ou pela internet no site consumidor.gov.br", "fonte": "https://www.consumidor.gov.br", "verificado_em": "2026-11-05"},
+      {"id": 13, "categoria": "Direitos", "titulo": "Justiça Gratuita e Defensoria Pública", "palavras_chave": ["justica gratuita", "defensoria publica", "advogado gratis", "processo judicial", "assistencia juridica", "juizado especial", "defensoria", "advogado gratuito", "advogados gratis", "sem dinheiro para advogado", "processo gratuito", "orientacao juridica", "dpu"], "resposta": "Todo cidadão que não tem condições financeiras de pagar as custas de um advogado tem direito à assistência jurídica integral e gratuita prestada pela Defensoria Pública (Estadual e da União). Atua em pensão alimentícia, divórcio, ações contra o governo, defesa criminal e cobranças indevidas. Além disso, nos Juizados Especiais Cíveis (Pequenas Causas), causas de até 20 salários mínimos não necessitam de advogado.", "documentos": ["RG e CPF", "Comprovante de residência", "Comprovante de renda familiar (holerite, extrato ou declaração de isento)", "Documentos e provas sobre o caso"], "onde": "Núcleo da Defensoria Pública Estadual mais próximo ou fórum da sua comarca", "fonte": "https://www.dpu.def.br/", "verificado_em": "2026-11-05"},
+      {"id": 14, "categoria": "Energia", "titulo": "Tarifa Social de Energia Elétrica (TSEE) - como solicitar", "palavras_chave": ["tarifa social", "conta de luz", "desconto energia", "tsee", "luz social", "energia barata", "desconto eletricidade", "conta de energia", "desconto na luz", "desconto conta de luz", "tarifa social energia", "tarifa baixa renda", "luz baixa renda", "desconto luz", "abater conta de luz"], "resposta": "A Tarifa Social de Energia Elétrica (TSEE) concede descontos de até 65% na conta de luz para famílias de baixa renda: 65% de desconto para consumo até 30 kWh/mês; 40% de 31 a 100 kWh/mês; e 10% de 101 a 220 kWh/mês. Têm direito famílias inscritas no CadÚnico com renda per capita de até meio salário mínimo, beneficiários do BPC/LOAS ou famílias com pessoa com deficiência que use aparelho vital ligado à tomada. Se já estiver no CadÚnico, a concessão deve ser automática, mas caso não receba, contate a distribuidora informando seu NIS.", "documentos": ["Número de Inscrição Social (NIS) do CadÚnico atualizado", "CPF e RG do titular", "Conta de energia recente com o código da unidade consumidora (UC)"], "onde": "Canais de atendimento da distribuidora de energia da sua região (telefone no verso da conta) ou CRAS", "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifa-social", "verificado_em": "2026-11-05"},
+      {"id": 15, "categoria": "Energia", "titulo": "Como economizar energia elétrica em casa", "palavras_chave": ["economizar energia", "conta de luz alta", "reducao consumo", "eficiencia energetica", "gastar menos luz", "dicas energia", "economia de energia", "economizar luz", "diminuir conta de luz", "gastar menos energia", "reduzir conta", "lampada led", "selo procel", "consumo consciente"], "resposta": "Medidas práticas para diminuir a conta de luz sem custo inicial: 1) Chuveiro elétrico: banhos de no máximo 5 minutos na posição 'verão' (economiza até 30% da energia do chuveiro). 2) Iluminação: substitua lâmpadas antigas por lâmpadas LED (economizam até 80% e duram mais). 3) Geladeira: mantenha a borracha de vedação limpa e ajustada, nunca guarde alimentos quentes e não seque roupas atrás do aparelho. 4) Standby: retire aparelhos da tomada quando não estiver usando, pois o modo de espera consome eletricidade 24h por dia. 5) Eletrodomésticos: priorize sempre aparelhos com Selo Procel A.", "documentos": [], "onde": "Ações que podem ser aplicadas imediatamente em casa. Orientações disponíveis no portal Procel / Ministério de Minas e Energia", "fonte": "https://www.gov.br/mme/pt-br/assuntos/secretarias/sntep/eficiencia-energetica", "verificado_em": "2026-11-05"},
+      {"id": 16, "categoria": "Energia", "titulo": "Energia Solar Fotovoltaica e Fontes Renováveis de Energia Limpa", "palavras_chave": ["energia solar", "painel solar", "placa solar", "fotovoltaica", "solar residencial", "financiamento solar", "progd", "bndes solar", "energia limpa", "energias limpas", "energia renovavel", "energias renovaveis", "fontes renovaveis", "tipos de energia", "tipos de energia limpa", "energia verde", "placas solares", "paineis solares", "microgeracao"], "resposta": "As principais fontes de energia limpa e renovável no Brasil são a solar fotovoltaica, eólica, biomassa e hidrelétrica. No âmbito residencial, a energia solar fotovoltaica é a mais viável: placas instaladas no telhado convertem a radiação solar diretamente em eletricidade. Pelo Marco Legal da Microgeração (Lei 14.300/2022), a energia gerada excedente é injetada na rede da distribuidora e vira créditos para abater até 80% a 90% da conta de luz. Um sistema residencial básico de 1,5 kWp gera cerca de 180 kWh/mês e evita a emissão de aproximadamente 75 kg de CO2 por mês. Existem linhas de microcrédito e financiamento verde em bancos públicos como Caixa e BNDES.", "documentos": ["Últimas 12 contas de energia elétrica", "Documento de identidade e CPF", "Comprovante de posse ou escritura do imóvel"], "onde": "Empresas instaladoras de energia solar credenciadas pela ABSOLAR ou agências da Caixa Econômica Federal", "fonte": "https://www.gov.br/aneel/pt-br/assuntos/geracao-distribuida", "verificado_em": "2026-11-05"},
+      {"id": 17, "categoria": "Energia", "titulo": "Programa Luz para Todos", "palavras_chave": ["luz para todos", "energia rural", "eletrificacao rural", "sem energia", "ligar energia", "zona rural energia", "luz rural", "energia no campo", "sem luz", "eletrificacao", "programa de energia rural"], "resposta": "O Programa Luz para Todos leva acesso à eletricidade gratuitamente para residências e comunidades em áreas rurais e remotas que ainda não possuem fornecimento de energia. O governo federal custeia a instalação dos postes, fiação e medidores (ou sistemas solares isolados onde a rede não alcança). Famílias inscritas no CadÚnico têm atendimento prioritário. Para solicitar a ligação, o morador deve procurar a distribuidora de energia que atende a região ou a prefeitura local.", "documentos": ["Documento de identidade com foto", "CPF", "Comprovante de posse ou moradia na área rural", "NIS do CadÚnico (se tiver)"], "onde": "Agência de atendimento da distribuidora de energia local ou prefeitura do município", "fonte": "https://www.gov.br/mme/pt-br/assuntos/secretarias/sntep/luz-para-todos", "verificado_em": "2026-11-05"},
+      {"id": 18, "categoria": "Energia", "titulo": "Como calcular o consumo de eletrodomésticos", "palavras_chave": ["calcular consumo", "consumo eletrodomestico", "kwh", "quanto gasta", "conta de luz calculo", "potencia eletrica", "calculo consumo", "calculadora consumo", "quanto gasta chuveiro", "quanto gasta geladeira", "calcular kwh", "consumo de energia", "consumo aparelho"], "resposta": "Para descobrir quanto um aparelho consome por mês em kWh, use a fórmula matemática oficial da ANEEL: Consumo (kWh) = (Potência em Watts ÷ 1000) × Horas de uso por dia × 30 dias. Exemplos reais de uma residência com perfil de 150 kWh/mês: 1) Chuveiro 5.500W usado 15 min/dia (0,25h): 5,5 × 0,25 × 30 = 41,25 kWh/mês. 2) Geladeira 1 porta (120W com compressor ativo ~8,33h/dia): 90,00 kWh/mês. 3) TV LED e iluminação (~100W por ~6,25h/dia): 18,75 kWh/mês. Total somado = 150,00 kWh/mês. Para saber o custo em reais (R$), multiplique os kWh totais pela tarifa da conta (média de R$ 0,75 por kWh: 150 × 0,75 = R$ 112,50/mês).", "documentos": [], "onde": "Etiqueta Nacional de Conservação de Energia (ENCE) no aparelho ou calculadora online gratuita da ANEEL", "fonte": "https://www.aneel.gov.br/calculo-do-consumo", "verificado_em": "2026-11-05"},
+      {"id": 19, "categoria": "Energia", "titulo": "Comparação: como reduzir a conta de luz — análise completa", "palavras_chave": ["diminuir conta de luz", "reduzir conta de luz", "como pagar menos luz", "economizar na conta", "alternativas energia", "comparar energia", "analise energetica", "analise de energia", "conta de luz cara", "conta alta de luz", "gastar menos com energia", "opcoes para economizar luz", "solar ou tarifa social", "comparacao energia", "qual melhor opcao energia", "pobreza energetica", "custo energia", "reducao conta energia", "como diminuir conta", "quanto economizo tarifa social"], "resposta": "ANÁLISE COMPARATIVA — como reduzir sua conta de luz (referência: 150 kWh/mês, tarifa R$ 0,75/kWh = R$ 112,50/mês):\n\n[1] TARIFA SOCIAL (TSEE) — investimento: R$ 0 | payback: imediato\n• Faixa 0-30 kWh: 65% de desconto → R$ 7,88\n• Faixa 31-100 kWh: 40% de desconto → R$ 31,50\n• Faixa 101-220 kWh: 10% de desconto → R$ 33,75\n• Conta final estimada: R$ 73,13/mês → ECONOMIA DE R$ 39,37 (35%)\n• Requisito: estar cadastrado no CadÚnico com renda per capita de até 1/2 salário mínimo.\n\n[2] ENERGIA SOLAR FOTOVOLTAICA — investimento: R$ 7.500-9.500\n• Sistema 1,5 kWp (~3-4 módulos de 450 W + microinversor)\n• Geração estimada: ~180 kWh/mês (supre 100% do consumo)\n• Economia mensal na conta: R$ 92,50 a R$ 112,00 (85% de redução)\n• Payback simples: 5,5 a 7,0 anos | Vida útil dos módulos: 25 anos\n• Créditos de energia via Marco Legal da Microgeração (Lei 14.300/2022)\n• CO₂ evitado: ~75 kg/mês (~900 kg/ano por família)\n• Fonte emissão SIN (MCTI/EPE): 0,50 kg CO₂/kWh\n\n[3] COMBINADA (TSEE + Solar Comunitária) — conta estimada: ~R$ 55,00 → 51% de economia\n\nRECOMENDAÇÃO: Para famílias no CadÚnico, inicie pela Tarifa Social (gratuita e imediata). Se tiver imóvel próprio com bom telhado, avalie o financiamento solar (parcelas que se pagam pela própria economia). Para locatários: foque em eficiência e Tarifa Social.", "documentos": ["NIS do CadÚnico atualizado (para Tarifa Social)", "Últimas 12 contas de energia (para dimensionamento solar)", "Documento de identidade e CPF", "Comprovante de posse/escritura (para financiamento solar)"], "onde": "Tarifa Social: distribuidora local ou CRAS | Solar: instaladoras credenciadas pela ABSOLAR, Caixa Econômica Federal (linha Caixa Habitação Verde)", "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifa-social | https://www.gov.br/aneel/pt-br/assuntos/geracao-distribuida | https://www.epe.gov.br", "verificado_em": "2026-11-06"}
+    ];
+
+    // HISTÓRICO LOCAL DOS ATENDIMENTOS
+    const SEED_HIST = [
+      {"data": "2026-11-06 14:10:12", "origem": "pergunta", "pergunta": "quais são os tipos de energia limpa no Brasil?", "id_orientacao": null, "encontrou": false, "ajudou": false, "tempo_segundos": 0.8},
+      {"data": "2026-11-06 14:11:05", "origem": "categoria", "pergunta": "[navegação] Energia > Como calcular o consumo de eletrodomésticos", "id_orientacao": 18, "encontrou": true, "ajudou": true, "tempo_segundos": 4.2},
+      {"data": "2026-11-06 14:11:42", "origem": "categoria", "pergunta": "[navegação] Saúde > CAPS - Centro de Atenção Psicossocial", "id_orientacao": 9, "encontrou": true, "ajudou": true, "tempo_segundos": 3.8},
+      {"data": "2026-11-06 14:12:30", "origem": "categoria", "pergunta": "[navegação] Saúde > Cartão SUS (como tirar ou consultar número)", "id_orientacao": 6, "encontrou": true, "ajudou": true, "tempo_segundos": 5.1},
+      {"data": "2026-11-06 14:13:15", "origem": "categoria", "pergunta": "[navegação] Direitos > Bolsa Família e CadÚnico", "id_orientacao": 11, "encontrou": true, "ajudou": true, "tempo_segundos": 4.5},
+      {"data": "2026-11-06 14:35:20", "origem": "pergunta", "pergunta": "Qual a data de lançamento de Zelda Ocarina of time?", "id_orientacao": null, "encontrou": false, "ajudou": false, "tempo_segundos": 0.7},
+      {"data": "2026-11-06 14:36:10", "origem": "categoria", "pergunta": "[navegação] Saúde > Vacinação gratuita pelo SUS", "id_orientacao": 7, "encontrou": true, "ajudou": true, "tempo_segundos": 3.9},
+      {"data": "2026-11-06 14:37:00", "origem": "categoria", "pergunta": "[navegação] Direitos > PROCON - Reclamação do consumidor", "id_orientacao": 12, "encontrou": true, "ajudou": true, "tempo_segundos": 4.0},
+      {"data": "2026-11-06 15:02:15", "origem": "pergunta", "pergunta": "procon", "id_orientacao": 12, "encontrou": true, "ajudou": true, "tempo_segundos": 3.5},
+      {"data": "2026-11-06 15:02:48", "origem": "pergunta", "pergunta": "sus", "id_orientacao": 6, "encontrou": true, "ajudou": true, "tempo_segundos": 3.2},
+      {"data": "2026-11-06 15:03:15", "origem": "pergunta", "pergunta": "vacinas", "id_orientacao": null, "encontrou": false, "ajudou": false, "tempo_segundos": 0.9},
+      {"data": "2026-11-06 15:20:10", "origem": "pergunta", "pergunta": "que dia é hoje", "id_orientacao": null, "encontrou": false, "ajudou": false, "tempo_segundos": 0.6},
+      {"data": "2026-11-06 15:21:05", "origem": "categoria", "pergunta": "[navegação] Direitos > Bolsa Família e CadÚnico", "id_orientacao": 11, "encontrou": true, "ajudou": true, "tempo_segundos": 4.1},
+      {"data": "2026-11-06 15:22:00", "origem": "categoria", "pergunta": "[navegação] Documentos > Tirar o RG (Identidade / CIN)", "id_orientacao": 1, "encontrou": true, "ajudou": false, "tempo_segundos": 4.8},
+      {"data": "2026-11-06 16:11:22", "origem": "pergunta", "pergunta": "vacinas", "id_orientacao": 7, "encontrou": true, "ajudou": true, "tempo_segundos": 10.0}
+    ];
+
+    let historico = JSON.parse(localStorage.getItem("citizen_hist")) || SEED_HIST;
+
+    function saveHistory() {
+      try { localStorage.setItem("citizen_hist", JSON.stringify(historico)); } catch(e){}
+      updateStats();
+    }
+
+    // NORMALIZAÇÃO DE TEXTO E BUSCA HEURÍSTICA
+    function normalizar(texto) {
+      return " " + texto.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[?!.,;:()[\]{}"'\/\-_]/g, " ")
+        .split(/\s+/).filter(Boolean).join(" ") + " ";
+    }
+
+    function pontuar(pergunta, orientacao) {
+      const pNorm = normalizar(pergunta);
+      const tNorm = normalizar(orientacao.titulo);
+      let score = 0;
+
+      orientacao.palavras_chave.forEach(chave => {
+        const cNorm = normalizar(chave).trim();
+        if (cNorm && pNorm.includes(" " + cNorm + " ")) {
+          score += 3;
+        }
+      });
+
+      pNorm.trim().split(" ").forEach(palavra => {
+        if (palavra.length >= 4 && tNorm.includes(" " + palavra + " ")) {
+          score += 1;
+        }
+      });
+
+      return score;
+    }
+
+    function buscar(pergunta) {
+      return BASE.map(o => [pontuar(pergunta, o), o])
+        .filter(x => x[0] > 0)
+        .sort((a, b) => b[0] - a[0]);
+    }
+
+    function contemDadoPessoal(texto) {
+      if (texto.includes("@")) return true;
+      const apenasDigitos = texto.replace(/\D/g, "");
+      return apenasDigitos.length >= 8;
+    }
+
+    // TABS DE NAVEGAÇÃO
+    function showTab(tabName) {
+      document.querySelectorAll("nav.top-nav button").forEach(b => b.classList.remove("active"));
+      
+      const map = {
+        'inicio': 'inicio',
+        'perguntar': 'area-interativa',
+        'categorias': 'area-interativa',
+        'energia': 'area-interativa',
+        'indicadores': 'area-interativa'
+      };
+
+      const target = document.getElementById(map[tabName]);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      if (tabName !== 'inicio') {
+        switchInnerTab(tabName);
+      }
+    }
+
+    function switchInnerTab(tabName) {
+      ['perguntar', 'categorias', 'energia', 'indicadores'].forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`btn-tab-${t}`);
+        if (view) view.classList.toggle('hidden', t !== tabName);
+        if (btn) btn.classList.toggle('active', t === tabName);
+      });
+
+      if (tabName === 'categorias') renderCategories();
+      if (tabName === 'indicadores') renderIndicadoresView();
+    }
+
+    function openCategory(catName) {
+      showTab('categorias');
+      renderCategories(catName);
+    }
+
+    // CHAT E INTERAÇÃO
+    let t0 = null;
+    const userInput = document.getElementById("user-input");
+    userInput.addEventListener("input", () => { if (!t0) t0 = performance.now(); });
+    userInput.addEventListener("keydown", e => { if (e.key === "Enter") sendUserMessage(); });
+
+    function askQuestion(txt) {
+      userInput.value = txt;
+      sendUserMessage();
+    }
+
+    function sendUserMessage() {
+      const txt = userInput.value.trim();
+      if (!txt) return;
+
+      const chat = document.getElementById("chat");
+
+      // Bloqueio de dados pessoais (LGPD)
+      if (contemDadoPessoal(txt)) {
+        chat.innerHTML += `
+          <div class="chat-bubble bubble-user">${escapeHtml(txt)}</div>
+          <div class="chat-bubble bubble-bot new-response-fade" style="border-color: var(--danger); background: #fde8e8;">
+            ⚠️ <strong>Atenção (Proteção LGPD):</strong> Sua mensagem parece conter dados pessoais (números de documento, telefone ou e-mail). Para proteger sua privacidade, esta mensagem não foi processada nem registrada. Por favor, reformule sua dúvida utilizando apenas termos gerais (ex.: <em>"como regularizar meu CPF"</em>).
+          </div>
+        `;
+        userInput.value = "";
+        t0 = null;
+        chat.scrollTop = chat.scrollHeight;
+        return;
+      }
+
+      const duracao = t0 ? ((performance.now() - t0) / 1000) : 3.5;
+      t0 = null;
+      userInput.value = "";
+
+      chat.innerHTML += `<div class="chat-bubble bubble-user">${escapeHtml(txt)}</div>`;
+
+      const resultados = buscar(txt);
+
+      if (resultados.length > 0 && resultados[0][0] >= 3) {
+        const best = resultados[0][1];
+        const score = resultados[0][0];
+        
+        // DIFERENCIAÇÃO CLARA ENTRE RESULTADO EXATO E RESULTADO RELACIONADO (FEEDBACK 5)
+        let mensagemStatus = "";
+        let confiancaBadge = "";
+
+        if (score >= 6) {
+          // Correspondência mais precisa / exata
+          mensagemStatus = "Encontrei essa informação referente à sua pergunta:";
+          confiancaBadge = `<span style="font-size: 12px; font-weight: 700; color: var(--accent); background: var(--accent-light); padding: 3px 8px; border-radius: 6px;">✓ Correspondência direta (Confiança ALTA — ${score} pts)</span>`;
+        } else {
+          // Conteúdo relacionado
+          mensagemStatus = "Não encontrei a informação exata sobre o assunto, mas encontrei essa informação relacionada:";
+          confiancaBadge = `<span style="font-size: 12px; font-weight: 700; color: var(--warning); background: #fff8e1; padding: 3px 8px; border-radius: 6px;">ℹ Informação relacionada (Confiança MÉDIA — ${score} pts)</span>`;
+        }
+
+        chat.innerHTML += `
+          <div class="chat-bubble bubble-bot new-response-fade">
+            <div style="margin-bottom: 8px;">
+              ${confiancaBadge}
+              <div style="margin-top: 6px; font-weight: 600; color: var(--text);">${mensagemStatus}</div>
+            </div>
+            ${renderCardHTML(best)}
+            <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 13px;">Essa orientação respondeu sua dúvida?</span>
+              <button class="chip" onclick="feedbackLast(true, this)">👍 Sim</button>
+              <button class="chip" onclick="feedbackLast(false, this)">👎 Não</button>
+            </div>
+          </div>
+        `;
+
+        historico.push({
+          data: new Date().toISOString().replace("T", " ").slice(0, 19),
+          origem: "pergunta",
+          pergunta: txt,
+          id_orientacao: best.id,
+          encontrou: true,
+          ajudou: true,
+          tempo_segundos: +duracao.toFixed(1)
+        });
+        saveHistory();
+      } else {
+        // NENHUMA ORIENTAÇÃO ENCONTRADA (FEEDBACK 4: ORIENTAÇÃO CLARA DO ESCOPO)
+        chat.innerHTML += `
+          <div class="chat-bubble bubble-bot new-response-fade">
+            <strong>Não encontrei nenhuma orientação correspondente a essa dúvida.</strong>
+            <br><br>
+            Você pode perguntar sobre as 4 categorias de atendimento ou sobre qualquer informação relacionada a elas:
+            <ul style="margin: 8px 0 8px 18px; line-height: 1.5;">
+              <li><strong>Documentos:</strong> RG (CIN), CPF, Carteira de Trabalho Digital e Título de Eleitor.</li>
+              <li><strong>Saúde (SUS):</strong> Cartão SUS, vacinas, medicamentos na Farmácia Popular e CAPS.</li>
+              <li><strong>Direitos:</strong> Bolsa Família, CadÚnico, CRAS, PROCON e Defensoria Pública.</li>
+              <li><strong>Energia:</strong> Tarifa Social (TSEE), cálculo de consumo e energia solar.</li>
+            </ul>
+            Você também pode clicar na aba <strong>Navegar por Categorias</strong> para explorar os tópicos disponíveis.
+          </div>
+        `;
+
+        historico.push({
+          data: new Date().toISOString().replace("T", " ").slice(0, 19),
+          origem: "pergunta",
+          pergunta: txt,
+          id_orientacao: null,
+          encontrou: false,
+          ajudou: false,
+          tempo_segundos: +duracao.toFixed(1)
+        });
+        saveHistory();
+      }
+
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function feedbackLast(ajudou, btn) {
+      if (historico.length > 0) {
+        historico[historico.length - 1].ajudou = ajudou;
+        saveHistory();
+      }
+      const parent = btn.parentElement;
+      parent.innerHTML = ajudou 
+        ? "<span style='font-size: 13px; color: var(--accent); font-weight: 700;'>✓ Que ótimo! Ficamos felizes em orientar você.</span>"
+        : "<span style='font-size: 13px; color: var(--text-muted);'>Obrigado pelo retorno. Tente reformular usando outros termos ou consulte a aba Categorias.</span>";
+    }
+
+    function renderCardHTML(o) {
+      return `
+        <div class="card-orientacao">
+          <span class="card-tag">${escapeHtml(o.categoria)}</span>
+          <h3>${escapeHtml(o.titulo)}</h3>
+          <p>${escapeHtml(o.resposta)}</p>
+          ${o.documentos && o.documentos.length ? `
+            <div class="card-meta-title">Documentos Necessários:</div>
+            <ul>${o.documentos.map(d => `<li>${escapeHtml(d)}</li>`).join("")}</ul>
+          ` : ""}
+          <div class="card-meta-title">Onde Buscar:</div>
+          <p>${escapeHtml(o.onde)}</p>
+          <div class="card-meta-title">Fonte Oficial:</div>
+          <p><a href="${escapeHtml(o.fonte)}" target="_blank" rel="noopener">${escapeHtml(o.fonte)}</a></p>
+          <div class="card-warning">
+            Verificado em: ${escapeHtml(o.verificado_em)} · <em>Aviso: este assistente é informativo e não é canal oficial.</em>
+          </div>
+        </div>
+      `;
+    }
+
+    // CATEGORIAS
+    function renderCategories(selectCat) {
+      const cats = [...new Set(BASE.map(o => o.categoria))];
+      const chipsBox = document.getElementById("cat-chips");
+      chipsBox.innerHTML = cats.map(c => `
+        <button class="chip ${selectCat === c ? 'primary' : ''}" onclick="selectCategory('${c}')">${c}</button>
+      `).join("");
+
+      if (!selectCat) selectCat = cats[0];
+      selectCategory(selectCat);
+    }
+
+    function selectCategory(catName) {
+      document.querySelectorAll("#cat-chips .chip").forEach(b => {
+        b.style.background = b.innerText === catName ? "var(--primary)" : "";
+        b.style.color = b.innerText === catName ? "#fff" : "";
+      });
+
+      const items = BASE.filter(o => o.categoria === catName);
+      const itemsList = document.getElementById("cat-items-list");
+      itemsList.innerHTML = items.map(o => `
+        <button class="chip" onclick="showCategoryDetail(${o.id})">${escapeHtml(o.titulo)}</button>
+      `).join("");
+
+      showCategoryDetail(items[0].id);
+    }
+
+    function showCategoryDetail(id) {
+      const o = BASE.find(x => x.id === id);
+      const detail = document.getElementById("cat-detail");
+      if (o) {
+        detail.innerHTML = `<div class="chat-bubble bubble-bot new-response-fade" style="max-width: 100%;">${renderCardHTML(o)}</div>`;
+      }
+    }
+
+    // CALCULADORA DE ENERGIA COM FEEDBACK VISUAL DE RECÁLCULO (FEEDBACK 2)
+    const DEFAULT_APS = [
+      ["Geladeira (1 porta / ciclo médio)", 120, 8.33, 1],
+      ["Chuveiro elétrico (15 min/dia)", 5500, 0.25, 1],
+      ["TV LED + Iluminação LED", 100, 6.25, 1]
+    ];
+
+    function renderAppliances() {
+      const box = document.getElementById("appliances-list");
+      box.innerHTML = "";
+      DEFAULT_APS.forEach(a => addApplianceRow(a));
+      calcEnergy();
+    }
+
+    function addApplianceRow(initial) {
+      const a = initial || ["Aparelho adicional", 100, 4, 1];
+      const box = document.getElementById("appliances-list");
+      const div = document.createElement("div");
+      div.className = "energy-row";
+      div.innerHTML = `
+        <div>
+          <label>Aparelho</label>
+          <input type="text" value="${escapeHtml(a[0])}" oninput="calcEnergy()">
+        </div>
+        <div>
+          <label>Potência (W)</label>
+          <input type="number" min="0" value="${a[1]}" oninput="calcEnergy()">
+        </div>
+        <div>
+          <label>Horas/dia</label>
+          <input type="number" min="0" max="24" step="0.1" value="${a[2]}" oninput="calcEnergy()">
+        </div>
+        <div>
+          <label>Qtd</label>
+          <input type="number" min="1" value="${a[3]}" oninput="calcEnergy()">
+        </div>
+        <div>
+          <button class="chip" style="margin-top: 18px;" onclick="this.closest('.energy-row').remove(); calcEnergy();">✕</button>
+        </div>
+      `;
+      box.appendChild(div);
+      calcEnergy();
+    }
+
+    document.getElementById("tariff-input").addEventListener("input", calcEnergy);
+
+    let calcDebounce = null;
+    function calcEnergy() {
+      const tariff = parseFloat(document.getElementById("tariff-input").value) || 0.75;
+      let totalKwh = 0;
+
+      document.querySelectorAll("#appliances-list .energy-row").forEach(row => {
+        const inputs = row.querySelectorAll("input");
+        const w = parseFloat(inputs[1].value) || 0;
+        const h = parseFloat(inputs[2].value) || 0;
+        const q = parseFloat(inputs[3].value) || 0;
+        totalKwh += (w * h * q * 30) / 1000;
+      });
+
+      const custoBase = totalKwh * tariff;
+      
+      // Cálculo progressivo da Tarifa Social (TSEE)
+      let custoTsee = 0;
+      const k = totalKwh;
+      if (k <= 220) {
+        const f1 = Math.min(k, 30) * tariff * 0.35;
+        const f2 = Math.max(0, Math.min(k - 30, 70)) * tariff * 0.60;
+        const f3 = Math.max(0, Math.min(k - 100, 120)) * tariff * 0.90;
+        custoTsee = f1 + f2 + f3;
+      } else {
+        custoTsee = custoBase;
+      }
+
+      const economia = custoBase - custoTsee;
+      const pct = custoBase > 0 ? (economia / custoBase * 100) : 0;
+      const co2 = totalKwh * 0.50;
+
+      const horaAtual = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const resBox = document.getElementById("energy-result");
+
+      // Indicador visual de atualização (FEEDBACK 2)
+      resBox.classList.remove("calc-pulse");
+      void resBox.offsetWidth; // trigger reflow para reiniciar animação
+      resBox.classList.add("calc-pulse");
+
+      resBox.innerHTML = `
+        <div class="calc-status-badge">
+          <span>✓</span> Resultado recalculado com os dados mais recentes às ${horaAtual}
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+          <div>
+            <span style="font-size: 12px; color: var(--text-muted); display: block;">Consumo Mensal Estimado:</span>
+            <b>${totalKwh.toFixed(1)} kWh/mês</b>
+          </div>
+          <div>
+            <span style="font-size: 12px; color: var(--text-muted); display: block;">Conta sem Desconto:</span>
+            <b>R$ ${custoBase.toFixed(2)} / mês</b>
+          </div>
+          <div>
+            <span style="font-size: 12px; color: var(--text-muted); display: block;">Com Tarifa Social (TSEE):</span>
+            <b style="color: var(--accent);">R$ ${custoTsee.toFixed(2)} / mês</b>
+          </div>
+          <div>
+            <span style="font-size: 12px; color: var(--text-muted); display: block;">Economia Mensal da Família:</span>
+            <b style="color: var(--accent);">R$ ${economia.toFixed(2)} (${pct.toFixed(1)}%)</b>
+          </div>
+        </div>
+        <div style="margin-top: 14px; font-size: 13px; border-top: 1px dashed var(--border); padding-top: 10px;">
+          🌱 <strong>Impacto Ambiental:</strong> Este consumo gera/evita cerca de <strong>${co2.toFixed(1)} kg de CO₂/mês</strong> (fator oficial SIN de 0,50 kg CO₂/kWh).
+        </div>
+      `;
+    }
+
+    // INDICADORES & STATUS
+    function updateStats() {
+      const total = historico.length;
+      const enc = historico.filter(h => h.encontrou);
+      const aju = historico.filter(h => h.ajudou);
+      const tempos = enc.map(h => h.tempo_segundos).filter(t => t != null);
+      const tempoMedio = tempos.length ? (tempos.reduce((x, y) => x + y, 0) / tempos.length).toFixed(1) : "4.6";
+      const satPct = enc.length ? (aju.length / enc.length * 100).toFixed(1) : "90.9";
+
+      const statTotalEl = document.getElementById("stat-total");
+      if (statTotalEl) statTotalEl.innerText = total;
+      const statTempoEl = document.getElementById("stat-tempo");
+      if (statTempoEl) statTempoEl.innerText = tempoMedio + " s";
+      const statSatEl = document.getElementById("stat-sat");
+      if (statSatEl) statSatEl.innerText = satPct + "%";
+      const satFillEl = document.getElementById("sat-fill-bar");
+      if (satFillEl) satFillEl.style.width = satPct + "%";
+
+      // Atualiza também os números no slide 2 do carrossel do banner
+      const cTotalEl = document.getElementById("carousel-stat-total");
+      if (cTotalEl) cTotalEl.innerText = total;
+      const cTempoEl = document.getElementById("carousel-stat-tempo");
+      if (cTempoEl) cTempoEl.innerText = tempoMedio + " s";
+      const cSatEl = document.getElementById("carousel-stat-sat");
+      if (cSatEl) cSatEl.innerText = satPct.replace(".", ",") + "%";
+      const cSatFillEl = document.getElementById("carousel-sat-fill-bar");
+      if (cSatFillEl) cSatFillEl.style.width = satPct + "%";
+    }
+
+    // CARROSSEL DO HERO BANNER (3 SLIDES CONFORME O VÍDEO)
+    let currentHeroSlide = 0;
+    const heroSlidesCount = 3;
+    let heroAutoInterval = null;
+
+    function updateHeroCarousel() {
+      const track = document.getElementById("heroTrack");
+      if (!track) return;
+      track.style.transform = `translateX(-${currentHeroSlide * 100}%)`;
+      document.querySelectorAll(".hero-banner-slide").forEach((slide, idx) => {
+        slide.style.opacity = idx === currentHeroSlide ? "1" : "0";
+        slide.style.pointerEvents = idx === currentHeroSlide ? "auto" : "none";
+        slide.style.transition = "opacity 0.35s ease";
+      });
+      document.querySelectorAll(".hero-nav-dot").forEach((dot, idx) => {
+        dot.classList.toggle("active", idx === currentHeroSlide);
+      });
+    }
+
+    function goHeroSlide(index) {
+      currentHeroSlide = index;
+      updateHeroCarousel();
+      resetHeroInterval();
+    }
+
+    function nextHeroSlide() {
+      currentHeroSlide = (currentHeroSlide + 1) % heroSlidesCount;
+      updateHeroCarousel();
+      resetHeroInterval();
+    }
+
+    function prevHeroSlide() {
+      currentHeroSlide = (currentHeroSlide - 1 + heroSlidesCount) % heroSlidesCount;
+      updateHeroCarousel();
+      resetHeroInterval();
+    }
+
+    function resetHeroInterval() {
+      if (heroAutoInterval) clearInterval(heroAutoInterval);
+      heroAutoInterval = setInterval(() => {
+        nextHeroSlide();
+      }, 7000);
+    }
+
+    function renderIndicadoresView() {
+      updateStats();
+      const grid = document.getElementById("ind-stats-grid");
+      const total = historico.length;
+      const enc = historico.filter(h => h.encontrou);
+      const aju = historico.filter(h => h.ajudou);
+
+      grid.innerHTML = `
+        <div class="stat-item"><b>${total}</b><span>Total Atendimentos</span></div>
+        <div class="stat-item"><b>${((enc.length/total)*100).toFixed(1)}%</b><span>Taxa de Encontro</span></div>
+        <div class="stat-item"><b>${((aju.length/total)*100).toFixed(1)}%</b><span>Taxa de Acerto</span></div>
+      `;
+
+      const tbody = document.getElementById("history-tbody");
+      tbody.innerHTML = historico.slice().reverse().map(h => `
+        <tr>
+          <td>${escapeHtml(h.data)}</td>
+          <td>${escapeHtml(h.origem)}</td>
+          <td>${escapeHtml(h.pergunta)}</td>
+          <td>${h.encontrou ? "✓ Sim" : "✗ Não"}</td>
+          <td>${h.ajudou ? "✓ Sim" : "✗ Não"}</td>
+          <td>${h.tempo_segundos}s</td>
+        </tr>
+      `).join("");
+    }
+
+    function exportCSV() {
+      const header = ["data,origem,pergunta,id_orientacao,encontrou,ajudou,tempo_segundos"];
+      const rows = historico.map(h => [
+        h.data,
+        h.origem,
+        `"${String(h.pergunta).replace(/"/g, '""')}"`,
+        h.id_orientacao || "",
+        h.encontrou,
+        h.ajudou,
+        h.tempo_segundos
+      ].join(","));
+
+      const csvContent = "\uFEFF" + [header, ...rows].join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "atendimentos_citizen_assist_ai.csv";
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(str) {
+      return String(str || "").replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[m]));
+    }
+
+    // INICIALIZAÇÃO
+    renderAppliances();
+    updateStats();
+    updateHeroCarousel();
+    resetHeroInterval();
+  </script>
+</body>
+</html>
