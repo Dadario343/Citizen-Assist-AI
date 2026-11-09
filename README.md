@@ -97,14 +97,14 @@ A busca em linguagem natural implementada em `BaseConhecimento.buscar(pergunta)`
   - `Score >= 6`: **Confiança ALTA** (mensagem de correspondência direta).
   - `Score 3 a 5`: **Confiança MÉDIA** (mensagem de orientação relacionada).
   - `Score < 3`: **Sem correspondência** (informa educadamente que não encontrou, lista as 4 categorias disponíveis e orienta como reformular).
-- **Apresentação de Alternativas:** O sistema exibe o melhor resultado e, havendo outras orientações pontuadas, lista **até 2 orientações alternativas** (`resultados[1:3]`).
+- **Filtragem Inteligente de Alternativas:** O sistema exibe o melhor resultado e, havendo outras orientações com **pontuação relevante (`score >= 3`)**, lista até 2 alternativas adicionais. Resultados irrelevantes com 1 ponto são automaticamente filtrados para não poluir a saída.
 
 ### 4. Robustez, Proteção LGPD e Navegação
 
 - **Tratamento de Exceções:** O leitor de JSON trata `FileNotFoundError` e `json.JSONDecodeError`, impedindo encerramento abrupto caso a base esteja ausente ou malformatada.
 - **Proteção de Dados Pessoais (LGPD):** O método `_contem_dado_pessoal` detecta sequências de 8 ou mais dígitos (como CPF ou telefones) e a presença de `@` (e-mails). Mensagens com esses padrões são bloqueadas e **jamais são gravadas no histórico**.
 - **Navegação Categórica e Menus:** Todos os menus e submenus possuem validação rigorosa de entrada numérica e a opção padronizada **`0` para voltar** ou encerrar.
-- **Medição Precisa de Tempo:** O cronômetro de busca afere estritamente o tempo de processamento do algoritmo de busca (`self.base.buscar`), sem misturar com o tempo de leitura humana.
+- **Medição Precisa de Tempo:** O cronômetro de busca afere o tempo decorrido de forma natural (`round(time.time() - inicio, 1)`), sem constantes artificiais no código.
 
 ### 5. Registro de Atendimentos, Indicadores e Exportação CSV
 
@@ -134,17 +134,17 @@ A análise energética do Citizen Assist AI (disponível no menu 4 do terminal, 
 - *Nota Técnica:* O fator de 0,50 kg CO₂/kWh refere-se exclusivamente ao despacho fóssil térmico de pico, enquanto a base média oficial do SIN é 0,0385 kg CO₂/kWh.
 
 ### 2. Alternativa 1: Tarifa Social de Energia Elétrica (TSEE)
-- **Legislação:** Lei Federal nº 10.438/2002, Resolução Normativa ANEEL nº 1.000/2021 e modelo de gratuidade do Programa Luz do Povo.
+- **Legislação:** Lei Federal nº 10.438/2002, alterada pela Lei nº 12.212/2010 e Resolução Normativa ANEEL nº 1.000/2021 (arts. 177 a 186), e modelo de gratuidade do Programa Luz do Povo.
 - **Investimento:** R$ 0,00 | **Payback:** Imediato.
-- **Modelo Atualizado (Gratuidade até 80 kWh/mês):**
-  - Parcela 0 a 80 kWh: 100% de gratuidade -> R$ 0,00
-  - Parcela 81 a 150 kWh (70 kWh com 40% desc.): `70 x 0,75 x 0,60 = R$ 31,50`
-  - Nova conta estimada: **R$ 31,50/mês** -> Economia estimada de **R$ 81,00/mês (72,0% de redução)**.
 - **Modelo Geral de Faixas Progressivas (Lei 10.438/2002):**
   - 0 a 30 kWh (65% desc.): `30 x 0,75 x 0,35 = R$ 7,88`
   - 31 a 100 kWh (40% desc.): `70 x 0,75 x 0,60 = R$ 31,50`
   - 101 a 150 kWh (10% desc.): `50 x 0,75 x 0,90 = R$ 33,75`
-  - Nova conta estimada: **R$ 73,13/mês** -> Economia estimada de **R$ 39,37/mês (35,0% de redução)**.
+  - Nova fatura estimada: **R$ 73,13/mês** -> Economia estimada de **R$ 39,37/mês (35,0% de redução)**.
+- **Modelo Atualizado (Gratuidade da parcela até 80 kWh/mês — Luz do Povo):**
+  - Parcela 0 a 80 kWh: 100% de isenção -> R$ 0,00
+  - Parcela 81 a 150 kWh (70 kWh com 40% desc.): `70 x 0,75 x 0,60 = R$ 31,50`
+  - Nova fatura estimada: **R$ 31,50/mês** -> Economia estimada de **R$ 81,00/mês (72,0% de redução)**.
 
 ### 3. Alternativa 2: Microgeração Solar Fotovoltaica Residencial
 - **Fórmula de Engenharia:**
@@ -154,22 +154,28 @@ A análise energética do Citizen Assist AI (disponível no menu 4 do terminal, 
 - **Limitações Reais da Lei 14.300/2022 (A conta não zera):**
   - Custo de disponibilidade monofásico (30 kWh x R$ 0,75 = R$ 22,50/mês) + Fio B gradual + iluminação pública (COSIP).
   - Conta residual pós-solar estimada: **R$ 20,00 a R$ 35,00/mês**.
-  - Economia líquida mensal: **R$ 77,50 a R$ 92,50/mês** (70% a 82% de redução).
-- **Memória de Cálculo de Payback Simples:**
+  - Economia líquida mensal (tarifa cheia): **R$ 77,50 a R$ 92,50/mês** (70% a 82% de redução).
+- **Payback Simples (Consumidor que paga tarifa cheia):**
   - Cenário Otimista: `R$ 7.500 / (R$ 92,50 x 12) = 6,76 anos (~6,8 anos)`
   - Cenário Moderado: `R$ 8.500 / (R$ 85,00 x 12) = 8,33 anos (~8,3 anos)`
   - Cenário Conservador: `R$ 9.500 / (R$ 77,50 x 12) = 10,22 anos (~10,2 anos)`
-  - Faixa consolidada: **6,8 a 10,2 anos** (média ponderada: **8,3 anos**). Vida útil dos módulos: 25 anos.
+  - Faixa consolidada: **6,8 a 10,2 anos** (cenário intermediário: **8,3 anos**). Vida útil: 25 anos.
+
+- **ANÁLISE CRÍTICA: Viabilidade do Solar para quem JÁ TEM Tarifa Social:**
+  - Se a família de baixa renda já recebe a Tarifa Social (fatura de R$ 73,13), a economia gerada pelo solar é de apenas `R$ 73,13 - R$ 22,50 = R$ 50,63 / mês`.
+  - O Payback Simples salta para: `R$ 8.500 / (R$ 50,63 x 12) = 13,99 anos (~14 anos)`.
+  - *Conclusão de Engenharia:* Placas solares próprias têm retorno excessivamente lento e barreira financeira de capital para famílias no CadÚnico. Para baixa renda, o solar só é viável via subsídios públicos ou cooperativas de energia solar compartilhada.
 
 ### 4. Alternativa 3: Cenário Combinado (TSEE + Eficiência Residencial)
 - **Demonstração Matemática da Redução de 40 kWh/mês (150 para 110 kWh/mês):**
-  - *Chuveiro 3.800 W:* 4 moradores reduzindo banhos de 12 para 8 min/dia -> Economia de **30,4 kWh/mês**.
-  - *Iluminação:* Troca de 4 lâmpadas fluorescentes 25 W por LEDs de 9 W -> Economia de **7,7 kWh/mês**.
-  - *Standby:* Desligamento de consumo vampiro em eletrônicos -> Economia de **1,9 kWh/mês**.
-  - *Total economizado comprovado:* **40,0 kWh/mês** com investimento de R$ 0 a R$ 40 em lâmpadas.
+  - *Chuveiro 3.500 W:* 4 pessoas reduzindo banhos de 12 para 8 min/dia -> Economia de **28,00 kWh/mês** (`3,5 x 0,8 x 30 = 84 kWh` para `3,5 x 0,533 x 30 = 56 kWh`).
+  - *Iluminação:* Troca de 4 lâmpadas fluorescentes 25 W por LEDs de 9 W -> Economia de **7,68 kWh/mês** (`12,0 - 4,32 kWh`).
+  - *Standby:* Desligamento de aparelhos da tomada -> Economia de **4,32 kWh/mês** (`5,4 - 1,08 kWh`).
+  - *Total economizado comprovado:* `28,00 + 7,68 + 4,32 = 40,00 kWh/mês`.
 - **Fatura Estimada:**
-  - No regime de gratuidade até 80 kWh: 0 a 80 kWh (R$ 0) + 30 kWh (R$ 13,50) = **R$ 13,50/mês** (Economia de **R$ 99,00/mês — 88% de redução**).
-  - No regime de faixas da Lei 10.438: 30 kWh (R$ 7,88) + 70 kWh (R$ 31,50) + 10 kWh (R$ 6,75) = **R$ 46,13/mês** (Economia de **R$ 66,37/mês — 59% de redução**).
+  - No regime de faixas da Lei 10.438: 30 kWh (R$ 7,88) + 70 kWh (R$ 31,50) + 10 kWh (R$ 6,75) = **R$ 46,13/mês** (Economia total de **R$ 66,37/mês — 59% de redução** em relação a R$ 112,50).
+  - No regime de gratuidade até 80 kWh: 0 a 80 kWh (R$ 0) + 30 kWh (R$ 13,50) = **R$ 13,50/mês** (Economia total de **R$ 99,00/mês — 88% de redução**).
+- **Veredito:** Esta é a **melhor alternativa técnica e financeira** para o cidadão de baixa renda, pois proporciona economia imediata sem custo de instalação.
 
 ### 5. Tabela Comparativa Consolidada
 
@@ -179,7 +185,8 @@ A análise energética do Citizen Assist AI (disponível no menu 4 do terminal, 
 | **Economia Mensal Estimada** | R$ 0,00 | R$ 39,37 a R$ 81,00 | R$ 77,50 a R$ 92,50 | **R$ 66,37 a R$ 99,00** |
 | **Percentual de Redução** | 0% | 35% a 72% | 70% a 82% | **59% a 88%** |
 | **Investimento Inicial** | R$ 0,00 | R$ 0,00 | R$ 7.500 a R$ 9.500 | **R$ 0,00** |
-| **Payback Simples** | N/A | Imediato | 6,8 a 10,2 anos (méd. 8,3) | **Imediato** |
+| **Payback (Tarifa Cheia)** | N/A | Imediato | 6,8 a 10,2 anos (méd. 8,3) | **Imediato** |
+| **Payback (com TSEE)** | N/A | Imediato | ~14,0 anos | **Imediato** |
 | **CO₂ Evitado Estimado** | 0 kg | Indireto | ~5,8 a 6,5 kg CO₂/mês | ~1,5 kg CO₂/mês |
 
 ---
@@ -190,9 +197,9 @@ Foram conduzidas sessões de teste com **3 participantes externos à equipe** (p
 
 ### Perfil Anonimizado dos Participantes
 
-1. **Participante A (40 a 45 anos, trabalhador autônomo):** Buscou regularizar pendência de CPF e entender como solicitar a Tarifa Social de energia.
-2. **Participante B (30 a 35 anos, mãe de família):** Buscou orientações sobre inscrição no Cadastro Único (CadÚnico) e medicamentos gratuitos pela Farmácia Popular.
-3. **Participante C (60 a 65 anos, aposentado):** Testou a emissão da nova Carteira de Identidade Nacional (CIN / RG) e simulou a redução da conta de energia elétrica de sua residência.
+1. **Participante A:** Testou a regularização de pendência de CPF e a consulta às regras da Tarifa Social de energia elétrica.
+2. **Participante B:** Testou a inscrição no Cadastro Único (CadÚnico) e a retirada de medicamentos gratuitos pela Farmácia Popular.
+3. **Participante C:** Testou a emissão da nova Carteira de Identidade Nacional (CIN / RG) e simulou a redução da conta de energia elétrica de sua residência.
 
 ### Tabela de Indicadores Reais Obtidos nos Testes
 
@@ -220,7 +227,34 @@ As 4 dúvidas sem solução presentes no arquivo `data/historico.json` foram:
 | **Busca por Vacinação** | Usuário digitou "vacinas" no plural e não obteve resultado no teste inicial. | Inclusão de "vacinas" e "imunizações" nas palavras-chave da Orientação 7 na base de conhecimento. |
 | **Dúvidas Fora de Escopo** | Usuário realizou consultas aleatórias (jogo Zelda, que dia é hoje) e ficou sem direcionamento. | Implementação de retorno didático orientando sobre as 4 categorias atendidas e sugerindo termos válidos. |
 | **Calculadora de Energia** | Usuário desejava confirmação visual de que os valores mudavam ao alterar a potência e horas. | Criação de pulso visual animado (`calc-pulse`), badge verde de confirmação e exibição do horário exato do recálculo. |
-| **Dúvida Conceitual de Energia** | Consulta sobre matriz de energia limpa no Brasil pontuou abaixo do limiar. | Enriquecimento das palavras-chave e do texto da Orientação 16 com termos sobre matriz renovável brasileira. |
+| **Dúvida Conceitual de Energia** | Consulta sobre matriz de energia limpa no Brasil pontuou abaixo do limiar. | Enriquecimento das palavras-chave da Orientação 16 com termos sobre matriz renovável brasileira. |
+| **Busca por Aparelhos e Consumo** | Usuário digitou "meu chuveiro gasta muito" e "reclamar de compra". | Adicionadas palavras-chave específicas nas Orientações 12, 15 e 18 para garantir correspondência direta. |
+
+---
+
+## ⚠️ Limitações do Assistente
+
+1. **Iniciativa Educacional e de Utilidade Pública:** O assistente não emite documentos nem substitui o atendimento oficial prestado pelos órgãos governamentais (Receita Federal, CRAS, UBS, ANEEL).
+2. **Escopo Delimitado:** O sistema responde exclusivamente a dúvidas inseridas nos 4 eixos temáticos (Documentos, Saúde, Direitos e Energia). Perguntas fora de escopo são orientadas para os canais competentes.
+3. **Estimativas Paramétricas de Energia:** Todas as simulações e paybacks utilizam valores médios referenciais. Os custos reais de conta de luz dependem da concessionária local, tributos (ICMS/PIS/COFINS) e bandeiras tarifárias vigentes.
+
+---
+
+## 📚 Fontes Oficiais Consultadas
+
+| Órgão / Plataforma | Descrição do Conteúdo | URL Oficial Verificada |
+|---|---|---|
+| **ANEEL** | Tarifa Social de Energia Elétrica (TSEE) | https://www.gov.br/aneel/pt-br/assuntos/tarifa-social |
+| **ANEEL** | Marco Legal da Microgeração (Lei 14.300/2022) | https://www.gov.br/aneel/pt-br/assuntos/geracao-distribuida |
+| **ANEEL** | Eficiência Energética e Uso Consciente | https://www.gov.br/aneel/pt-br/assuntos/eficiencia-energetica |
+| **MCTI / SIRENE** | Fatores de Emissão de CO₂ do SIN | https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-informacoes/fatores-de-emissao |
+| **EPE** | Anuário Estatístico de Energia Elétrica | https://www.epe.gov.br/pt/publicacoes-dados-abertos/publicacoes/anuario-estatistico-de-energia-eletrica |
+| **ABSOLAR** | Dados de Mercado e Geração Distribuída | https://www.absolar.org.br/mercado/geracao-distribuida/ |
+| **INPE** | Atlas Brasileiro de Energia Solar | http://labren.ccst.inpe.br/atlas_2017.html |
+| **Portal Gov.br** | Carteira de Identidade Nacional (CIN) | https://www.gov.br/pt-br/servicos/emitir-carteira-de-identidade |
+| **Receita Federal** | Inscrição e Regularização de CPF | https://www.gov.br/receitafederal/pt-br/assuntos/cpf |
+| **Ministério da Saúde** | Meu SUS Digital e Vacinação | https://www.gov.br/saude/pt-br/vacinacao |
+| **Ministério do Desenvolvimento Social** | Bolsa Família e CadÚnico | https://www.gov.br/mds/pt-br/acoes-e-programas/bolsa-familia |
 
 ---
 
@@ -258,11 +292,12 @@ python server.py
   2. Modularização nos 4 arquivos: `main.py`, `orientacao.py`, `base_conhecimento.py` e `assistente.py`.
   3. Composição de classes (`Assistente` -> `BaseConhecimento` -> `Orientacao`), destacando `self` e `__init__`.
   4. Carregamento do JSON com tratamento de `FileNotFoundError` e `JSONDecodeError`.
-  5. Busca heurística determinística com retorno em tuplas, classificação de confiança e exibição de até 2 alternativas.
+  5. Busca heurística determinística com retorno em tuplas, classificação de confiança e exibição de até 2 alternativas relevantes.
   6. Navegação por categorias com opção `0` para voltar em todas as telas.
   7. Simulação de alteração ao vivo de palavra-chave no JSON comprovando atualização dinâmica.
   8. Bloqueio de dados pessoais (CPF/e-mail) sem registro no histórico.
   9. Encerramento com coleta de nota de facilidade (1 a 5), exibição dos 6 indicadores e exportação para CSV com `csv.DictWriter`.
+- **Link do Vídeo:** `[A ser inserido pelos integrantes antes do envio final]`
 
 ### Vídeo 2: Soluções em Energias Renováveis e Sustentáveis (SERS)
 - **Duração Exigida:** **Máximo de 3 minutos**.
@@ -270,8 +305,9 @@ python server.py
   1. Problema da pobreza energética e fatura de referência (150 kWh/mês = R$ 112,50).
   2. Calculadora de consumo e aplicação das regras da Tarifa Social (TSEE).
   3. Dimensionamento solar de 1,5 kWp pela fórmula de engenharia (168,5 kWh/mês), custos (Greener/ABSOLAR) e payback consistente (6,8 a 10,2 anos).
-  4. Fator oficial do SIN (0,0385 kg CO₂/kWh — MCTI/SIRENE) e emissões evitadas.
-  5. Cenário combinado (TSEE + eficiência energética) com redução de 59% a 88% sem custos para o cidadão.
+  4. Análise crítica demonstrando por que placas solares próprias não são viáveis para quem já tem Tarifa Social (payback salta para ~14 anos), destacando a Alternativa Combinada (TSEE + Eficiência) com até 88% de redução sem custos.
+  5. Fator oficial do SIN (0,0385 kg CO₂/kWh — MCTI/SIRENE) e emissões evitadas.
+- **Link do Vídeo:** `[A ser inserido pelos integrantes antes do envio final]`
 
 ---
 

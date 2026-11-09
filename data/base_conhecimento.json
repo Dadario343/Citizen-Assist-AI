@@ -349,7 +349,14 @@
       "cobrança indevida",
       "empresa enganosa",
       "golpe compra",
-      "cancelar compra"
+      "cancelar compra",
+      "reclamar de compra",
+      "reclamar de compras",
+      "problema na compra",
+      "compra com defeito",
+      "compra atrasada",
+      "nao recebi minha compra",
+      "reclamacao de compra"
     ],
     "resposta": "O PROCON é o órgão público gratuito responsável por proteger os direitos do consumidor. Se você comprou um produto com defeito, foi vítima de propaganda enganosa, teve serviço mal executado ou foi cobrado indevidamente, o PROCON notifica a empresa e busca a solução amigável ou ressarcimento. Você também pode registrar reclamações pela plataforma oficial online consumidor.gov.br.",
     "documentos": [
@@ -441,7 +448,15 @@
       "reduzir conta",
       "lampada led",
       "selo procel",
-      "consumo consciente"
+      "consumo consciente",
+      "chuveiro",
+      "chuveiro eletrico",
+      "chuveiro gasta muito",
+      "gasto chuveiro",
+      "consumo chuveiro",
+      "banho quente",
+      "como diminuir consumo",
+      "banho demorado"
     ],
     "resposta": "Medidas práticas para diminuir a conta de luz sem custo inicial: 1) Chuveiro elétrico: banhos de no máximo 5 minutos na posição 'verão' (economiza até 30% da energia do chuveiro). 2) Iluminação: substitua lâmpadas antigas por lâmpadas LED (economizam até 80% e duram mais). 3) Geladeira: mantenha a borracha de vedação limpa e ajustada, nunca guarde alimentos quentes e não seque roupas atrás do aparelho. 4) Standby: retire aparelhos da tomada quando não estiver usando, pois o modo de espera consome eletricidade 24h por dia. 5) Eletrodomésticos: priorize sempre aparelhos com Selo Procel A.",
     "documentos": [],
@@ -529,7 +544,11 @@
       "quanto gasta geladeira",
       "calcular kwh",
       "consumo de energia",
-      "consumo aparelho"
+      "consumo aparelho",
+      "meu chuveiro gasta muito",
+      "gasto do chuveiro",
+      "consumo do chuveiro",
+      "aparelho que mais gasta"
     ],
     "resposta": "Para descobrir quanto um aparelho consome por mês em kWh, use a fórmula matemática oficial da ANEEL: Consumo (kWh) = (Potência em Watts ÷ 1000) × Horas de uso por dia × 30 dias. Exemplos reais de uma residência com perfil de 150 kWh/mês: 1) Chuveiro 5.500W usado 15 min/dia (0,25h): 5,5 × 0,25 × 30 = 41,25 kWh/mês. 2) Geladeira 1 porta (120W com compressor ativo ~8,33h/dia): 90,00 kWh/mês. 3) TV LED e iluminação (~100W por ~6,25h/dia): 18,75 kWh/mês. Total somado = 150,00 kWh/mês. Para saber o custo em reais (R$), multiplique os kWh totais pela tarifa da conta (média de R$ 0,75 por kWh: 150 × 0,75 = R$ 112,50/mês).",
     "documentos": [],

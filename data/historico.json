@@ -32,7 +32,7 @@
   {
     "data": "2026-11-06 14:12:30",
     "origem": "categoria",
-    "pergunta": "[navegação] Saúde > Cartão SUS (como tirar ou consultar número)",
+    "pergunta": "[navegação] Saúde > Cartão SUS e Atendimento no Posto de Saúde (UBS)",
     "id_orientacao": 6,
     "encontrou": true,
     "ajudou": true,
@@ -62,7 +62,7 @@
   {
     "data": "2026-11-06 14:36:10",
     "origem": "categoria",
-    "pergunta": "[navegação] Saúde > Vacinação gratuita pelo SUS",
+    "pergunta": "[navegação] Saúde > Vacinação gratuita e Vacinas pelo SUS",
     "id_orientacao": 7,
     "encontrou": true,
     "ajudou": true,
