@@ -10,119 +10,153 @@
 
 ---
 
-## 1. Contexto, Público e Premissas Iniciais
+## 1. Contexto, Público e Premissas Metodológicas
 
-- **Público-alvo:** Famílias brasileiras de baixa renda em vulnerabilidade socioeconômica, inscritas no Cadastro Único (CadÚnico) para Programas Sociais do Governo Federal.
-- **Problema Abordado:** **Pobreza energética** — desproporção entre a renda familiar e o custo das faturas de energia elétrica, levando à inadimplência, corte de fornecimento ou comprometimento de gastos com alimentação e saúde.
-- **Perfil de Consumo Referencial (Estimativa Paramétrica):**
-  - Residência típica: 3 a 4 moradores.
-  - Consumo mensal médio adotado: **150 kWh/mês** (estimativa baseada em dados da EPE / Procel para habitações de interesse social).
-  - Tarifa média homologada ANEEL (sem bandeiras adicionais): **R$ 0,75 / kWh** (média nacional de distribuidoras urbanas).
-  - Custo mensal atual de referência sem benefícios:  
-    `Custo Base = 150 kWh/mês x R$ 0,75/kWh = R$ 112,50/mês`
+- **Público-alvo:** Famílias brasileiras em situação de vulnerabilidade socioeconômica, elegíveis ou inscritas no Cadastro Único (CadÚnico) para Programas Sociais do Governo Federal.
+- **Problema Abordado:** **Pobreza energética** — desproporção crítica entre a renda familiar disponível e os custos de acesso à eletricidade essencial, acarretando riscos de corte de fornecimento, inadimplência e supressão de necessidades vitais como alimentação e medicamentos.
+- **Perfil de Consumo Paramétrico de Referência:**
+  - Residência padrão: 3 a 4 moradores.
+  - Consumo mensal adotado: **150 kWh/mês** (estimativa paramétrica alinhada ao consumo residencial médio de famílias de interesse social segundo a EPE - Empresa de Pesquisa Energética e dados do PROCEL).
+  - Tarifa referencial adotada: **R$ 0,75 / kWh**.
+
+> [!IMPORTANT]
+> **Esclarecimento Técnico sobre a Premissa Tarifária (R$ 0,75/kWh):**  
+> O valor de R$ 0,75/kWh é uma **premissa de simulação paramétrica**, e **não uma tarifa universal**.  
+> Ele é fundamentado no *Painel de Tarifas de Fornecimento de Energia Elétrica da ANEEL* (Subgrupo Tarifário B1 - Residencial Convencional, média ponderada das distribuidoras brasileiras).  
+> A fatura real varia consideravelmente de acordo com a área de concessão (concessionária local) e inclui componentes regulatórios e tributários não uniformes:
+> 1. **Tributos Incidentes:** ICMS estadual (alíquotas de 17% a 25%), PIS/PASEP e COFINS federais (alíquotas efetivas de ~4% a 9%);
+> 2. **Bandeiras Tarifárias:** Sistema de Bandeiras Tarifárias da ANEEL (Bandeira Verde sem acréscimo; Amarela ou Vermelha Patamares 1 e 2 gerando acréscimos a cada 100 kWh);
+> 3. **Encargos Municipais:** Contribuição de Iluminação Pública (CIP / COSIP), instituída por legislações de cada município e cobrada diretamente na fatura de energia;
+> 4. **Custo de Disponibilidade:** Valor mínimo faturável conforme o padrão de ligação (30 kWh monofásico, 50 kWh bifásico, 100 kWh trifásico).  
+> 
+> *Custo mensal base da simulação:* `150 kWh/mês x R$ 0,75/kWh = R$ 112,50/mês`.
 
 ---
 
 ## 2. Fator de Emissão Oficial de CO₂ da Matriz Elétrica Nacional
 
-- **Fonte Oficial:** Ministério da Ciência, Tecnologia e Inovação (MCTI / SIRENE) e Empresa de Pesquisa Energética (EPE).
-- **Fator Médio do Sistema Interligado Nacional (SIN):**
-  - Ano-base 2023/2024: **0,0385 kg CO₂/kWh** (equivalente a 38,5 kg CO₂/MWh).
-  - Em períodos de alta geração hidrelétrica e expansão solar/eólica, o SIN atinge marcas entre 28,9 e 38,5 kg CO₂/MWh.
-- **Cálculo de Emissões Evitadas:**
-  - Sobre a fatura de consumo referencial (150 kWh/mês):  
-    `CO₂ evitado = 150 x 0,0385 = 5,78 kg CO₂/mês (~69,3 kg CO₂/ano)`
-  - Sobre a geração de um sistema solar de 168,5 kWh/mês:  
-    `CO₂ evitado = 168,5 x 0,0385 = 6,49 kg CO₂/mês (~77,8 kg CO₂/ano)`
-- **Esclarecimento Técnico sobre o Fator de 0,50 kg CO₂/kWh:**
-  O valor de 0,50 kg CO₂/kWh encontrado em algumas literaturas corresponde exclusivamente ao fator de emissão marginal do despacho termelétrico fóssil de ponta (óleo diesel/gás em momentos de escassez hídrica extrema). A matriz elétrica brasileira média é renovável (> 85%), sendo tecnicamente correto utilizar o fator oficial do SIN de **0,0385 kg CO₂/kWh**.
+- **Fonte Oficial Específica:** Ministério da Ciência, Tecnologia e Inovação (MCTI / SIRENE) — *Tabela de Fatores Médios Mensais e Anuais de Emissão de CO₂ por Consumo de Energia Elétrica no Sistema Interligado Nacional (SIN)*.
+- **Fator Consolidado Adotado:**
+  - Ano-base 2023 (publicação consolidada 2024 do MCTI para inventários do GHG Protocol): **0,0385 t CO₂/MWh**, correspondente a **0,0385 kg CO₂/kWh** (ou 38,5 g CO₂/kWh).
+- **Cálculo Rigoroso de Emissões Evitadas:**
+  - **Sobre a demanda evitada por eficiência (40 kWh/mês):**  
+    `CO₂ evitado = 40,0 kWh/mês x 0,0385 kg CO₂/kWh = 1,54 kg CO₂/mês (~18,5 kg CO₂/ano)`
+  - **Sobre o consumo mensal total de 150 kWh/mês:**  
+    `CO₂ associado = 150 kWh/mês x 0,0385 kg CO₂/kWh = 5,78 kg CO₂/mês (~69,3 kg CO₂/ano)`
+  - **Sobre a geração solar de 168,5 kWh/mês injetada:**  
+    `CO₂ evitado = 168,48 kWh/mês x 0,0385 kg CO₂/kWh = 6,49 kg CO₂/mês (~77,8 kg CO₂/ano)`
+- **Esclarecimento Técnico sobre Literatura Divergente (Fator de 0,50 kg CO₂/kWh):**  
+  Em trabalhos acadêmicos genéricos é comum encontrar o valor de 0,50 kg CO₂/kWh. Esse índice representa o fator de emissão marginal do despacho termelétrico fóssil de ponta (óleo/carvão em bandeiras de escassez hídrica severa). Como o SIN brasileiro possui mais de 85% de geração renovável média anual (hidráulica, eólica, solar e biomassa), utilizar 0,50 kg CO₂/kWh superestimaria o benefício ecológico em mais de 12 vezes. A métrica tecnicamente legítima é o fator oficial do SIRENE/MCTI de **0,0385 kg CO₂/kWh**.
 
 ---
 
-## 3. Demonstração Matemática da Redução por Eficiência Energética (150 para 110 kWh/mês)
+## 3. Demonstração Matemática da Eficiência Energética (150 para 110 kWh/mês)
 
-Abaixo é apresentada a auditoria individual de aparelhos elétricos com memória aritmética rigorosa, fundamentando a redução de **40,0 kWh/mês** sem necessidade de aquisição de placas solares ou obras civis:
+Abaixo é apresentada a auditoria individual de equipamentos com rigor aritmético, justificando a meta de economia de **40,0 kWh/mês** sem exigir reformas prediais nem instalação de módulos solares:
 
 | Equipamento Residencial | Potência (W) | Horas/Dia (Antes) | Horas/Dia (Depois) | Consumo Anterior | Consumo Posterior | Economia Mensal Obtida |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Chuveiro Elétrico** | 3.500 W (médio) | 48 min/dia (4 pess. x 12m) = 0,80 h | 32 min/dia (4 pess. x 8m) = 0,533 h | 84,00 kWh/mês | 56,00 kWh/mês | **28,00 kWh/mês** |
-| **Iluminação (4 pontos)** | 4x 25 W (fluoresc.) | 4,0 h/dia por lâmpada | 4x 9 W (LED substituído) x 4,0 h/dia | 12,00 kWh/mês | 4,32 kWh/mês | **7,68 kWh/mês** |
-| **Aparelhos em Standby** | 10 W (TV + deco) | 14,4 h/dia em standby | 0,0 h/dia (desligados no filtro de linha) | 4,32 kWh/mês | 0,00 kWh/mês | **4,32 kWh/mês** |
-| **Demais Aparelhos (Geladeira/Ferro)** | Variável | Uso padrão | Manutenção de borrachas e termostato | 49,68 kWh/mês | 49,68 kWh/mês | 0,00 kWh/mês |
+| **Chuveiro Elétrico** | 3.500 W (potência média na chave morna/verão) | 48 min/dia (4 pess. x 12m) = 0,80 h | 32 min/dia (4 pess. x 8m) = 0,533 h | 84,00 kWh/mês | 56,00 kWh/mês | **28,00 kWh/mês** |
+| **Iluminação (4 lâmpadas)** | 4x 25 W (fluorescentes compactas) | 4,0 h/dia por lâmpada | 4x 9 W (LED substituído) x 4,0 h/dia | 12,00 kWh/mês | 4,32 kWh/mês | **7,68 kWh/mês** |
+| **Aparelhos em Standby** | 10 W (TV 6 W + decodificador 4 W) | 14,4 h/dia em standby ocioso | 0,0 h/dia (desligados no interruptor de filtro de linha) | 4,32 kWh/mês | 0,00 kWh/mês | **4,32 kWh/mês** |
+| **Demais Cargas (Geladeira/Ferro)** | Variável | Padrão Procel | Otimização de termostato e vedação | 49,68 kWh/mês | 49,68 kWh/mês | 0,00 kWh/mês |
 | **TOTAL CONSOLIDADO** | — | — | — | **150,00 kWh/mês** | **110,00 kWh/mês** | **40,00 kWh/mês (26,7%)** |
 
 *Memória de verificação física:*
-1. Chuveiro: `3,5 kW x 0,80 h x 30 d = 84,00 kWh` -> `3,5 kW x 0,5333 h x 30 d = 56,00 kWh` (Economia: **28,00 kWh/mês**).
-2. Lâmpadas: `4 x 0,025 kW x 4 h x 30 d = 12,00 kWh` -> `4 x 0,009 kW x 4 h x 30 d = 4,32 kWh` (Economia: **7,68 kWh/mês**).
-3. Standby: TV (6 W) + receptor de sinal (4 W) somam 10 W em modo de vigília durante 14,4 horas diárias de inatividade (`0,010 kW x 14,4 h x 30 d = 4,32 kWh/mês`). Com o desligamento completo da régua/filtro de linha, o consumo vai a zero absoluto (Economia: **4,32 kWh/mês**).
-4. Total economizado: `28,00 + 7,68 + 4,32 = 40,00 kWh/mês`.
+1. **Chuveiro elétrico:** `3,5 kW x 0,80 h x 30 d = 84,00 kWh` reduziu para `3,5 kW x 0,5333 h x 30 d = 56,00 kWh` -> Economia: **28,00 kWh/mês**.
+2. **Lâmpadas:** `4 x 0,025 kW x 4 h x 30 d = 12,00 kWh` reduziu para `4 x 0,009 kW x 4 h x 30 d = 4,32 kWh` -> Economia: **7,68 kWh/mês**.
+3. **Consumo Vampiro (Standby):** TV moderna em espera consome ~6 W; receptor de TV a cabo/satélite consome ~4 W. Somados totalizam 10 W durante 14,4 horas por dia em que a família está dormindo ou fora de casa:  
+   `0,010 kW x 14,4 h/dia x 30 dias = 4,32 kWh/mês`.  
+   Ao desligar os equipamentos em um filtro de linha/régua com interruptor, o consumo cai a zero absoluto -> Economia: **4,32 kWh/mês**.
+4. **Soma Consolidada:** `28,00 + 7,68 + 4,32 = 40,00 kWh/mês exatos`.
 
 ---
 
 ## 4. Estudo Comparativo das Alternativas
 
 ### Alternativa 1: Tarifa Social de Energia Elétrica (TSEE)
-- **Marco Legal:** Lei Federal nº 10.438/2002, alterada pela Lei nº 12.212/2010 e regulamentada pela Resolução Normativa ANEEL nº 1.000/2021 (arts. 177 a 186), e proposta de gratuidade do Programa Luz do Povo.
+- **Base Legal e Regulamentar:** Lei Federal nº 10.438/2002, alterada pela Lei Federal nº 12.212/2010 e regulamentada pela Resolução Normativa ANEEL nº 1.000/2021 (Capítulo VI, Seção II, arts. 177 a 186).
 - **Investimento Inicial:** **R$ 0,00** | **Payback:** **Imediato**.
-- **Regime Geral Progressivo (Lei 10.438/2002 e Res. ANEEL 1.000):**
-  - Faixa 0-30 kWh (65% desc.): `round(30 x 0,75 x 0,35, 2) = R$ 7,88`
-  - Faixa 31-100 kWh (40% desc.): `round(70 x 0,75 x 0,60, 2) = R$ 31,50`
-  - Faixa 101-150 kWh (10% desc.): `round(50 x 0,75 x 0,90, 2) = R$ 33,75`
-  - Nova fatura estimada: **R$ 73,13 / mês** (Economia estimada de **R$ 39,37 / mês** ou **35,0%**).
-- **Modelo com Gratuidade até 80 kWh (Luz do Povo, excedente regular a R$ 0,75/kWh):**
-  - Parcela 0 a 80 kWh (100% isenção): R$ 0,00
-  - Excedente 81 a 150 kWh (70 kWh cobrados pela tarifa normal): `70 x 0,75 = R$ 52,50`
-  - Nova fatura estimada: **R$ 52,50 / mês** (Economia estimada de **R$ 60,00 / mês** ou **53,3%**).
+- **Regime de Faixas Progressivas da Lei 10.438/2002:**
+  - Faixa 0 a 30 kWh (desconto de 65%): `round(30 x 0,75 x 0,35, 2) = R$ 7,88`
+  - Faixa 31 a 100 kWh (desconto de 40%): `round(70 x 0,75 x 0,60, 2) = R$ 31,50`
+  - Faixa 101 a 150 kWh (desconto de 10%): `round(50 x 0,75 x 0,90, 2) = R$ 33,75`
+  - **Fatura mensal estimada:** `7,88 + 31,50 + 33,75 = R$ 73,13 / mês`.
+  - **Economia obtida:** `R$ 112,50 - R$ 73,13 = R$ 39,37 / mês` (redução de **35,0%**).
+
+- **Modelo com Gratuidade até 80 kWh (Programa Luz do Povo / Proposta Governamental):**
+  - **Delimitação Metodológica:** A função implementada simula uma **estimativa simplificada da parcela de consumo ativo**, considerando a isenção integral da Tarifa de Energia (TE) e da Tarifa de Uso do Sistema de Distribuição (TUSD) para a faixa básica de subsistência de até 80 kWh/mês.
+  - **Tratamento do Excedente:** Na ausência de normativo complementar prevendo escalonamento subsidiado além de 80 kWh, o excedente deve ser faturado integralmente pela tarifa cheia homologada da distribuidora (R$ 0,75/kWh):
+    - Parcela de 0 a 80 kWh (100% de isenção): **R$ 0,00**
+    - Parcela excedente de 81 a 150 kWh (70 kWh x R$ 0,75): **R$ 52,50**
+    - **Fatura mensal estimada:** **R$ 52,50 / mês**.
+    - **Economia obtida:** `R$ 112,50 - R$ 52,50 = R$ 60,00 / mês` (redução de **53,3%**).
+  - **Critérios Obrigatórios de Elegibilidade:**
+    1. Família inscrita no Cadastro Único com renda familiar mensal per capita de até meio salário mínimo nacional;
+    2. Idosos com 65 anos ou mais ou pessoas com deficiência que recebam o Benefício de Prestação Continuada (BPC/LOAS);
+    3. Famílias inscritas no CadÚnico com renda mensal de até 3 salários mínimos com pessoa portadora de doença cujo tratamento médico demande o uso contínuo de aparelhos que consumam energia elétrica;
+    4. Nota sobre encargos: mesmo sob gratuidade de consumo, faturas reais podem cobrar a taxa municipal de iluminação pública (CIP/COSIP).
 
 ---
 
 ### Alternativa 2: Microgeração Solar Fotovoltaica Residencial
-- **Dimensionamento Técnico do Sistema:**
-  - Potência nominal (`P`): **1,5 kWp** (~3 módulos de 500 Wp com microinversor).
-  - Irradiação solar de referência (`H`): **4,8 kWh/m²/dia** (média nacional do Atlas Brasileiro de Energia Solar / INPE).
-  - Dias no mês (`D`): **30 dias**.
-  - Performance Ratio (`PR`): **0,78** (considerando perdas por temperatura, poeira, cabeamento e eficiência do microinversor).
-  - **Fórmula de Engenharia:**
-    `E = P x H x D x PR = 1,5 x 4,8 x 30 x 0,78 = 168,48 kWh/mês (~168,5 kWh/mês)`
-  - *Observação:* A geração mensal calculada (168,5 kWh) cobre 100% da demanda de 150 kWh/mês com excedente de 18,5 kWh/mês injetado na rede.
-- **Investimento Instalado (Turnkey):**
-  - Faixa de mercado: **R$ 7.500,00 a R$ 9.500,00** (Levantamento Benchmark Greener / ABSOLAR 2024/2025 para sistemas residenciais de até 2 kWp).
-- **Limitações Regulatórias e Custo Residual (Lei 14.300/2022):**
-  - O sistema fotovoltaico conectado à rede (on-grid) **não zera a fatura**. A conta mínima permanece entre **R$ 20,00 e R$ 35,00 / mês**, composta por:
-    1. Custo de disponibilidade monofásico (30 kWh x R$ 0,75 = R$ 22,50/mês).
-    2. Transição gradual da remuneração do Fio B da TUSD.
-    3. Contribuição para Custeio da Iluminação Pública (COSIP).
-- **Payback para Consumidor que Paga Tarifa Cheia (Fatura R$ 112,50):**
-  - Economia líquida mensal: **R$ 77,50 a R$ 92,50 / mês** (redução real de 70% a 82%).
+- **Dimensionamento Técnico de Engenharia:**
+  - Potência nominal (`P`): **1,5 kWp** (~3 módulos fotovoltaicos de 500 Wp com microinversor centralizado).
+  - Irradiação solar diária média (`H`): **4,8 kWh/m²/dia**.
+    - *Região de Referência do INPE:* Adotou-se a média anual consolidada do plano horizontal para as regiões **Sudeste e Centro-Oeste** (faixa de latitudes entre -19° e -23°, representativa dos estados de São Paulo, Minas Gerais e Goiás segundo o *Atlas Brasileiro de Energia Solar - 2ª Edição, INPE/LABREN, 2017*).
+  - Dias no período (`D`): **30 dias**.
+  - Performance Ratio / Taxa de Desempenho Global (`PR`): **0,78** (considerando perdas térmicas nos módulos, poeira/sujidade, cabeamento CC/CA e rendimento do inversor).
+  - **Fórmula de Engenharia:**  
+    `E = P x H x D x PR = 1,5 kWp x 4,8 kWh/m²/dia x 30 dias x 0,78 = 168,48 kWh/mes (~168,5 kWh/mês)`  
+    *(Atende 100% dos 150 kWh/mês de consumo com excedente de 18,5 kWh/mês injetado na rede).*
+
+- **Investimento Turnkey de Instalação:**
+  - **Fonte Específica:** *Estudo Estratégico de Geração Distribuída — Mercado Fotovoltaico (Greener, Edição 1º Semestre de 2024)*, em parceria com a ABSOLAR.
+  - **Tabela de Referência:** Tabela de Preço Médio de Integração Residencial por Faixa de Potência (R$/Wp). Para sistemas de até 2 kWp, o preço médio turnkey varia de **R$ 5,00/Wp a R$ 6,33/Wp**:
+    - Cenário Otimista: `1.500 Wp x R$ 5,00/Wp = R$ 7.500,00`
+    - Cenário Moderado: `1.500 Wp x R$ 5,67/Wp = R$ 8.500,00`
+    - Cenário Conservador: `1.500 Wp x R$ 6,33/Wp = R$ 9.500,00`
+
+- **Limitações Regulatórias e Custo Residual (Lei nº 14.300/2022):**
+  - O sistema fotovoltaico on-grid **não zera a conta do consumidor**. O custo residual mensal varia entre **R$ 20,00 e R$ 35,00/mês**, composto obrigatoriamente por:
+    1. Custo de disponibilidade monofásico (30 kWh x R$ 0,75 = R$ 22,50/mês);
+    2. Transição gradual da remuneração do Fio B da TUSD (Art. 27 da Lei 14.300/2022);
+    3. Contribuição de Iluminação Pública (COSIP).
+
+- **Payback para Consumidor Comum que Paga Tarifa Plena (Fatura de R$ 112,50):**
+  - Economia mensal líquida: **R$ 77,50 a R$ 92,50 / mês** (redução de 70% a 82%).
   - *Cenário Otimista:* `R$ 7.500 / (R$ 92,50 x 12) = 6,76 anos (~6,8 anos)`
   - *Cenário Moderado:* `R$ 8.500 / (R$ 85,00 x 12) = 8,33 anos (~8,3 anos)`
   - *Cenário Conservador:* `R$ 9.500 / (R$ 77,50 x 12) = 10,22 anos (~10,2 anos)`
-  - Faixa consolidada: **6,8 a 10,2 anos** (cenário intermediário: **8,3 anos**).
+  - Média de retorno simples: **8,3 anos** (vida útil dos módulos de 25 anos com garantia de 80% de potência residual).
 
-- **AVALIAÇÃO CRÍTICA DE ENGENHARIA: Viabilidade do Solar para Beneficiários da TSEE:**
-  - Se a família de baixa renda já recebe a Tarifa Social, sua fatura já é reduzida:
-    - Sob a Lei 10.438: fatura atual de **R$ 73,13 / mês**. A economia mensal gerada pelo solar (fatura mínima de R$ 22,50) seria de apenas:
-      `R$ 73,13 - R$ 22,50 = R$ 50,63 / mês` -> **Payback de 14,0 anos** (`R$ 8.500 / (50,63 x 12) = 13,99 anos`).
-    - Sob o modelo de gratuidade até 80 kWh: fatura atual de **R$ 52,50 / mês**. A economia mensal gerada pelo solar seria de apenas:
-      `R$ 52,50 - R$ 22,50 = R$ 30,00 / mês` -> **Payback de 23,6 anos** (`R$ 8.500 / (30,00 x 12) = 23,61 anos`)!
-  - **Conclusão Técnica:** Para famílias de baixa renda no CadÚnico, a aquisição individual de placas solares com recursos próprios é **economicamente desvantajosa e financeiramente inviável** (payback de 14 a 24 anos com investimento inicial proibitivo de R$ 8.500). Placas solares para esse público só fazem sentido em programas sociais de doação pública integral ou cooperativas solares comunitárias.
+- **AVALIAÇÃO CRÍTICA DE ENGENHARIA: Inviabilidade do Solar para Beneficiários da TSEE:**
+  - Se a família de baixa renda já está cadastrada na Tarifa Social, sua conta já é subsidiada. Ao instalar o sistema solar, a fatura mínima residual continua sendo a taxa de disponibilidade (30 kWh = R$ 22,50/mês):
+    - **No regime da Lei 10.438 (fatura de R$ 73,13):**  
+      A economia gerada pelo sistema solar é apenas: `R$ 73,13 - R$ 22,50 = R$ 50,63 / mês`.  
+      `Payback = R$ 8.500 / (50,63 x 12) = 13,99 anos (~14,0 anos)`.
+    - **No modelo com gratuidade até 80 kWh (fatura de R$ 52,50):**  
+      A economia gerada pelo sistema solar é apenas: `R$ 52,50 - R$ 22,50 = R$ 30,00 / mês`.  
+      `Payback = R$ 8.500 / (30,00 x 12) = 23,61 anos (~23,6 anos)`!
+  - **Diagnóstico Técnico Conclusivo:**  
+    O investimento individual em energia solar por famílias vulneráveis é **antieconômico e inviável**. O payback ultrapassa uma década e meia (e atinge praticamente a vida útil dos módulos sob a gratuidade), com desembolso imediato de R$ 8.500 que inexiste no orçamento de baixa renda. A transição energética desse público deve ocorrer por políticas de estado (ex: programa federal Luz para Todos Solar, miniusinas comunitárias compartilhadas), nunca por endividamento privado.
 
 ---
 
 ### Alternativa 3: Cenário Combinado (TSEE + Eficiência Energética Residencial)
-- Consumo reduzido de 150 para **110 kWh/mês** conforme auditoria da Seção 3.
-- **Cálculo da Conta:**
-  - *No regime de faixas da Lei 10.438/2002:*
-    - 0 a 30 kWh (desc. 65%): R$ 7,88
-    - 31 a 100 kWh (desc. 40%): R$ 31,50
-    - 101 a 110 kWh (desc. 10%): `round(10 x 0,75 x 0,90, 2) = R$ 6,75`
-    - **Fatura estimada: R$ 46,13 / mês** -> **Economia total de R$ 66,37 / mês (59,0% de redução)** em relação aos R$ 112,50.
-  - *No regime de gratuidade até 80 kWh (excedente a R$ 0,75):*
-    - 0 a 80 kWh = R$ 0,00
-    - 81 a 110 kWh (30 kWh x R$ 0,75): `30 x 0,75 = R$ 22,50`
-    - **Fatura estimada: R$ 22,50 / mês** -> **Economia total de R$ 90,00 / mês (80,0% de redução)** em relação aos R$ 112,50.
-- **Investimento Necessário:** **R$ 0,00** (apenas R$ 30 a R$ 40 na troca gradual das lâmpadas por LED).
-- **Veredito:** Esta é comprovadamente a **melhor alternativa técnica, econômica e social** para famílias de baixa renda no Brasil.
+- Consumo reduzido de 150 para **110 kWh/mês** com as ações de R$ 0 de investimento da Seção 3.
+- **Fatura Resultante:**
+  - **No regime geral da Lei 10.438/2002:**
+    - Faixa 0-30 kWh (desc. 65%): R$ 7,88
+    - Faixa 31-100 kWh (desc. 40%): R$ 31,50
+    - Faixa 101-110 kWh (desc. 10%): `round(10 x 0,75 x 0,90, 2) = R$ 6,75`
+    - **Fatura mensal estimada: R$ 46,13 / mês** -> **Economia total de R$ 66,37 / mês (59,0% de redução)** frente aos R$ 112,50 iniciais.
+  - **No regime de gratuidade até 80 kWh (excedente a R$ 0,75):**
+    - 0 a 80 kWh (isenção integral): R$ 0,00
+    - 81 a 110 kWh (30 kWh excedentes a R$ 0,75): `30 x 0,75 = R$ 22,50`
+    - **Fatura mensal estimada: R$ 22,50 / mês** -> **Economia total de R$ 90,00 / mês (80,0% de redução)** frente aos R$ 112,50 iniciais.
+- **Investimento:** **R$ 0,00** (apenas R$ 30 a R$ 40 na troca gradual das lâmpadas por LED).
+- **Veredito:** O Cenário Combinado é a melhor solução imediata para a cidadania: resolve a vulnerabilidade da conta no curto prazo sem gerar endividamento.
 
 ---
 
@@ -141,12 +175,22 @@ Abaixo é apresentada a auditoria individual de aparelhos elétricos com memóri
 
 ---
 
-## 6. Referências Normativas e Fontes de Dados
+## 6. Referências Normativas e Bibliográficas Específicas
 
-1. **ANEEL:** Resolução Normativa nº 1.000/2021 — Regras de Prestação do Serviço Público de Distribuição de Energia Elétrica. [https://www.gov.br/aneel/pt-br/assuntos/tarifa-social](https://www.gov.br/aneel/pt-br/assuntos/tarifa-social)
-2. **Presidência da República:** Lei Federal nº 10.438/2002 e Lei Federal nº 12.212/2010 — Instituem e regulamentam a Tarifa Social de Energia Elétrica (TSEE).
-3. **Presidência da República:** Lei Federal nº 14.300/2022 — Marco Legal da Micro e Minigeração Distribuída. [https://www.gov.br/aneel/pt-br/assuntos/geracao-distribuida](https://www.gov.br/aneel/pt-br/assuntos/geracao-distribuida)
-4. **MCTI / SIRENE:** Fatores de Emissão de CO₂ do Sistema Interligado Nacional (SIN) — Inventário Nacional de Emissões (Fator médio 2023/2024: 0,0385 kg CO₂/kWh). [https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-informacoes/fatores-de-emissao](https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-informacoes/fatores-de-emissao)
-5. **EPE (Empresa de Pesquisa Energética):** Anuário Estatístico de Energia Elétrica e Metodologias de Consumo Residencial. [https://www.epe.gov.br/pt/publicacoes-dados-abertos/publicacoes/anuario-estatistico-de-energia-eletrica](https://www.epe.gov.br/pt/publicacoes-dados-abertos/publicacoes/anuario-estatistico-de-energia-eletrica)
-6. **ABSOLAR / Greener:** Estudo Estratégico de Geração Distribuída e Levantamento de Preços de Sistemas Fotovoltaicos Residenciais (2024/2025). [https://www.absolar.org.br/mercado/geracao-distribuida/](https://www.absolar.org.br/mercado/geracao-distribuida/)
-7. **INPE:** Atlas Brasileiro de Energia Solar (2ª Edição) — Dados de irradiação solar média nacional (4,8 kWh/m²/dia). [http://labren.ccst.inpe.br/atlas_2017.html](http://labren.ccst.inpe.br/atlas_2017.html)
+1. **ANEEL — Agência Nacional de Energia Elétrica:**
+   - *Resolução Normativa ANEEL nº 1.000, de 7 de dezembro de 2021*: Estabelece as regras de prestação do serviço público de distribuição de energia elétrica (artigos 177 a 186 dedicados à Tarifa Social de Energia Elétrica - TSEE).
+   - *Painel de Tarifas de Fornecimento de Energia Elétrica da ANEEL*: Tabela de Tarifas Médias Homologadas para Distribuidoras de Energia Elétrica - Subgrupo B1 (Residencial Convencional, média Brasil adotada como premissa paramétrica de R$ 0,75/kWh). [https://www.gov.br/aneel/pt-br/assuntos/tarifas/painel-de-tarifas](https://www.gov.br/aneel/pt-br/assuntos/tarifas/painel-de-tarifas)
+2. **Presidência da República — Legislação Federal:**
+   - *Lei Federal nº 10.438, de 26 de abril de 2002*: Dispõe sobre a expansão da oferta de energia elétrica emergencial e cria a Tarifa Social de Energia Elétrica.
+   - *Lei Federal nº 12.212, de 20 de janeiro de 2010*: Modifica a Lei nº 10.438/2002 e redefine os critérios de elegibilidade socioeconômica da TSEE.
+   - *Lei Federal nº 14.300, de 6 de janeiro de 2022*: Institui o Marco Legal da Microgeração e Minigeração Distribuída e o Sistema de Compensação de Energia Elétrica (SCEE).
+3. **INPE — Instituto Nacional de Pesquisas Espaciais / LABREN:**
+   - PEREIRA, E. B. et al. *Atlas Brasileiro de Energia Solar*, 2ª Edição. São José dos Campos: INPE, 2017. ISBN 978-85-17-00089-8.
+   - Dados de irradiação solar global horizontal média diária anual: 4,80 kWh/m²/dia, correspondente à média histórica da faixa geográfica das regiões **Sudeste e Centro-Oeste** (SP/MG/GO). [http://labren.ccst.inpe.br/atlas_2017.html](http://labren.ccst.inpe.br/atlas_2017.html)
+4. **MCTI / SIRENE — Ministério da Ciência, Tecnologia e Inovação:**
+   - *Tabela de Fatores Médios Mensais e Anuais de Emissão de CO₂ por Consumo de Energia Elétrica no Sistema Interligado Nacional (SIN)*. Coordenação-Geral de Ciência do Clima e Sustentabilidade / SIRENE. Brasília: MCTI, ano-base 2023 (publicação consolidada 2024 para cálculo de inventários de emissões). Fator médio do SIN: **0,0385 t CO₂/MWh (0,0385 kg CO₂/kWh)**. [https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-informacoes/fatores-de-emissao](https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-informacoes/fatores-de-emissao)
+5. **Greener & ABSOLAR — Associação Brasileira de Energia Solar Fotovoltaica:**
+   - *Estudo Estratégico de Geração Distribuída — Mercado Fotovoltaico (Edição 1º Semestre de 2024)*. São Paulo: Greener, 2024.
+   - Tabela de Preço Médio de Integração Turnkey Residencial por Faixa de Potência: faixa até 2 kWp com índice entre R$ 5,00/Wp e R$ 6,33/Wp (sistemas de 1,5 kWp orçados entre R$ 7.500 e R$ 9.500, média R$ 8.500). [https://www.greener.com.br](https://www.greener.com.br) | [https://www.absolar.org.br](https://www.absolar.org.br)
+6. **EPE — Empresa de Pesquisa Energética:**
+   - *Anuário Estatístico de Energia Elétrica 2024* (ano-base 2023) e *Balanço Energético Nacional (BEN)*. Rio de Janeiro: EPE/MME, 2024. Dados de perfil de consumo por classe residencial e composição da matriz elétrica nacional. [https://www.epe.gov.br](https://www.epe.gov.br)

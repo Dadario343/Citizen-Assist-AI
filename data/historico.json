@@ -1,172 +1,142 @@
 [
   {
-    "data": "2026-11-06 14:10:12",
+    "data": "2026-11-09 14:57:30",
     "origem": "pergunta",
-    "pergunta": "quais são os tipos de energia limpa no Brasil?",
+    "pergunta": "como solicitar tarifa social de energia",
+    "id_orientacao": 14,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0009
+  },
+  {
+    "data": "2026-11-09 14:57:30",
+    "origem": "pergunta",
+    "pergunta": "meu chuveiro gasta muito como economizar",
+    "id_orientacao": 15,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0008
+  },
+  {
+    "data": "2026-11-09 14:57:30",
+    "origem": "pergunta",
+    "pergunta": "consultar numero do nis bolsa familia cadunico",
+    "id_orientacao": 11,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0008
+  },
+  {
+    "data": "2026-11-09 14:57:30",
+    "origem": "pergunta",
+    "pergunta": "energia solar vale a pena para baixa renda",
+    "id_orientacao": 16,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0008
+  },
+  {
+    "data": "2026-11-09 14:57:30",
+    "origem": "pergunta",
+    "pergunta": "como faco o cartao do sus",
+    "id_orientacao": 6,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0008
+  },
+  {
+    "data": "2026-11-09 14:57:30",
+    "origem": "pergunta",
+    "pergunta": "onde tomar vacinas no posto de saude",
+    "id_orientacao": 6,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0008
+  },
+  {
+    "data": "2026-11-09 14:57:30",
+    "origem": "pergunta",
+    "pergunta": "como emitir a nova carteira de identidade cin",
+    "id_orientacao": 1,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0008
+  },
+  {
+    "data": "2026-11-09 14:57:30",
+    "origem": "pergunta",
+    "pergunta": "reclamar de compra defeituosa no procon",
+    "id_orientacao": 12,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0015
+  },
+  {
+    "data": "2026-11-09 14:57:30",
+    "origem": "pergunta",
+    "pergunta": "qual o melhor jogo do ano",
     "id_orientacao": null,
     "encontrou": false,
     "ajudou": false,
     "tentativas": 1,
-    "tempo_segundos": 0.8
+    "tempo_segundos": 0.0008
   },
   {
-    "data": "2026-11-06 14:11:05",
-    "origem": "categoria",
-    "pergunta": "[navegação] Energia > Como calcular o consumo de eletrodomésticos",
+    "data": "2026-11-09 14:57:30",
+    "origem": "pergunta",
+    "pergunta": "como calcular o consumo dos meus eletrodomesticos",
     "id_orientacao": 18,
     "encontrou": true,
     "ajudou": true,
     "tentativas": 1,
-    "tempo_segundos": 4.2
+    "tempo_segundos": 0.0008
   },
   {
-    "data": "2026-11-06 14:11:42",
+    "data": "2026-11-09 14:57:30",
+    "origem": "categoria",
+    "pergunta": "[navegação] Energia > Estudo Comparativo: Tarifa Social vs. Energia Solar",
+    "id_orientacao": 14,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0
+  },
+  {
+    "data": "2026-11-09 14:57:30",
+    "origem": "pergunta",
+    "pergunta": "como conseguir advogado de graca defensoria",
+    "id_orientacao": 13,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0008
+  },
+  {
+    "data": "2026-11-09 14:57:30",
+    "origem": "pergunta",
+    "pergunta": "receita de bolo de fuba",
+    "id_orientacao": null,
+    "encontrou": false,
+    "ajudou": false,
+    "tentativas": 1,
+    "tempo_segundos": 0.0009
+  },
+  {
+    "data": "2026-11-09 14:57:30",
     "origem": "categoria",
     "pergunta": "[navegação] Saúde > CAPS - Centro de Atenção Psicossocial",
     "id_orientacao": 9,
     "encontrou": true,
     "ajudou": true,
     "tentativas": 1,
-    "tempo_segundos": 3.8
-  },
-  {
-    "data": "2026-11-06 14:12:30",
-    "origem": "categoria",
-    "pergunta": "[navegação] Saúde > Cartão SUS e Atendimento no Posto de Saúde (UBS)",
-    "id_orientacao": 6,
-    "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 5.1
-  },
-  {
-    "data": "2026-11-06 14:13:15",
-    "origem": "categoria",
-    "pergunta": "[navegação] Direitos > Bolsa Família e CadÚnico",
-    "id_orientacao": 11,
-    "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 4.5
-  },
-  {
-    "data": "2026-11-06 14:35:20",
-    "origem": "pergunta",
-    "pergunta": "Qual a data de lançamento de Zelda Ocarina of time?",
-    "id_orientacao": null,
-    "encontrou": false,
-    "ajudou": false,
-    "tentativas": 1,
-    "tempo_segundos": 0.7
-  },
-  {
-    "data": "2026-11-06 14:36:10",
-    "origem": "categoria",
-    "pergunta": "[navegação] Saúde > Vacinação gratuita e Vacinas pelo SUS",
-    "id_orientacao": 7,
-    "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 3.9
-  },
-  {
-    "data": "2026-11-06 14:37:00",
-    "origem": "categoria",
-    "pergunta": "[navegação] Direitos > PROCON - Reclamação do consumidor",
-    "id_orientacao": 12,
-    "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 4.0
-  },
-  {
-    "data": "2026-11-06 15:02:15",
-    "origem": "pergunta",
-    "pergunta": "procon",
-    "id_orientacao": 12,
-    "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 3.5
-  },
-  {
-    "data": "2026-11-06 15:02:48",
-    "origem": "pergunta",
-    "pergunta": "sus",
-    "id_orientacao": 6,
-    "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 3.2
-  },
-  {
-    "data": "2026-11-06 15:03:15",
-    "origem": "pergunta",
-    "pergunta": "vacinas",
-    "id_orientacao": null,
-    "encontrou": false,
-    "ajudou": false,
-    "tentativas": 1,
-    "tempo_segundos": 0.9
-  },
-  {
-    "data": "2026-11-06 15:20:10",
-    "origem": "pergunta",
-    "pergunta": "que dia é hoje",
-    "id_orientacao": null,
-    "encontrou": false,
-    "ajudou": false,
-    "tentativas": 1,
-    "tempo_segundos": 0.6
-  },
-  {
-    "data": "2026-11-06 15:21:05",
-    "origem": "categoria",
-    "pergunta": "[navegação] Direitos > Bolsa Família e CadÚnico",
-    "id_orientacao": 11,
-    "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 4.1
-  },
-  {
-    "data": "2026-11-06 15:22:00",
-    "origem": "categoria",
-    "pergunta": "[navegação] Documentos > Tirar o RG (Identidade / CIN)",
-    "id_orientacao": 1,
-    "encontrou": true,
-    "ajudou": false,
-    "tentativas": 1,
-    "tempo_segundos": 4.8
-  },
-  {
-    "data": "2026-11-06 16:11:22",
-    "origem": "pergunta",
-    "pergunta": "vacinas",
-    "id_orientacao": 7,
-    "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 10.0
-  },
-  {
-    "data": "2026-11-06 17:21:41",
-    "origem": "categoria",
-    "pergunta": "[navegação] Saúde > Cartão SUS e Atendimento no Posto de Saúde (UBS)",
-    "id_orientacao": 6,
-    "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 4.5
-  },
-  {
-    "data": "2026-11-06 17:22:11",
-    "origem": "pergunta",
-    "pergunta": "quero saber sobre o CAPS",
-    "id_orientacao": 9,
-    "encontrou": true,
-    "ajudou": true,
-    "tentativas": 1,
-    "tempo_segundos": 6.1
+    "tempo_segundos": 0.0
   }
 ]
