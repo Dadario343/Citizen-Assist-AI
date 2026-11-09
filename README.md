@@ -130,9 +130,12 @@ A análise energética do Citizen Assist AI (disponível no menu 4 do terminal e
 
 - **Legislação Regulamentadora:** Lei Federal nº 10.438/2002 e Resolução Normativa ANEEL nº 1.000/2021.
 - **Regra de Desconto Progressivo por Faixas:**
-  - Faixa 1 (0 a 30 kWh): 65% de desconto $ightarrow 30 	imes 0,75 	imes (1 - 0,65) = 	ext{R\$ } 7,88$
-  - Faixa 2 (31 a 100 kWh): 40% de desconto $ightarrow 70 	imes 0,75 	imes (1 - 0,40) = 	ext{R\$ } 31,50$
-  - Faixa 3 (101 a 150 kWh): 10% de desconto $ightarrow 50 	imes 0,75 	imes (1 - 0,10) = 	ext{R\$ } 33,75$
+  - Faixa 1 (0 a 30 kWh): 65% de desconto $
+ightarrow 30 	imes 0,75 	imes (1 - 0,65) = 	ext{R\$ } 7,88$
+  - Faixa 2 (31 a 100 kWh): 40% de desconto $
+ightarrow 70 	imes 0,75 	imes (1 - 0,40) = 	ext{R\$ } 31,50$
+  - Faixa 3 (101 a 150 kWh): 10% de desconto $
+ightarrow 50 	imes 0,75 	imes (1 - 0,10) = 	ext{R\$ } 33,75$
   - *(Nota regulatória: consumos superiores a 220 kWh/mês têm a parcela excedente cobrada pela tarifa cheia sem desconto).*
 - **Resultado TSEE:**
   - Nova fatura estimada: **R$ 73,13 / mês**
@@ -238,76 +241,3 @@ python main.py
 python server.py
 ```
 *Ou simplesmente abra o arquivo `index.html` em qualquer navegador.*
-
----
-
-## 🎥 Roteiro e Orientações para os Vídeos Técnicos
-
-Conforme os regulamentos oficiais da FIAP, a entrega exige **dois vídeos independentes**:
-
-### Vídeo 1: Pensamento Computacional e Automação com Python (PCP)
-- **Duração Obrigatória:** Entre **5 e 8 minutos**.
-- **Checklist de Gravação:**
-  1. Apresentar os integrantes e o objetivo do assistente.
-  2. Demonstrar a modularização nos 4 arquivos: `main.py`, `orientacao.py`, `base_conhecimento.py` e `assistente.py`.
-  3. Mostrar no código a criação e composição das classes `Orientacao`, `BaseConhecimento` e `Assistente`, destacando o uso de `self` e `__init__`.
-  4. Explicar o carregamento do JSON com tratamento de `FileNotFoundError` e `JSONDecodeError`.
-  5. Demonstrar a busca heurística, cálculo de pontos (+3 / +1), retorno em tuplas e exibição do melhor resultado com até 2 alternativas.
-  6. Demonstrar a navegação por categorias com opção `0` para voltar.
-  7. Simular uma alteração ao vivo no arquivo `data/base_conhecimento.json` e comprovar que o assistente atualiza dinamicamente.
-  8. Demonstrar o bloqueio preventivo de dados pessoais (CPF/e-mail).
-  9. Encerrar o programa demonstrando a coleta da nota (1 a 5), exibição dos 6 indicadores e gravação em `data/atendimentos.csv` com `csv.DictWriter`.
-
-### Vídeo 2: Soluções em Energias Renováveis e Sustentáveis (SERS)
-- **Duração Obrigatória:** **Máximo de 3 minutos**.
-- **Checklist de Gravação:**
-  1. Apresentar o problema da pobreza energética e a fatura de referência (150 kWh/mês = R$ 112,50).
-  2. Apresentar a calculadora de consumo e os descontos da Tarifa Social (TSEE).
-  3. Demonstrar o dimensionamento fotovoltaico de 1,5 kWp, custos (Greener/ABSOLAR) e memória de cálculo de payback (6,2 a 10,2 anos).
-  4. Explicar o fator de emissão oficial do SIN (0,0385 kg CO₂/kWh — MCTI) e os 69,3 kg de CO₂ evitados por ano.
-  5. Apresentar o cenário combinado (TSEE + eficiência energética) com 59% de economia sem custos para o cidadão.
-
----
-
-## 📝 Modelos de Entrega (.txt para o Portal FIAP)
-
-### Template para Submissão em PCP (Pensamento Computacional)
-
-```text
-DISCIPLINA: Pensamento Computacional e Automação com Python
-NOME DO ASSISTENTE: Citizen Assist AI
-PÚBLICO ATENDIDO: Cidadãos e famílias de baixa renda no Brasil (orientação em documentos, saúde no SUS, direitos sociais e combate à pobreza energética)
-
-INTEGRANTES E RM:
-- Olavo Dadario Vianna Barreto (RM 569272)
-- Paulo Henrique Lira Bilac de Araujo (RM 569496)
-- Pedro Soares de Souza (RM 571285)
-
-LINK DO REPOSITÓRIO GITHUB:
-https://github.com/Dadario343/Citizen-Assist-AI
-
-LINK DO VÍDEO TÉCNICO (PCP - 5 a 8 minutos):
-[Inserir URL do vídeo não listado no YouTube]
-```
-
-### Template para Submissão em SERS (Energias Renováveis)
-
-```text
-DISCIPLINA: Soluções em Energias Renováveis e Sustentáveis (SERS)
-NOME DO PROJETO: Citizen Assist AI — Módulo de Eficiência e Transição Energética
-PÚBLICO ATENDIDO: Cidadãos e famílias de baixa renda elegíveis à Tarifa Social e microgeração solar residencial
-
-INTEGRANTES E RM:
-- Olavo Dadario Vianna Barreto (RM 569272)
-- Paulo Henrique Lira Bilac de Araujo (RM 569496)
-- Pedro Soares de Souza (RM 571285)
-
-LINK DO REPOSITÓRIO GITHUB:
-https://github.com/Dadario343/Citizen-Assist-AI
-
-LINK DA APLICAÇÃO WEB NO AR:
-https://dadario343.github.io/Citizen-Assist-AI/
-
-LINK DO VÍDEO TÉCNICO (SERS - máx 3 minutos):
-[Inserir URL do vídeo não listado no YouTube]
-```
