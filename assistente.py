@@ -235,11 +235,11 @@ class Assistente:
 
             # Busca na base de conhecimento
             resultados = self.base.buscar(pergunta)
+            tempo = round(time.time() - inicio, 4)
             melhor_score = resultados[0][0] if resultados else 0
 
             # Score < 3: orientacao nao encontrada
             if not resultados or melhor_score < 3:
-                tempo = round(time.time() - inicio, 1)
                 print()
                 print("  Nao encontrei uma orientacao especifica para sua duvida.")
                 cats = ", ".join(self.base.categorias())
@@ -287,9 +287,8 @@ class Assistente:
                     print(f"   {idx}. {alt.titulo} [{alt.categoria}] (pontuacao: {sc})")
                 print()
 
-            # Pergunta se ajudou e afere o tempo natural decorrido
+            # Pergunta se ajudou (sem incluir o tempo de resposta do usuario no cronometro de busca)
             ajudou = self._perguntar_feedback()
-            tempo = round(time.time() - inicio, 1)
 
             self.registrar(
                 origem="pergunta",
@@ -453,8 +452,8 @@ class Assistente:
 
             inicio = time.time()
             orientacao.exibir()
+            tempo = round(time.time() - inicio, 4)
             ajudou = self._perguntar_feedback()
-            tempo = round(time.time() - inicio, 1)
 
 
 
