@@ -154,18 +154,4 @@ Citizen-Assist-AI/
 2. **Atualização da Base:** A base contém 19 orientações essenciais verificadas. Mudanças legislativas ou administrativas posteriores devem ser refletidas nos arquivos de dados.
 3. **Escopo Focado:** Dúvidas fora dos 4 eixos temáticos não são respondidas para evitar desinformação.
 
----
 
-## Entrega Acadêmica (.txt para o Portal FIAP)
-
-```text
-Nome do assistente: Citizen Assist AI Web
-Público atendido: Cidadãos e famílias de baixa renda no Brasil (documentos, saúde, direitos e sustentabilidade energética)
-Integrantes e RM:
-- Olavo Dadario Vianna Barreto (RM 569272)
-- Paulo Henrique Lira Bilac de Araujo (RM 569496)
-- Pedro Soares de Souza (RM 571285)
-Link do repositório GitHub: https://github.com/Dadario343/Citizen-Assist-AI
-Link do site no ar (GitHub Pages): https://dadario343.github.io/Citizen-Assist-AI/
-Link do vídeo técnico no YouTube: [Inserir URL do vídeo não listado]
-```
