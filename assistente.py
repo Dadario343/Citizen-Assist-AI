@@ -92,7 +92,7 @@ class Assistente:
 
                 pass
 
-        return [5, 3, 3, 5]
+        return []
 
 
 
@@ -249,13 +249,12 @@ class Assistente:
 
             tentativas += 1
 
+            # Mede estritamente o tempo do algoritmo de busca
             inicio = time.time()
-
-
-
-            # Busca na base de conhecimento
-
             resultados = self.base.buscar(pergunta)
+            tempo_busca = round(time.time() - inicio, 2)
+            if tempo_busca <= 0.0:
+                tempo_busca = 0.05
 
 
 
@@ -267,11 +266,7 @@ class Assistente:
 
             if not resultados or melhor_score < 3:
 
-                tempo = round(time.time() - inicio, 1)
-
-                if tempo == 0.0:
-
-                    tempo = 0.8
+                tempo = tempo_busca
 
                 print()
 
@@ -360,14 +355,8 @@ class Assistente:
 
 
             # Pergunta se ajudou
-
             ajudou = self._perguntar_feedback()
-
-            tempo = round(time.time() - inicio, 1)
-
-            if tempo == 0.0:
-
-                tempo = 3.5
+            tempo = tempo_busca
 
 
 
@@ -871,35 +860,66 @@ class Assistente:
         """
         Exibe a analise comparativa de alternativas energeticas para familias
         de baixa renda, integrando os resultados do estudo SERS ao assistente.
-        Referencia: consumo de 150 kWh/mes, tarifa ANEEL de R$ 0,75/kWh.
+        Referencia estimada: consumo tipico de 150 kWh/mes, tarifa media homologada ANEEL de R$ 0,75/kWh.
         """
-        TARIFA = 0.75          # R$/kWh - tarifa residencial media ANEEL (sem bandeira)
-        CONSUMO = 150          # kWh/mes - residencia tipica 3-4 moradores (baixa renda)
-        FATOR_CO2 = 0.0385     # kg CO2/kWh - Fator medio oficial SIN (MCTI/EPE 2023/2024: 38,5 kg CO2/MWh)
+        TARIFA = 0.75          # R$/kWh - tarifa residencial media homologada ANEEL (sem bandeira)
+        CONSUMO = 150          # kWh/mes - estimativa para residencia de 3-4 moradores de baixa renda
+        FATOR_CO2 = 0.0385     # kg CO2/kWh - Fator medio oficial do SIN (MCTI/SIRENE 2023/2024: 38,5 kg CO2/MWh)
 
-        # Calculo base
-        custo_base = CONSUMO * TARIFA
+        # Custo base de referencia
+        custo_base = round(CONSUMO * TARIFA, 2)  # R$ 112,50
 
-        # Tarifa Social (TSEE - Lei 10.438/2002 e Res. ANEEL 1.000/2021)
-        f1 = 30 * TARIFA * (1 - 0.65)   # 65% desconto ate 30 kWh: R$ 7,88
-        f2 = 70 * TARIFA * (1 - 0.40)   # 40% desconto de 31 a 100 kWh: R$ 31,50
-        f3 = 50 * TARIFA * (1 - 0.10)   # 10% desconto de 101 a 220 kWh: R$ 33,75
-        custo_tsee = round(f1 + f2 + f3, 2)
-        economia_tsee = round(custo_base - custo_tsee, 2)
-        pct_tsee = round((economia_tsee / custo_base) * 100, 1)
+        # Tarifa Social (TSEE) - Modelo Atualizado (Gratuidade da parcela ate 80 kWh)
+        # Regime atualizado / Programa Luz do Povo: parcela ate 80 kWh com 100% de gratuidade
+        # Parcela excedente de 81 a 150 kWh (70 kWh) com 40% de desconto
+        custo_tsee_novo = round(0.0 + (70 * TARIFA * 0.60), 2)  # R$ 31,50
+        economia_tsee_novo = round(custo_base - custo_tsee_novo, 2)  # R$ 81,00
+        pct_tsee_novo = round((economia_tsee_novo / custo_base) * 100, 1)  # 72,0%
 
-        # Solar fotovoltaica (Benchmark Greener / ABSOLAR 2024/2025)
-        geracao_solar = 180    # kWh/mes - sistema 1,5 kWp, irradiacao 4,8 kWh/m2/dia, PR 78%
+        # Tarifa Social (TSEE) - Regime Historico / Faixas Progressivas (Lei 10.438/2002 e Res. ANEEL 1.000/2021)
+        f1_hist = 30 * TARIFA * (1 - 0.65)   # 65% desconto ate 30 kWh: R$ 7,88
+        f2_hist = 70 * TARIFA * (1 - 0.40)   # 40% desconto de 31 a 100 kWh: R$ 31,50
+        f3_hist = 50 * TARIFA * (1 - 0.10)   # 10% desconto de 101 a 220 kWh: R$ 33,75
+        custo_tsee_hist = round(f1_hist + f2_hist + f3_hist, 2)  # R$ 73,13
+        economia_tsee_hist = round(custo_base - custo_tsee_hist, 2)  # R$ 39,37
+        pct_tsee_hist = round((economia_tsee_hist / custo_base) * 100, 1)  # 35,0%
+
+        # Solar Fotovoltaica (Fórmula de Engenharia: E = P * H * D * PR)
+        # P = 1,5 kWp, H = 4,8 kWh/m2/dia (Atlas Solar / INPE), D = 30 dias, PR = 0,78 (taxa de desempenho)
+        # E = 1,5 * 4,8 * 30 * 0,78 = 168,48 kWh/mes (~168,5 kWh/mes)
+        geracao_solar = 168.5
         investimento_min = 7500
         investimento_max = 9500
-        # Limitacoes reais: Custo de disponibilidade (30 kWh monofasico = R$ 22,50) + Fio B + COSIP
-        economia_solar_min = 77.50   # cenario conservador com Fio B integral e taxas
-        economia_solar_max = 92.50   # cenario otimista
-        payback_min = 6.2            # R$ 7.500 / (R$ 100 x 12)
-        payback_max = 10.2           # R$ 9.500 / (R$ 77,50 x 12)
-        payback_medio = 8.3          # media ponderada
-        co2_evitado_mes = round(CONSUMO * FATOR_CO2, 1)   # 5,8 kg/mes
-        co2_evitado_ano = round(co2_evitado_mes * 12, 1)  # 69,3 kg/ano
+        
+        # Limitacoes reais do Marco Legal (Lei 14.300/2022):
+        # Nao zera a conta: Custo de disponibilidade monofasico (30 kWh * 0,75 = R$ 22,50) + Fio B + COSIP
+        # Fatura pos-solar resultante: R$ 20,00 a R$ 35,00/mes
+        economia_solar_min = 77.50   # R$ 112,50 - R$ 35,00 (cenario conservador)
+        economia_solar_max = 92.50   # R$ 112,50 - R$ 20,00 (cenario otimista)
+        
+        # Payback simples consistente com a faixa de investimento e economia liquida declaradas:
+        # Otimista: R$ 7.500 / (R$ 92,50 * 12) = 6,76 anos (~6,8 anos)
+        # Moderado: R$ 8.500 / (R$ 85,00 * 12) = 8,33 anos (~8,3 anos)
+        # Conservador: R$ 9.500 / (R$ 77,50 * 12) = 10,22 anos (~10,2 anos)
+        payback_min = 6.8
+        payback_max = 10.2
+        payback_medio = 8.3
+        
+        # Emissoes evitadas pelo fator medio oficial do SIN (MCTI/SIRENE 2023/2024: 0,0385 kg CO2/kWh)
+        co2_evitado_mes = round(CONSUMO * FATOR_CO2, 1)        # 5,8 kg CO2/mes
+        co2_evitado_ano = round(co2_evitado_mes * 12, 1)       # 69,6 kg CO2/ano
+        co2_geracao_solar = round(geracao_solar * FATOR_CO2, 1) # 6,5 kg CO2/mes (77,8 kg/ano)
+
+        # Alternativa Combinada: TSEE + Eficiencia Energetica (Reducao comprovada de 150 para 110 kWh/mes)
+        # 1. Chuveiro 3.800 W medio: 4 pessoas x 8 min em vez de 12 min -> economia de 30,4 kWh/mes
+        # 2. Iluminacao LED: 4 lampadas fluoresc. 25 W -> 4 LEDs 9 W (4h/dia) -> economia de 7,7 kWh/mes
+        # 3. Eletronicos standby eliminados -> economia de 1,9 kWh/mes. Total reduzido: 40,0 kWh/mes.
+        # No regime atualizado de gratuidade ate 80 kWh:
+        # 0 a 80 kWh: R$ 0,00 | 81 a 110 kWh (30 kWh): 30 x 0,75 x 0,60 = R$ 13,50/mes (Economia: R$ 99,00/mes = 88%)
+        # No regime das faixas da Lei 10.438:
+        # 30 kWh x 0,2625 (R$ 7,88) + 70 kWh x 0,45 (R$ 31,50) + 10 kWh x 0,675 (R$ 6,75) = R$ 46,13/mes (Economia: R$ 66,37/mes = 59%)
+        custo_combinado_novo = 13.50
+        custo_combinado_hist = 46.13
 
         print()
         print("=" * 60)
@@ -907,9 +927,9 @@ class Assistente:
         print("  (Citizen Assist AI | SERS - Global Solution 2026.2)")
         print("=" * 60)
         print()
-        print(f"  Referencia de consumo  : {CONSUMO} kWh/mes (família baixa renda)")
-        print(f"  Tarifa media (ANEEL)   : R$ {TARIFA:.2f}/kWh")
-        print(f"  Custo mensal atual     : R$ {custo_base:.2f}/mes")
+        print(f"  Referencia estimada    : {CONSUMO} kWh/mes (residencia de 3-4 moradores)")
+        print(f"  Tarifa media homologada: R$ {TARIFA:.2f}/kWh (ANEEL)")
+        print(f"  Custo mensal atual     : R$ {custo_base:.2f}/mes (sem desconto)")
         print(f"  Fator emissao SIN/MCTI : {FATOR_CO2} kg CO2/kWh (38,5 kg CO2/MWh)")
         print()
         print("-" * 60)
@@ -918,72 +938,78 @@ class Assistente:
         print("  Investimento inicial   : R$ 0,00 (apenas CadUnico ativo)")
         print("  Payback                : Imediato")
         print()
-        print(f"  Faixa 0-30 kWh   (65% desc.): 30 x R$ {TARIFA:.2f} x 0,35 = R$ {f1:.2f}")
-        print(f"  Faixa 31-100 kWh (40% desc.): 70 x R$ {TARIFA:.2f} x 0,60 = R$ {f2:.2f}")
-        print(f"  Faixa 101-150 kWh(10% desc.): 50 x R$ {TARIFA:.2f} x 0,90 = R$ {f3:.2f}")
-        print(f"  Conta estimada com TSEE : R$ {custo_tsee:.2f}/mes")
-        print(f"  Economia mensal         : R$ {economia_tsee:.2f}/mes ({pct_tsee}% de reducao)")
+        print("  [A] Modelo Atualizado (Gratuidade da parcela ate 80 kWh/mes):")
+        print("      * Parcela 0 a 80 kWh (100% gratuidade) : R$ 0,00")
+        print(f"      * Parcela 81 a 150 kWh (40% desconto)  : 70 x R$ {TARIFA:.2f} x 0,60 = R$ {custo_tsee_novo:.2f}")
+        print(f"      * Nova conta estimada : R$ {custo_tsee_novo:.2f}/mes")
+        print(f"      * Economia estimada   : R$ {economia_tsee_novo:.2f}/mes ({pct_tsee_novo}% de reducao)")
+        print()
+        print("  [B] Modelo Geral de Faixas Progressivas (Lei 10.438 / Res. ANEEL 1.000):")
+        print(f"      * Faixa 0-30 kWh   (65% desc.): 30 x R$ {TARIFA:.2f} x 0,35 = R$ {f1_hist:.2f}")
+        print(f"      * Faixa 31-100 kWh (40% desc.): 70 x R$ {TARIFA:.2f} x 0,60 = R$ {f2_hist:.2f}")
+        print(f"      * Faixa 101-150 kWh(10% desc.): 50 x R$ {TARIFA:.2f} x 0,90 = R$ {f3_hist:.2f}")
+        print(f"      * Nova conta estimada : R$ {custo_tsee_hist:.2f}/mes")
+        print(f"      * Economia estimada   : R$ {economia_tsee_hist:.2f}/mes ({pct_tsee_hist}% de reducao)")
         print()
         print("  Requisito: CadUnico com renda per capita <= 1/2 salario minimo.")
-        print("  Fundamentacao: Lei 10.438/2002 e Res. Normativa ANEEL 1.000/2021.")
-        print("  Como solicitar: distribuidora local (com NIS) ou no CRAS.")
+        print("  Como solicitar: na distribuidora local com NIS ou no CRAS.")
         print()
         print("-" * 60)
         print("  ALTERNATIVA 2 - ENERGIA SOLAR FOTOVOLTAICA RESIDENCIAL")
         print("-" * 60)
-        print("  Sistema recomendado    : 1,5 kWp (~3 modulos de 500 Wp + microinversor)")
-        print(f"  Geracao estimada       : ~{geracao_solar} kWh/mes (atende consumo de {CONSUMO} kWh)")
-        print("  Irradiacao de referencia: 4,8 kWh/m2/dia (media Brasil - Atlas Solar/INPE)")
-        print(f"  Investimento instalado : R$ {investimento_min:,.0f} a R$ {investimento_max:,.0f} (Greener/ABSOLAR)")
-        print(f"  Economia liquida mensal: R$ {economia_solar_min:.2f} a R$ {economia_solar_max:.2f}/mes (70% a 82%)")
+        print("  Sistema referencial    : 1,5 kWp (~3 modulos de 500 Wp + microinversor)")
+        print(f"  Geracao calculada      : ~{geracao_solar} kWh/mes (formula E = P * H * D * PR)")
+        print("                           (1,5 kWp x 4,8 kWh/m2/dia x 30 dias x 0,78 PR)")
+        print("                           *Varia conforme inclinacao, orientacao e clima.")
+        print(f"  Investimento instalado : R$ {investimento_min:,.0f} a R$ {investimento_max:,.0f} (Greener/ABSOLAR 2024/2025)")
+        print("  Conta minima resultante: R$ 20,00 a R$ 35,00/mes (taxa de disponibilidade")
+        print("                           monofasica de 30 kWh = R$ 22,50 + Fio B + COSIP)")
+        print(f"  Economia liquida mensal: R$ {economia_solar_min:.2f} a R$ {economia_solar_max:.2f}/mes")
         print(f"  Payback simples        : {payback_min} a {payback_max} anos (media: {payback_medio} anos)")
-        print("  Vida util dos modulos  : 25 anos (garantia linear de producao)")
-        print(f"  CO2 evitado            : ~{co2_evitado_mes} kg/mes | ~{co2_evitado_ano} kg/ano (SIN oficial)")
-        print("  (Nota: em termoelétricas fósseis de ponta o fator atinge 0,50 kg/kWh)")
-        print()
-        print("  Marco Legal: Lei 14.300/2022 (transição gradual do Fio B).")
-        print("  Importante: a conta nao zera! Ha taxa de disponibilidade monofasica")
-        print("  (30 kWh = R$ 22,50/mes) + iluminacao publica (COSIP).")
+        print("  Vida util dos modulos  : 25 anos com garantia linear de producao")
+        print(f"  CO2 evitado estimado   : ~{co2_evitado_mes} kg/mes | ~{co2_evitado_ano} kg/ano (SIN oficial)")
         print()
         print("-" * 60)
         print("  ALTERNATIVA 3 - COMBINADA (TSEE + EFICIENCIA ENERGETICA)")
         print("-" * 60)
-        print("  Acoes: LED residencial + banhos conscientes -> reducao de 150 para 110 kWh/mes")
-        print("  Calculo TSEE sobre 110 kWh:")
-        print("    * 30 kWh x R$ 0,2625 = R$ 7,88")
-        print("    * 70 kWh x R$ 0,4500 = R$ 31,50")
-        print("    * 10 kWh x R$ 0,6750 = R$ 6,75")
-        print("  Conta final estimada   : R$ 46,13/mes -> ECONOMIA DE R$ 66,37/mes (59% reducao)")
-        print("  Investimento inicial   : R$ 0,00 | Viabilidade: Imediata para todas as familias")
+        print("  Memoria de reducao de consumo comprovada (150 para 110 kWh/mes):")
+        print("    * Chuveiro (banhos conscientes de 8 min): economia de 30,4 kWh/mes")
+        print("    * Iluminacao LED (4 lampadas 9 W no lugar de 25 W): economia de 7,7 kWh/mes")
+        print("    * Eliminacao de consumo vampiro em standby: economia de 1,9 kWh/mes")
+        print("    * Total economizado: 40,0 kWh/mes sem compra de equipamentos caros")
+        print()
+        print(f"  Conta estimada (regime atualizado de gratuidade) : R$ {custo_combinado_novo:.2f}/mes (Economia: R$ {custo_base - custo_combinado_novo:.2f}/mes)")
+        print(f"  Conta estimada (regime faixas da Lei 10.438)     : R$ {custo_combinado_hist:.2f}/mes (Economia: R$ {custo_base - custo_combinado_hist:.2f}/mes)")
+        print("  Investimento inicial : R$ 0,00 | Viabilidade: Imediata para qualquer familia")
         print()
         print("-" * 60)
         print("  TABELA RESUMO COMPARATIVA (ESTUDO SERS)")
         print("-" * 60)
-        print(f"  {'Parametro':<26} {'Atual':>10} {'TSEE':>10} {'Solar':>10} {'Combinada':>10}")
-        print(f"  {'-'*26} {'-'*10} {'-'*10} {'-'*10} {'-'*10}")
-        print(f"  {'Custo mensal (R$)':<26} {'112,50':>10} {'73,13':>10} {'22-35':>10} {'46,13':>10}")
-        print(f"  {'Economia mensal (R$)':<26} {'0,00':>10} {'39,37':>10} {'77-92':>10} {'66,37':>10}")
-        print(f"  {'Reducao na conta (%)':<26} {'0%':>10} {'35,0%':>10} {'70-82%':>10} {'59,0%':>10}")
-        print(f"  {'Investimento inicial':<26} {'R$ 0':>10} {'R$ 0':>10} {'R$7.5-9.5k':>10} {'R$ 0':>10}")
-        print(f"  {'Payback simples':<26} {'N/A':>10} {'Imediato':>10} {'6.2-10.2 a':>10} {'Imediato':>10}")
-        print(f"  {'CO2 evitado/mes (kg)':<26} {'0,0':>10} {'0,0':>10} {str(co2_evitado_mes):>10} {'1,5':>10}")
+        print(f"  {'Parametro':<24} {'Atual':>10} {'TSEE':>10} {'Solar':>10} {'Combinada':>10}")
+        print(f"  {'-'*24} {'-'*10} {'-'*10} {'-'*10} {'-'*10}")
+        print(f"  {'Conta estimada (R$)':<24} {'112,50':>10} {'31,50-73':>10} {'20-35':>10} {'13,50-46':>10}")
+        print(f"  {'Economia mensal (R$)':<24} {'0,00':>10} {'39,37-81':>10} {'77,50-92':>10} {'66,37-99':>10}")
+        print(f"  {'Reducao na fatura (%)':<24} {'0%':>10} {'35-72%':>10} {'70-82%':>10} {'59-88%':>10}")
+        print(f"  {'Investimento inicial':<24} {'R$ 0':>10} {'R$ 0':>10} {'R$7.5-9.5k':>10} {'R$ 0':>10}")
+        print(f"  {'Payback simples':<24} {'N/A':>10} {'Imediato':>10} {'6.8-10.2 a':>10} {'Imediato':>10}")
+        print(f"  {'CO2 evitado/mes (kg)':<24} {'0,0':>10} {'0,0':>10} {'5,8-6,5':>10} {'1,5':>10}")
         print()
         print("-" * 60)
-        print("  RECOMENDACOES PRATICAS PARA O CIDADAO:")
+        print("  ORIENTACOES PRATICAS PARA O CIDADAO:")
         print("-" * 60)
         print("  1. Se esta no CadUnico -> solicite a Tarifa Social (TSEE) imediatamente.")
-        print("     Economia garantida de R$ 39,37/mes sem gastar nada.")
-        print("  2. Se possui imovel proprio com telhado e viabilidade de credito:")
-        print("     Avalie financiamento solar (Caixa Habitacao Verde / Pronaf / BNDES).")
-        print("  3. Para inquilinos e familias sem capital:")
-        print("     Combine TSEE com medidas de eficiencia energetica (reducao de 59%).")
+        print("     Potencial de reducao imediata de 35% a 72% na conta sem nenhum custo.")
+        print("  2. Se possui imovel proprio com telhado estruturalmente adequado:")
+        print("     Avalie financiamento solar com parcelas que se pagam pela propria economia.")
+        print("  3. Para inquilinos e familias em vulnerabilidade extrema:")
+        print("     Combine a Tarifa Social com medidas de eficiencia energetica.")
         print()
-        print("  LIMITACOES E PREMISSAS:")
-        print("  * Valores estimados para consumo padrao de 150 kWh/mes e tarifa media ANEEL.")
-        print("  * Podem variar conforme concessionaria local, bandeira tarifaria e ICMS estadual.")
+        print("  PREMISSAS E LIMITACOES DAS ESTIMATIVAS:")
+        print("  * Todos os valores representam estimativas parametricas para o perfil padrao.")
+        print("  * Tarifas reais variam conforme concessionaria local, impostos (ICMS/PIS/COFINS)")
+        print("    e acionamento de bandeiras tarifarias pela ANEEL.")
         print("  * Fontes: ANEEL (aneel.gov.br) | EPE (epe.gov.br) | MCTI (mcti.gov.br) | ABSOLAR")
         print("=" * 60)
-
 
     def iniciar(self):
 
@@ -1049,7 +1075,7 @@ class Assistente:
 
 
 
-            elif opcao == "5":
+            elif opcao in ("5", "0"):
 
                 self._encerrar()
 
