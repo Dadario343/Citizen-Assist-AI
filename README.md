@@ -133,17 +133,23 @@ A análise energética do Citizen Assist AI (disponível no menu 4 do terminal, 
 - *Nota Técnica:* O fator de 0,50 kg CO₂/kWh refere-se exclusivamente ao despacho fóssil térmico de pico, enquanto a base média oficial do SIN é 0,0385 kg CO₂/kWh.
 
 ### 2. Alternativa 1: Tarifa Social de Energia Elétrica (TSEE)
-- **Legislação:** Lei Federal nº 10.438/2002, alterada pela Lei nº 12.212/2010 e Resolução Normativa ANEEL nº 1.000/2021 (arts. 177 a 186), e modelo de gratuidade do Programa Luz do Povo.
 - **Investimento:** R$ 0,00 | **Payback:** Imediato.
-- **Modelo Geral de Faixas Progressivas (Lei 10.438/2002):**
-  - 0 a 30 kWh (65% desc.): `round(30 x 0,75 x 0,35, 2) = R$ 7,88`
-  - 31 a 100 kWh (40% desc.): `round(70 x 0,75 x 0,60, 2) = R$ 31,50`
-  - 101 a 150 kWh (10% desc.): `round(50 x 0,75 x 0,90, 2) = R$ 33,75`
-  - Nova fatura estimada: **R$ 73,13/mês** -> Economia estimada de **R$ 39,37/mês (35,0% de redução)**.
-- **Modelo com Gratuidade até 80 kWh (Luz do Povo, excedente regular a R$ 0,75/kWh):**
-  - Parcela 0 a 80 kWh: 100% de isenção -> R$ 0,00
-  - Excedente 81 a 150 kWh (70 kWh cobrados pela tarifa normal): `70 x 0,75 = R$ 52,50`
-  - Nova fatura estimada: **R$ 52,50/mês** -> Economia estimada de **R$ 60,00/mês (53,3% de redução)**.
+
+#### A. Regra Atual Vigente (Lei Federal nº 15.235/2025 — Gratuidade até 80 kWh/mês)
+- **Marco Legal:** Em vigor desde 5 de julho de 2025 e consolidada pela **Lei Federal nº 15.235/2025**, a nova regulamentação garante **gratuidade integral (100% de isenção de TE e TUSD)** sobre a faixa de consumo básico até 80 kWh/mês para famílias do CadÚnico com renda per capita <= 1/2 salário mínimo ou BPC/LOAS.
+- **Estrutura de Faturamento:**
+  - Parcela 0 a 80 kWh: 100% de isenção -> **R$ 0,00 (gratuita)**.
+  - Excedente 81 a 150 kWh (70 kWh cobrados pela tarifa regular de R$ 0,75/kWh): `70 x 0,75 = R$ 52,50 / mês`.
+  - **Fatura mensal estimada:** **R$ 52,50 / mês** -> Economia estimada de **R$ 60,00 / mês (53,3% de redução)**.
+- **Nova Modalidade Adicional (Vigência a partir de Janeiro de 2026) — Desconto Social:**
+  - Diretriz do Ministério de Minas e Energia (MME) para famílias inscritas no CadÚnico com renda familiar per capita **entre meio e um salário mínimo** (> 1/2 e <= 1 SM).
+  - Isenta a cobrança da Conta de Desenvolvimento Energético (CDE) para consumo até **120 kWh/mês** (~15% a 20% de redução na conta).
+- **Ressalva Metodológica:** A gratuidade incide sobre o consumo ativo; contas reais continuam sujeitas à Contribuição de Iluminação Pública (COSIP).
+
+#### B. Regime Histórico Anterior (Lei Federal nº 10.438/2002 e Res. ANEEL 1.000/2021)
+- *Mantido no assistente exclusivamente para fins de análise comparativa retrospectiva com o regime anterior a julho de 2025:*
+  - 0 a 30 kWh (desc. 65%): R$ 7,88 | 31 a 100 kWh (desc. 40%): R$ 31,50 | 101 a 150 kWh (desc. 10%): R$ 33,75
+  - **Fatura mensal histórica:** **R$ 73,13 / mês** -> Economia histórica de **R$ 39,37 / mês (35,0% de redução)**.
 
 ### 3. Alternativa 2: Microgeração Solar Fotovoltaica Residencial
 - **Fórmula de Engenharia:**
@@ -187,7 +193,7 @@ A análise energética do Citizen Assist AI (disponível no menu 4 do terminal, 
 | **Investimento Inicial** | R$ 0,00 | R$ 0,00 | R$ 7.500 a R$ 9.500 | **R$ 0,00** |
 | **Payback (Tarifa Cheia)** | N/A | Imediato | 6,8 a 10,2 anos (méd. 8,3) | **Imediato** |
 | **Payback (com TSEE prévia)** | N/A | Imediato | 14,0 a 23,6 anos | **Imediato** |
-| **CO₂ Evitado Estimado** | 0 kg | Indireto | ~5,8 a 6,5 kg CO₂/mês | ~1,5 kg CO₂/mês |
+| **CO₂ Evitado Estimado** | 0 kg | Indireto | ~6,5 kg CO₂/mês | ~1,5 kg CO₂/mês |
 
 ---
 
@@ -318,6 +324,6 @@ python server.py
   1. Problema da pobreza energética e fatura de referência (150 kWh/mês = R$ 112,50).
   2. Calculadora de consumo e aplicação das regras da Tarifa Social (TSEE).
   3. Dimensionamento solar de 1,5 kWp pela fórmula de engenharia (168,5 kWh/mês), custos (Greener/ABSOLAR) e payback consistente (6,8 a 10,2 anos).
-  4. Análise crítica demonstrando por que placas solares próprias não são viáveis para quem já tem Tarifa Social (payback salta para 14 a 24 anos), destacando a Alternativa Combinada (TSEE + Eficiência) com até 80% a 88% de redução sem custos.
+  4. Análise crítica demonstrando por que placas solares próprias não são viáveis para quem já tem Tarifa Social (payback salta para 14 a 24 anos), destacando a Alternativa Combinada (TSEE + Eficiência) com até 80% de redução sem custos (59% a 80% demonstrados).
   5. Fator oficial do SIN (0,0385 kg CO₂/kWh — MCTI/SIRENE) e emissões evitadas.
 - **Link do Vídeo:** `[A ser inserido pelos integrantes antes do envio final]`

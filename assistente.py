@@ -725,8 +725,8 @@ class Assistente:
     @staticmethod
     def calcular_tarifa_social_lei10438(consumo, tarifa):
         """
-        Calcula a fatura e economia pela Lei Federal nº 10.438/2002 e Res. ANEEL nº 1.000/2021.
-        Arredonda cada faixa para centavos, conforme faturamento oficial das distribuidoras:
+        Calcula a fatura e economia pelo REGIME HISTORICO ANTERIOR da TSEE (Lei Federal nº 10.438/2002):
+        Mantido exclusivamente para fins de comparacao retrospectiva com a regra anterior a julho/2025.
           - Faixa 0 a 30 kWh: 65% de desconto
           - Faixa 31 a 100 kWh: 40% de desconto
           - Faixa 101 a 220 kWh: 10% de desconto
@@ -748,9 +748,9 @@ class Assistente:
     @staticmethod
     def calcular_tarifa_social_gratuidade(consumo, tarifa):
         """
-        Calcula a fatura e economia pelo modelo de gratuidade da parcela ate 80 kWh/mes (Luz do Povo):
-          - Parcela 0 a 80 kWh: 100% de desconto (R$ 0,00)
-          - Excedente acima de 80 kWh: cobranca regular pela tarifa homologada sem subsidio
+        Calcula a fatura e economia pela REGRA ATUAL VIGENTE da TSEE (Lei Federal nº 15.235/2025):
+          - Parcela 0 a 80 kWh: 100% de gratuidade (isencao integral de TE e TUSD = R$ 0,00)
+          - Excedente acima de 80 kWh: cobranca regular pela tarifa homologada da distribuidora
         """
         f1 = 0.0
         f2 = round(max(0, consumo - 80) * tarifa, 2)
@@ -869,20 +869,24 @@ class Assistente:
         print("  Investimento inicial   : R$ 0,00 (apenas CadUnico ativo)")
         print("  Payback                : Imediato")
         print()
-        print("  [A] Modelo Geral de Faixas da Lei 10.438/2002 e Res. ANEEL 1.000:")
+        print("  [A] REGRA ATUAL VIGENTE (Lei Federal nº 15.235/2025 - Gratuidade ate 80 kWh):")
+        print("      * Parcela 0 a 80 kWh (100% isencao TE/TUSD) : R$ 0,00 (gratuita)")
+        print(f"      * Excedente 81 a 150 kWh (70 kWh regulares) : 70 x R$ {TARIFA:.2f} = R$ {custo_tsee_novo:.2f}")
+        print(f"      * Fatura estimada     : R$ {custo_tsee_novo:.2f}/mes")
+        print(f"      * Economia estimada   : R$ {econ_tsee_novo:.2f}/mes ({pct_tsee_novo}% de reducao)")
+        print("      * Elegibilidade: CadUnico com renda familiar per capita <= 1/2 SM ou BPC/LOAS.")
+        print("      * Modalidade Adicional (Jan/2026): 'Desconto Social' para renda entre 1/2 e 1 SM")
+        print("        com isencao da CDE para consumo ate 120 kWh/mes (~15% a 20% de reducao).")
+        print("      * Nota metodologica: estimativa simplificada da parcela ativa; faturas reais continuam")
+        print("        sujeitas a taxa municipal de iluminacao publica (COSIP).")
+        print()
+        print("  [B] REGIME HISTORICO ANTERIOR (Lei Federal nº 10.438/2002 - Faixas de Desconto):")
         print(f"      * Faixa 0-30 kWh   (65% desc.): 30 x R$ {TARIFA:.2f} x 0,35 = R$ {f1:.2f}")
         print(f"      * Faixa 31-100 kWh (40% desc.): 70 x R$ {TARIFA:.2f} x 0,60 = R$ {f2:.2f}")
         print(f"      * Faixa 101-150 kWh(10% desc.): 50 x R$ {TARIFA:.2f} x 0,90 = R$ {f3:.2f}")
-        print(f"      * Fatura estimada     : R$ {custo_tsee_hist:.2f}/mes")
-        print(f"      * Economia estimada   : R$ {econ_tsee_hist:.2f}/mes ({pct_tsee_hist}% de reducao)")
-        print()
-        print("  [B] Modelo com Gratuidade ate 80 kWh (Excedente integral a R$ 0,75/kWh):")
-        print("      * Parcela 0 a 80 kWh (100% isencao TE/TUSD) : R$ 0,00")
-        print(f"      * Excedente 81 a 150 kWh (70 kWh)           : 70 x R$ {TARIFA:.2f} = R$ {custo_tsee_novo:.2f}")
-        print(f"      * Fatura estimada     : R$ {custo_tsee_novo:.2f}/mes")
-        print(f"      * Economia estimada   : R$ {econ_tsee_novo:.2f}/mes ({pct_tsee_novo}% de reducao)")
-        print("      * Nota metodologica: estimativa simplificada da parcela ativa; nao isenta a COSIP municipal")
-        print("        e exige inscricao ativa no CadUnico com renda familiar per capita <= 1/2 salario minimo.")
+        print(f"      * Fatura historica    : R$ {custo_tsee_hist:.2f}/mes")
+        print(f"      * Economia historica  : R$ {econ_tsee_hist:.2f}/mes ({pct_tsee_hist}% de reducao)")
+        print("      * Nota: apresentado exclusivamente para fins de comparacao retrospectiva.")
         print()
         print("-" * 60)
         print("  ALTERNATIVA 2 - ENERGIA SOLAR FOTOVOLTAICA RESIDENCIAL")
@@ -895,7 +899,7 @@ class Assistente:
         print("                           monofasica de 30 kWh = R$ 22,50 + Fio B + COSIP)")
         print(f"  Economia liquida mensal: R$ {econ_solar_min:.2f} a R$ {econ_solar_max:.2f}/mes (tarifa cheia)")
         print(f"  Payback simples        : {payback_otimista} a {payback_conservador} anos (cenario medio: {payback_moderado} anos)")
-        print(f"  CO2 evitado estimado   : ~{co2_evitado_consumo:.1f} kg/mes | ~{co2_evitado_consumo*12:.1f} kg/ano")
+        print(f"  CO2 evitado estimado   : ~{co2_evitado_solar:.1f} kg/mes | ~{co2_evitado_solar*12:.1f} kg/ano (sobre {geracao_solar:.1f} kWh gerados)")
         print()
         print("  [!] AVALIACAO DE VIABILIDADE PARA FAMILIAS COM TARIFA SOCIAL:")
         print(f"  Para quem ja recebe a TSEE (Lei 10.438: fatura R$ {custo_tsee_hist:.2f}), a economia real")
@@ -929,13 +933,13 @@ class Assistente:
         print(f"  {'Reducao estimada (%)':<24} {'0%':>10} {f'{pct_tsee_hist:.0f}-{pct_tsee_novo:.0f}%':>10} {'70-82%':>10} {f'{pct_comb_hist:.0f}-{pct_comb_novo:.0f}%':>10}")
         print(f"  {'Investimento inicial':<24} {'R$ 0':>10} {'R$ 0':>10} {'R$7.5-9.5k':>10} {'R$ 0':>10}")
         print(f"  {'Payback simples':<24} {'N/A':>10} {'Imediato':>10} {f'{payback_otimista}-{payback_conservador} a':>10} {'Imediato':>10}")
-        print(f"  {'CO2 evitado/mes (kg)':<24} {'0,0':>10} {'Indireto':>10} {f'{co2_evitado_consumo:.1f}':>10} {f'{co2_evitado_comb:.1f}':>10}")
+        print(f"  {'CO2 evitado/mes (kg)':<24} {'0,0':>10} {'Indireto':>10} {f'{co2_evitado_solar:.1f}':>10} {f'{co2_evitado_comb:.1f}':>10}")
         print()
         print("-" * 60)
         print("  ORIENTACOES PRATICAS PARA O CIDADAO:")
         print("-" * 60)
         print("  1. Se esta no CadUnico -> priorize a Tarifa Social e eficiencia no chuveiro.")
-        print("     Reducao imediata de ate 80% a 88% na fatura sem gastar com placas solares.")
+        print("     Reducao imediata de ate 80% na fatura (59% a 80% demonstrados) sem gastar com placas solares.")
         print("  2. Placas solares proprias tem retorno atrativo (6,8 a 10,2 anos) apenas")
         print("     para familias que pagam tarifa cheia (R$ 112,50) e tem imovel proprio.")
         print("=" * 60)

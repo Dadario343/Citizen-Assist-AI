@@ -75,27 +75,32 @@ Abaixo é apresentada a auditoria individual de equipamentos com rigor aritméti
 ## 4. Estudo Comparativo das Alternativas
 
 ### Alternativa 1: Tarifa Social de Energia Elétrica (TSEE)
-- **Base Legal e Regulamentar:** Lei Federal nº 10.438/2002, alterada pela Lei Federal nº 12.212/2010 e regulamentada pela Resolução Normativa ANEEL nº 1.000/2021 (Capítulo VI, Seção II, arts. 177 a 186).
 - **Investimento Inicial:** **R$ 0,00** | **Payback:** **Imediato**.
-- **Regime de Faixas Progressivas da Lei 10.438/2002:**
+
+#### A. Regra Atual Vigente (Lei Federal nº 15.235/2025 — Gratuidade até 80 kWh/mês)
+- **Marco Legal:** Em vigor desde 5 de julho de 2025 e consolidada pela **Lei Federal nº 15.235/2025**, a nova regulamentação da TSEE estabeleceu gratuidade plena sobre a faixa de consumo básico de eletricidade para famílias vulneráveis.
+- **Estrutura de Faturamento:**
+  - Parcela de 0 a 80 kWh (100% de isenção de TE e TUSD): **R$ 0,00 (gratuita)**.
+  - Parcela excedente de 81 a 150 kWh (70 kWh faturados pela tarifa cheia a R$ 0,75/kWh): `70 x R$ 0,75 = R$ 52,50 / mês`.
+  - **Fatura mensal estimada:** **R$ 52,50 / mês**.
+  - **Economia obtida:** `R$ 112,50 - R$ 52,50 = R$ 60,00 / mês` (redução de **53,3%**).
+- **Critérios Obrigatórios de Elegibilidade:**
+  1. Família inscrita no Cadastro Único com renda familiar mensal per capita de até meio salário mínimo nacional;
+  2. Idosos com 65 anos ou mais ou pessoas com deficiência que recebam o Benefício de Prestação Continuada (BPC/LOAS);
+  3. Famílias no CadÚnico com renda de até 3 salários mínimos com pessoa dependente de aparelhos médicos elétricos contínuos de suporte à vida.
+- **Nova Modalidade Adicional (Vigência a partir de Janeiro de 2026) — "Desconto Social":**
+  - Instituído pelas novas diretrizes do Ministério de Minas e Energia (MME), o **Desconto Social** contempla famílias inscritas no CadÚnico com renda familiar per capita **entre meio e um salário mínimo** (> 1/2 e <= 1 SM).
+  - Garante a isenção dos encargos da Conta de Desenvolvimento Energético (CDE) para consumo até **120 kWh/mês**, proporcionando uma redução média de 15% a 20% na fatura para famílias que antes não eram atendidas pela TSEE tradicional.
+- **Ressalva Metodológica sobre Encargos:** A gratuidade recai sobre o consumo faturado de energia ativa (TE/TUSD); faturas reais continuam sujeitas à cobrança municipal da Contribuição de Iluminação Pública (CIP/COSIP).
+
+#### B. Regime Histórico Anterior (Lei Federal nº 10.438/2002 e Resolução ANEEL nº 1.000/2021)
+- **Status:** *Mantido exclusivamente para fins de análise comparativa retrospectiva com o regime anterior a julho de 2025.*
+- **Memória de Cálculo das Faixas de Desconto:**
   - Faixa 0 a 30 kWh (desconto de 65%): `round(30 x 0,75 x 0,35, 2) = R$ 7,88`
   - Faixa 31 a 100 kWh (desconto de 40%): `round(70 x 0,75 x 0,60, 2) = R$ 31,50`
   - Faixa 101 a 150 kWh (desconto de 10%): `round(50 x 0,75 x 0,90, 2) = R$ 33,75`
-  - **Fatura mensal estimada:** `7,88 + 31,50 + 33,75 = R$ 73,13 / mês`.
-  - **Economia obtida:** `R$ 112,50 - R$ 73,13 = R$ 39,37 / mês` (redução de **35,0%**).
-
-- **Modelo com Gratuidade até 80 kWh (Programa Luz do Povo / Proposta Governamental):**
-  - **Delimitação Metodológica:** A função implementada simula uma **estimativa simplificada da parcela de consumo ativo**, considerando a isenção integral da Tarifa de Energia (TE) e da Tarifa de Uso do Sistema de Distribuição (TUSD) para a faixa básica de subsistência de até 80 kWh/mês.
-  - **Tratamento do Excedente:** Na ausência de normativo complementar prevendo escalonamento subsidiado além de 80 kWh, o excedente deve ser faturado integralmente pela tarifa cheia homologada da distribuidora (R$ 0,75/kWh):
-    - Parcela de 0 a 80 kWh (100% de isenção): **R$ 0,00**
-    - Parcela excedente de 81 a 150 kWh (70 kWh x R$ 0,75): **R$ 52,50**
-    - **Fatura mensal estimada:** **R$ 52,50 / mês**.
-    - **Economia obtida:** `R$ 112,50 - R$ 52,50 = R$ 60,00 / mês` (redução de **53,3%**).
-  - **Critérios Obrigatórios de Elegibilidade:**
-    1. Família inscrita no Cadastro Único com renda familiar mensal per capita de até meio salário mínimo nacional;
-    2. Idosos com 65 anos ou mais ou pessoas com deficiência que recebam o Benefício de Prestação Continuada (BPC/LOAS);
-    3. Famílias inscritas no CadÚnico com renda mensal de até 3 salários mínimos com pessoa portadora de doença cujo tratamento médico demande o uso contínuo de aparelhos que consumam energia elétrica;
-    4. Nota sobre encargos: mesmo sob gratuidade de consumo, faturas reais podem cobrar a taxa municipal de iluminação pública (CIP/COSIP).
+  - **Fatura mensal histórica:** `7,88 + 31,50 + 33,75 = R$ 73,13 / mês`.
+  - **Economia histórica obtida:** `R$ 112,50 - R$ 73,13 = R$ 39,37 / mês` (redução de **35,0%**).
 
 ---
 
@@ -170,15 +175,17 @@ Abaixo é apresentada a auditoria individual de equipamentos com rigor aritméti
 | **Investimento Inicial** | R$ 0,00 | R$ 0,00 | R$ 7.500 a R$ 9.500 | **R$ 0,00** |
 | **Payback (Consumidor Tarifa Cheia)** | N/A | Imediato | 6,8 a 10,2 anos (méd. 8,3) | **Imediato** |
 | **Payback (para quem JÁ TEM TSEE)** | N/A | Imediato | 14,0 a 23,6 anos | **Imediato** |
-| **CO₂ Evitado Estimado** | 0 kg | Indireto | ~5,8 a 6,5 kg CO₂/mês | ~1,5 kg CO₂/mês |
+| **CO₂ Evitado Estimado** | 0 kg | Indireto | ~6,5 kg CO₂/mês | ~1,5 kg CO₂/mês |
 | **Viabilidade para Baixa Renda** | Referência | Imediata (CadÚnico) | Inviável sem subsídio | Imediata e Universal |
 
 ---
 
 ## 6. Referências Normativas e Bibliográficas Específicas
 
-1. **ANEEL — Agência Nacional de Energia Elétrica:**
-   - *Resolução Normativa ANEEL nº 1.000, de 7 de dezembro de 2021*: Estabelece as regras de prestação do serviço público de distribuição de energia elétrica (artigos 177 a 186 dedicados à Tarifa Social de Energia Elétrica - TSEE).
+1. **Legislação Federal e ANEEL — Tarifa Social e Desconto Social:**
+   - *Lei Federal nº 15.235, de 2025*: Consolida a gratuidade da Tarifa Social de Energia Elétrica sobre os primeiros 80 kWh/mês para famílias de baixa renda (em vigor desde julho de 2025).
+   - *Diretrizes MME / ANEEL (Janeiro de 2026)*: Regulamentação da modalidade Desconto Social com isenção da CDE até 120 kWh/mês para renda entre 1/2 e 1 salário mínimo.
+   - *Resolução Normativa ANEEL nº 1.000, de 7 de dezembro de 2021*: Estabelece as regras de prestação do serviço público de distribuição de energia elétrica (artigos 177 a 186 dedicados à TSEE).
    - *Painel de Tarifas de Fornecimento de Energia Elétrica da ANEEL*: Tabela de Tarifas Médias Homologadas para Distribuidoras de Energia Elétrica - Subgrupo B1 (Residencial Convencional, média Brasil adotada como premissa paramétrica de R$ 0,75/kWh). [https://www.gov.br/aneel/pt-br/assuntos/tarifas/painel-de-tarifas](https://www.gov.br/aneel/pt-br/assuntos/tarifas/painel-de-tarifas)
 2. **Presidência da República — Legislação Federal:**
    - *Lei Federal nº 10.438, de 26 de abril de 2002*: Dispõe sobre a expansão da oferta de energia elétrica emergencial e cria a Tarifa Social de Energia Elétrica.
