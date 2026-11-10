@@ -84,13 +84,14 @@ Abaixo é apresentada a auditoria individual de equipamentos com rigor aritméti
   - Parcela excedente de 81 a 150 kWh (70 kWh faturados pela tarifa cheia a R$ 0,75/kWh): `70 x R$ 0,75 = R$ 52,50 / mês`.
   - **Fatura mensal estimada:** **R$ 52,50 / mês**.
   - **Economia obtida:** `R$ 112,50 - R$ 52,50 = R$ 60,00 / mês` (redução de **53,3%**).
-- **Critérios Obrigatórios de Elegibilidade:**
+- **Critérios Obrigatórios de Elegibilidade (Lei nº 12.212/2010, Lei nº 15.235/2025 e ANEEL):**
   1. Família inscrita no Cadastro Único com renda familiar mensal per capita de até meio salário mínimo nacional;
   2. Idosos com 65 anos ou mais ou pessoas com deficiência que recebam o Benefício de Prestação Continuada (BPC/LOAS);
-  3. Famílias no CadÚnico com renda de até 3 salários mínimos com pessoa dependente de aparelhos médicos elétricos contínuos de suporte à vida.
+  3. Famílias no CadÚnico com renda mensal de até 3 salários mínimos com pessoa dependente de aparelhos médicos elétricos contínuos de suporte à vida;
+  4. Famílias indígenas e quilombolas inscritas no Cadastro Único.
 - **Nova Modalidade Adicional (Vigência a partir de Janeiro de 2026) — "Desconto Social":**
   - Instituído pelas novas diretrizes do Ministério de Minas e Energia (MME), o **Desconto Social** contempla famílias inscritas no CadÚnico com renda familiar per capita **entre meio e um salário mínimo** (> 1/2 e <= 1 SM).
-  - Garante a isenção dos encargos da Conta de Desenvolvimento Energético (CDE) para consumo até **120 kWh/mês**, proporcionando uma redução média de 15% a 20% na fatura para famílias que antes não eram atendidas pela TSEE tradicional.
+  - Garante a isenção dos encargos da Conta de Desenvolvimento Energético (CDE) para consumo até **120 kWh/mês**, proporcionando uma redução média estimada pelo MME em **aproximadamente 11,8%** na tarifa média de eletricidade (o percentual exato varia conforme a participação da CDE na distribuidora local; ressalta-se que a isenção incide sobre encargos setoriais e não representa gratuidade da conta integral).
 - **Ressalva Metodológica sobre Encargos:** A gratuidade recai sobre o consumo faturado de energia ativa (TE/TUSD); faturas reais continuam sujeitas à cobrança municipal da Contribuição de Iluminação Pública (CIP/COSIP).
 
 #### B. Regime Histórico Anterior (Lei Federal nº 10.438/2002 e Resolução ANEEL nº 1.000/2021)
@@ -123,26 +124,28 @@ Abaixo é apresentada a auditoria individual de equipamentos com rigor aritméti
     - Cenário Conservador: `1.500 Wp x R$ 6,33/Wp = R$ 9.500,00`
 
 - **Limitações Regulatórias e Custo Residual (Lei nº 14.300/2022):**
-  - O sistema fotovoltaico on-grid **não zera a conta do consumidor**. O custo residual mensal varia entre **R$ 20,00 e R$ 35,00/mês**, composto obrigatoriamente por:
-    1. Custo de disponibilidade monofásico (30 kWh x R$ 0,75 = R$ 22,50/mês);
-    2. Transição gradual da remuneração do Fio B da TUSD (Art. 27 da Lei 14.300/2022);
-    3. Contribuição de Iluminação Pública (COSIP).
+  - O sistema fotovoltaico on-grid **não zera a conta do consumidor**. O custo residual mensal varia entre **R$ 22,50 e R$ 35,00/mês**, composto obrigatoriamente por:
+    1. Custo de disponibilidade monofásico mínimo (30 kWh x R$ 0,75 = R$ 22,50/mês, conforme art. 291 da Resolução Normativa ANEEL nº 1.000/2021 — piso incompressível);
+    2. Transição gradual da remuneração do Fio B da TUSD sobre a energia injetada compensada (Art. 27 da Lei 14.300/2022);
+    3. Contribuição de Iluminação Pública municipal (COSIP).
 
 - **Payback para Consumidor Comum que Paga Tarifa Plena (Fatura de R$ 112,50):**
-  - Economia mensal líquida: **R$ 77,50 a R$ 92,50 / mês** (redução de 70% a 82%).
-  - *Cenário Otimista:* `R$ 7.500 / (R$ 92,50 x 12) = 6,76 anos (~6,8 anos)`
-  - *Cenário Moderado:* `R$ 8.500 / (R$ 85,00 x 12) = 8,33 anos (~8,3 anos)`
+  - Economia mensal líquida: **R$ 77,50 a R$ 90,00 / mês** (redução de 68,9% a 80,0%).
+  - *Cenário Otimista:* `R$ 7.500 / (R$ 90,00 x 12) = 6,94 anos (~6,9 anos)`
+  - *Cenário Moderado:* `R$ 8.500 / (R$ 83,75 x 12) = 8,46 anos (~8,5 anos)`
   - *Cenário Conservador:* `R$ 9.500 / (R$ 77,50 x 12) = 10,22 anos (~10,2 anos)`
-  - Média de retorno simples: **8,3 anos** (vida útil dos módulos de 25 anos com garantia de 80% de potência residual).
+  - Média de retorno simples: **8,5 anos** (faixa de **6,9 a 10,2 anos**; vida útil dos módulos de 25 anos com garantia de 80% de potência residual).
 
 - **AVALIAÇÃO CRÍTICA DE ENGENHARIA: Inviabilidade do Solar para Beneficiários da TSEE:**
-  - Se a família de baixa renda já está cadastrada na Tarifa Social, sua conta já é subsidiada. Ao instalar o sistema solar, a fatura mínima residual continua sendo a taxa de disponibilidade (30 kWh = R$ 22,50/mês):
+  - Se a família de baixa renda já está cadastrada na Tarifa Social, sua conta já é subsidiada. Ao instalar o sistema solar, a fatura mínima residual continua sendo a taxa de disponibilidade e encargos (R$ 22,50 a R$ 35,00/mês):
     - **No regime da Lei 10.438 (fatura de R$ 73,13):**  
-      A economia gerada pelo sistema solar é apenas: `R$ 73,13 - R$ 22,50 = R$ 50,63 / mês`.  
-      `Payback = R$ 8.500 / (50,63 x 12) = 13,99 anos (~14,0 anos)`.
-    - **No modelo com gratuidade até 80 kWh (fatura de R$ 52,50):**  
-      A economia gerada pelo sistema solar é apenas: `R$ 52,50 - R$ 22,50 = R$ 30,00 / mês`.  
-      `Payback = R$ 8.500 / (30,00 x 12) = 23,61 anos (~23,6 anos)`!
+      A economia gerada pelo sistema solar é de apenas `R$ 73,13 - R$ 22,50 = R$ 50,63 / mês` (otimista) a `R$ 73,13 - R$ 35,00 = R$ 38,13 / mês` (conservador).  
+      `Payback médio = R$ 8.500 / (44,38 x 12) = 15,96 anos (~16,0 anos)`.
+    - **No modelo vigente com gratuidade até 80 kWh (fatura de R$ 52,50):**  
+      A economia gerada pelo sistema solar cai para apenas `R$ 52,50 - R$ 22,50 = R$ 30,00 / mês` (otimista) a `R$ 52,50 - R$ 35,00 = R$ 17,50 / mês` (conservador).  
+      `Payback otimista = R$ 7.500 / (30,00 x 12) = 20,83 anos (~20,8 anos)`.  
+      `Payback médio = R$ 8.500 / (23,75 x 12) = 29,82 anos (~29,8 anos)`!  
+      `Payback conservador = R$ 9.500 / (17,50 x 12) = 45,24 anos (~45,2 anos)`!
   - **Diagnóstico Técnico Conclusivo:**  
     O investimento individual em energia solar por famílias vulneráveis é **antieconômico e inviável**. O payback ultrapassa uma década e meia (e atinge praticamente a vida útil dos módulos sob a gratuidade), com desembolso imediato de R$ 8.500 que inexiste no orçamento de baixa renda. A transição energética desse público deve ocorrer por políticas de estado (ex: programa federal Luz para Todos Solar, miniusinas comunitárias compartilhadas), nunca por endividamento privado.
 
@@ -167,16 +170,25 @@ Abaixo é apresentada a auditoria individual de equipamentos com rigor aritméti
 
 ## 5. Tabela Resumo Consolidada
 
-| Indicador Analisado | Situação Inicial | Alt. 1: TSEE | Alt. 2: Solar 1,5 kWp | Alt. 3: TSEE + Eficiência |
-|---|:---:|:---:|:---:|:---:|
-| **Conta Estimada (R$/mês)** | R$ 112,50 | R$ 52,50 a R$ 73,13 | R$ 20,00 a R$ 35,00 | **R$ 22,50 a R$ 46,13** |
-| **Economia Mensal Estimada** | R$ 0,00 | R$ 39,37 a R$ 60,00 | R$ 77,50 a R$ 92,50 | **R$ 66,37 a R$ 90,00** |
-| **Percentual de Redução** | 0% | 35,0% a 53,3% | 70% a 82% | **59,0% a 80,0%** |
-| **Investimento Inicial** | R$ 0,00 | R$ 0,00 | R$ 7.500 a R$ 9.500 | **R$ 0,00** |
-| **Payback (Consumidor Tarifa Cheia)** | N/A | Imediato | 6,8 a 10,2 anos (méd. 8,3) | **Imediato** |
-| **Payback (para quem JÁ TEM TSEE)** | N/A | Imediato | 14,0 a 23,6 anos | **Imediato** |
-| **CO₂ Evitado Estimado** | 0 kg | Indireto | ~6,5 kg CO₂/mês | ~1,5 kg CO₂/mês |
-| **Viabilidade para Baixa Renda** | Referência | Imediata (CadÚnico) | Inviável sem subsídio | Imediata e Universal |
+#### Comparação Direta entre os Regimes da Tarifa Social
+
+| Cenário de Avaliação | Regra Atual Vigente (Lei nº 15.235/2025) | Regime Histórico Anterior (Lei nº 10.438/2002) | Redução Frente à Tarifa Cheia (R$ 112,50) |
+|---|:---:|:---:|:---:|
+| **Tarifa Social (TSEE), 150 kWh** | **R$ 52,50 / mês** (Economia: R$ 60,00) | **R$ 73,13 / mês** (Economia: R$ 39,37) | **53,3%** (atual) vs. **35,0%** (histórico) |
+| **Cenário Combinado (TSEE + Efic.), 110 kWh** | **R$ 22,50 / mês** (Economia: R$ 90,00) | **R$ 46,13 / mês** (Economia: R$ 66,37) | **80,0%** (atual) vs. **59,0%** (histórico) |
+
+#### Matriz Comparativa Multicritério das Soluções Avaliadas
+
+| Indicador Analisado | Situação Inicial | TSEE Vigente (Lei 15.235) | TSEE Histórica (Lei 10.438) | Solar Residencial (1,5 kWp) | Combinada Vigente (TSEE + Eficiência) | Combinada Histórica (Lei 10.438 + Efic.) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Conta Estimada (R$/mês)** | R$ 112,50 | **R$ 52,50** | R$ 73,13 | R$ 22,50 a R$ 35,00 | **R$ 22,50** | R$ 46,13 |
+| **Economia Mensal Estimada** | R$ 0,00 | **R$ 60,00** | R$ 39,37 | R$ 77,50 a R$ 90,00 | **R$ 90,00** | R$ 66,37 |
+| **Percentual de Redução** | 0% | **53,3%** | 35,0% | 68,9% a 80,0% | **80,0%** | 59,0% |
+| **Investimento Inicial** | R$ 0,00 | R$ 0,00 | R$ 0,00 | R$ 7.500 a R$ 9.500 | R$ 0,00 | R$ 0,00 |
+| **Payback (Tarifa Cheia)** | N/A | Imediato | Imediato | 6,9 a 10,2 anos (méd. 8,5) | Imediato | Imediato |
+| **Payback (para quem tem TSEE)** | N/A | Imediato | Imediato | 20,8 a 45,2 anos (méd. 29,8) | Imediato | Imediato |
+| **CO₂ Evitado Estimado** | 0 kg | Indireto | Indireto | ~6,5 kg CO₂/mês | ~1,5 kg CO₂/mês | ~1,5 kg CO₂/mês |
+| **Viabilidade para Baixa Renda** | Referência | Imediata (CadÚnico) | Imediata (CadÚnico) | Inviável sem subsídio | Imediata e Universal | Imediata e Universal |
 
 ---
 

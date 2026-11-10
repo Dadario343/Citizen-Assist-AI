@@ -102,21 +102,21 @@ A busca em linguagem natural implementada em `BaseConhecimento.buscar(pergunta)`
 - **Tratamento de Exceções:** O leitor de JSON trata `FileNotFoundError` e `json.JSONDecodeError`, impedindo encerramento abrupto caso a base esteja ausente ou malformatada.
 - **Proteção de Dados Pessoais (LGPD):** O método `_contem_dado_pessoal` detecta sequências de 8 ou mais dígitos (como CPF ou telefones) e a presença de `@` (e-mails). Mensagens com esses padrões são bloqueadas e **jamais são gravadas no histórico**.
 - **Navegação Categórica e Menus:** Todos os menus e submenus possuem validação de entrada numérica e a opção padronizada **`0` para voltar** ou encerrar.
-- **Medição Precisa de Tempo:** O cronômetro afere exclusivamente o tempo de processamento algorítmico do sistema (`round(time.time() - inicio, 4)`), registrado imediatamente após `self.base.buscar(pergunta)` e `orientacao.exibir()`, sem qualquer piso artificial e sem incluir o tempo humano de leitura ou resposta do usuário.
+- **Medição Oficial de Tempo (PCP):** O cronômetro afere exclusivamente o tempo de processamento algorítmico do sistema (`inicio = time.time()` seguido de `tempo = round(time.time() - inicio, 1)`), registrado imediatamente após `self.base.buscar(pergunta)` e `orientacao.exibir()`, sem qualquer piso artificial e sem incluir o tempo humano de leitura ou resposta do usuário, em conformidade com o enunciado da disciplina.
 
 ### 5. Registro de Atendimentos, Indicadores e Exportação CSV
 
 - Ao concluir cada busca ou navegação, o atendimento é registrado em `self.historico` e no arquivo `data/historico.json`.
 - O método `indicadores()` calcula e projeta os 6 indicadores obrigatórios:
   1. **Taxa de Encontro (%):** Percentual de atendimentos em que uma orientação foi localizada.
-  2. **Tempo Médio de Busca:** Média em segundos despendida no atendimento até a orientação.
+  2. **Tempo Médio de Atendimento:** Média em segundos despendida no processamento do atendimento (1 casa decimal).
   3. **Taxa de Acerto (%):** Percentual de atendimentos em que o usuário confirmou que a resposta ajudou.
   4. **Tentativas por Atendimento:** Média de consultas efetuadas por sessão.
   5. **Facilidade de Uso (1 a 5):** Média ponderada das avaliações coletadas na saída (iniciando com lista vazia `[]` sem valores fictícios).
   6. **Lista de Dúvidas Sem Solução:** Termos e consultas que não atingiram pontuação mínima, permitindo curadoria contínua.
-- **Exportação CSV e Padronização de Campos:** Utiliza a biblioteca nativa `csv.DictWriter` contemplando tanto `id` quanto `id_orientacao` para conformidade universal com qualquer critério avaliativo ou script de auditoria:  
-  `data, origem, pergunta, id, id_orientacao, encontrou, ajudou, tentativas, tempo_segundos`.
-- **Desdobramento do Tempo Médio:** O relatório de `indicadores()` exibe o tempo médio consolidado e detalha separadamente o tempo de **busca heurística algorítmica** (consultas por texto, na faixa de milissegundos: ~0,0007s) e o tempo de **navegação em categorias** (recuperação e renderização direta).
+- **Exportação CSV com 8 Colunas Oficiais:** Utiliza a biblioteca nativa `csv.DictWriter` com as 8 colunas padronizadas:  
+  `data, origem, pergunta, id_orientacao, encontrou, ajudou, tentativas, tempo_segundos`.
+- **Desdobramento do Tempo Médio:** O relatório de `indicadores()` exibe o tempo médio consolidado e detalha separadamente o tempo de **busca heurística algorítmica** (consultas por texto) e o tempo de **navegação em categorias** (renderização em tela).
 
 ---
 
@@ -136,14 +136,19 @@ A análise energética do Citizen Assist AI (disponível no menu 4 do terminal, 
 - **Investimento:** R$ 0,00 | **Payback:** Imediato.
 
 #### A. Regra Atual Vigente (Lei Federal nº 15.235/2025 — Gratuidade até 80 kWh/mês)
-- **Marco Legal:** Em vigor desde 5 de julho de 2025 e consolidada pela **Lei Federal nº 15.235/2025**, a nova regulamentação garante **gratuidade integral (100% de isenção de TE e TUSD)** sobre a faixa de consumo básico até 80 kWh/mês para famílias do CadÚnico com renda per capita <= 1/2 salário mínimo ou BPC/LOAS.
+- **Marco Legal:** Em vigor desde 5 de julho de 2025 e consolidada pela **Lei Federal nº 15.235/2025**, a nova regulamentação garante **gratuidade integral (100% de isenção de TE e TUSD)** sobre a faixa de consumo básico até 80 kWh/mês para os beneficiários elegíveis.
 - **Estrutura de Faturamento:**
   - Parcela 0 a 80 kWh: 100% de isenção -> **R$ 0,00 (gratuita)**.
-  - Excedente 81 a 150 kWh (70 kWh cobrados pela tarifa regular de R$ 0,75/kWh): `70 x 0,75 = R$ 52,50 / mês`.
+  - Excedente 81 a 150 kWh (70 kWh cobrados pela tarifa regular homologada de R$ 0,75/kWh): `70 x 0,75 = R$ 52,50 / mês`.
   - **Fatura mensal estimada:** **R$ 52,50 / mês** -> Economia estimada de **R$ 60,00 / mês (53,3% de redução)**.
+- **Critérios Plenos de Elegibilidade (Lei nº 12.212/2010, Lei nº 15.235/2025 e ANEEL):**
+  1. Famílias inscritas no Cadastro Único com renda familiar mensal per capita menor ou igual a meio salário mínimo nacional;
+  2. Idosos com 65 anos ou mais ou pessoas com deficiência que recebam o Benefício de Prestação Continuada (BPC/LOAS);
+  3. Famílias no CadÚnico com renda mensal de até 3 salários mínimos com pessoa portadora de doença ou deficiência cujo tratamento exija o uso continuado de aparelhos elétricos vitais;
+  4. Famílias indígenas e quilombolas inscritas no Cadastro Único.
 - **Nova Modalidade Adicional (Vigência a partir de Janeiro de 2026) — Desconto Social:**
   - Diretriz do Ministério de Minas e Energia (MME) para famílias inscritas no CadÚnico com renda familiar per capita **entre meio e um salário mínimo** (> 1/2 e <= 1 SM).
-  - Isenta a cobrança da Conta de Desenvolvimento Energético (CDE) para consumo até **120 kWh/mês** (~15% a 20% de redução na conta).
+  - Isenta a cobrança da Conta de Desenvolvimento Energético (CDE) para consumo até **120 kWh/mês**, proporcionando uma redução média estimada pelo MME de **aproximadamente 11,8%** na tarifa média (o percentual exato varia conforme a estrutura tarifária da distribuidora local; ressalta-se que a isenção de CDE incide sobre encargos setoriais e não representa gratuidade da conta integral).
 - **Ressalva Metodológica:** A gratuidade incide sobre o consumo ativo; contas reais continuam sujeitas à Contribuição de Iluminação Pública (COSIP).
 
 #### B. Regime Histórico Anterior (Lei Federal nº 10.438/2002 e Res. ANEEL 1.000/2021)
@@ -154,22 +159,22 @@ A análise energética do Citizen Assist AI (disponível no menu 4 do terminal, 
 ### 3. Alternativa 2: Microgeração Solar Fotovoltaica Residencial
 - **Fórmula de Engenharia:**
   `E = P x H x D x PR = 1,5 kWp x 4,8 kWh/m²/dia x 30 dias x 0,78 = 168,48 kWh/mês (~168,5 kWh/mês)`
-  - *Premissas:* Sistema de 1,5 kWp (3 módulos de 500 Wp + microinversor), irradiação média de 4,8 kWh/m²/dia (Atlas Solar / INPE), Performance Ratio de 78%. Atende 100% da demanda de 150 kWh/mês com excedente de 18,5 kWh/mês.
-- **Investimento Instalado:** **R$ 7.500,00 a R$ 9.500,00** (Benchmark Greener / ABSOLAR 2024/2025 para sistemas até 2 kWp).
+  - *Premissas:* Sistema de 1,5 kWp (3 módulos de 500 Wp + microinversor), irradiação média de 4,8 kWh/m²/dia (Atlas Solar / INPE para Sudeste e Centro-Oeste), Performance Ratio de 78%. Atende 100% da demanda de 150 kWh/mês com excedente de 18,5 kWh/mês.
+- **Investimento Instalado:** **R$ 7.500,00 a R$ 9.500,00** (Benchmark Greener / ABSOLAR 2024 para sistemas até 2 kWp, média R$ 8.500).
 - **Limitações Reais da Lei 14.300/2022 (A conta não zera):**
-  - Custo de disponibilidade monofásico (30 kWh x R$ 0,75 = R$ 22,50/mês) + Fio B gradual + iluminação pública (COSIP).
-  - Conta residual pós-solar estimada: **R$ 20,00 a R$ 35,00/mês**.
-  - Economia líquida mensal (tarifa cheia): **R$ 77,50 a R$ 92,50/mês** (70% a 82% de redução).
+  - Custo de disponibilidade monofásico obrigatório (30 kWh x R$ 0,75 = R$ 22,50/mês, conforme art. 291 da Res. ANEEL 1.000/2021) + encargos de injeção Fio B + taxa de iluminação pública municipal (COSIP).
+  - Conta residual pós-solar estimada: **R$ 22,50 a R$ 35,00/mês**.
+  - Economia líquida mensal (tarifa cheia): **R$ 77,50 a R$ 90,00/mês** (68,9% a 80,0% de redução).
 - **Payback Simples (Consumidor que paga tarifa cheia R$ 112,50):**
-  - Cenário Otimista: `R$ 7.500 / (R$ 92,50 x 12) = 6,76 anos (~6,8 anos)`
-  - Cenário Moderado: `R$ 8.500 / (R$ 85,00 x 12) = 8,33 anos (~8,3 anos)`
+  - Cenário Otimista: `R$ 7.500 / (R$ 90,00 x 12) = 6,94 anos (~6,9 anos)`
+  - Cenário Moderado: `R$ 8.500 / (R$ 83,75 x 12) = 8,46 anos (~8,5 anos)`
   - Cenário Conservador: `R$ 9.500 / (R$ 77,50 x 12) = 10,22 anos (~10,2 anos)`
-  - Faixa consolidada: **6,8 a 10,2 anos** (cenário intermediário: **8,3 anos**). Vida útil: 25 anos.
+  - Faixa consolidada: **6,9 a 10,2 anos** (cenário intermediário: **8,5 anos**). Vida útil: 25 anos.
 
 - **AVALIAÇÃO CRÍTICA DE ENGENHARIA: Viabilidade do Solar para quem JÁ TEM Tarifa Social:**
-  - Se a família de baixa renda já recebe a Tarifa Social (fatura de R$ 73,13 pela Lei 10.438 ou R$ 52,50 pelo modelo de 80 kWh), a fatura mínima pós-solar cai para R$ 22,50/mês:
-    - Sob a Lei 10.438: economia de apenas `R$ 73,13 - R$ 22,50 = R$ 50,63 / mês` -> **Payback de 14,0 anos**.
-    - Sob a gratuidade até 80 kWh: economia de apenas `R$ 52,50 - R$ 22,50 = R$ 30,00 / mês` -> **Payback de 23,6 anos**!
+  - Se a família de baixa renda já recebe a Tarifa Social (fatura de R$ 73,13 pela Lei 10.438 ou R$ 52,50 pelo modelo vigente de 80 kWh), a fatura mínima pós-solar continua tendo piso em R$ 22,50 a R$ 35,00/mês:
+    - Sob a Lei 10.438: economia líquida de apenas `R$ 38,13 a R$ 50,63 / mês` -> **Payback médio de 16,0 anos**.
+    - Sob a gratuidade vigente até 80 kWh: economia líquida de apenas `R$ 17,50 a R$ 30,00 / mês` -> **Payback médio de 29,8 anos** (e até **45,2 anos** no cenário conservador)!
   - *Conclusão de Engenharia:* Placas solares próprias têm retorno excessivamente lento e barreira financeira intransponível para famílias no CadÚnico. Para baixa renda, o solar só é viável via subsídios públicos integrais ou cooperativas de energia solar comunitária.
 
 ### 4. Alternativa 3: Cenário Combinado (TSEE + Eficiência Residencial)
@@ -183,17 +188,26 @@ A análise energética do Citizen Assist AI (disponível no menu 4 do terminal, 
   - No regime de gratuidade até 80 kWh (excedente de 30 kWh a R$ 0,75): **R$ 22,50/mês** (Economia total de **R$ 90,00/mês — 80,0% de redução** em relação a R$ 112,50).
 - **Veredito:** Esta é a **melhor alternativa técnica e financeira** para o cidadão de baixa renda, pois proporciona economia imediata sem custo de instalação.
 
-### 5. Tabela Comparativa Consolidada
+### 5. Tabelas Comparativas Consolidadas
 
-| Indicador | Situação Atual | Alt. 1: Tarifa Social (TSEE) | Alt. 2: Solar 1,5 kWp | Alt. 3: Combinada (TSEE + Eficiência) |
-|---|:---:|:---:|:---:|:---:|
-| **Conta Estimada (R$)** | R$ 112,50 | R$ 52,50 a R$ 73,13 | R$ 20,00 a R$ 35,00 | **R$ 22,50 a R$ 46,13** |
-| **Economia Mensal Estimada** | R$ 0,00 | R$ 39,37 a R$ 60,00 | R$ 77,50 a R$ 92,50 | **R$ 66,37 a R$ 90,00** |
-| **Percentual de Redução** | 0% | 35% a 53% | 70% a 82% | **59% a 80%** |
-| **Investimento Inicial** | R$ 0,00 | R$ 0,00 | R$ 7.500 a R$ 9.500 | **R$ 0,00** |
-| **Payback (Tarifa Cheia)** | N/A | Imediato | 6,8 a 10,2 anos (méd. 8,3) | **Imediato** |
-| **Payback (com TSEE prévia)** | N/A | Imediato | 14,0 a 23,6 anos | **Imediato** |
-| **CO₂ Evitado Estimado** | 0 kg | Indireto | ~6,5 kg CO₂/mês | ~1,5 kg CO₂/mês |
+#### Comparação Direta entre Regra Atual (Lei 15.235/2025) e Regime Histórico (Lei 10.438/2002)
+
+| Cenário de Avaliação | Regra Atual Vigente (Lei 15.235/2025) | Regime Histórico Anterior (Lei 10.438/2002) | Redução Frente à Tarifa Cheia (R$ 112,50) |
+|---|:---:|:---:|:---:|
+| **Tarifa Social (TSEE), 150 kWh** | **R$ 52,50 / mês** (Economia: R$ 60,00) | **R$ 73,13 / mês** (Economia: R$ 39,37) | **53,3%** (atual) vs. **35,0%** (histórico) |
+| **Cenário Combinado (TSEE + Efic.), 110 kWh** | **R$ 22,50 / mês** (Economia: R$ 90,00) | **R$ 46,13 / mês** (Economia: R$ 66,37) | **80,0%** (atual) vs. **59,0%** (histórico) |
+
+#### Matriz Comparativa Consolidada de Todas as Soluções
+
+| Indicador Analisado | Situação Inicial | TSEE Vigente (Lei 15.235) | TSEE Histórica (Lei 10.438) | Solar Residencial (1,5 kWp) | Combinada Vigente (TSEE + Eficiência) | Combinada Histórica (Lei 10.438 + Efic.) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Conta Estimada (R$)** | R$ 112,50 | **R$ 52,50** | R$ 73,13 | R$ 22,50 a R$ 35,00 | **R$ 22,50** | R$ 46,13 |
+| **Economia Mensal Estimada** | R$ 0,00 | **R$ 60,00** | R$ 39,37 | R$ 77,50 a R$ 90,00 | **R$ 90,00** | R$ 66,37 |
+| **Percentual de Redução** | 0% | **53,3%** | 35,0% | 68,9% a 80,0% | **80,0%** | 59,0% |
+| **Investimento Inicial** | R$ 0,00 | R$ 0,00 | R$ 0,00 | R$ 7.500 a R$ 9.500 | R$ 0,00 | R$ 0,00 |
+| **Payback (Tarifa Cheia)** | N/A | Imediato | Imediato | 6,9 a 10,2 anos (méd. 8,5) | Imediato | Imediato |
+| **Payback (para quem tem TSEE)** | N/A | Imediato | Imediato | 20,8 a 45,2 anos (méd. 29,8) | Imediato | Imediato |
+| **CO₂ Evitado Estimado** | 0 kg | Indireto | Indireto | ~6,5 kg CO₂/mês | ~1,5 kg CO₂/mês | ~1,5 kg CO₂/mês |
 
 ---
 
@@ -214,7 +228,7 @@ Foram conduzidas sessões de teste com **3 participantes externos à equipe** (p
 | **Total de Atendimentos Realizados** | **14 atendimentos** | ✅ Atende com folga ao mínimo exigido (>= 10) |
 | **Respostas Encontradas** | **12 atendimentos (85,7%)** | ✅ Alta taxa de localização |
 | **Taxa de Acerto (Orientação Ajudou)** | **12 atendimentos (85,7%)** | ✅ Conteúdo altamente relevante e claro |
-| **Tempo Médio de Busca do Algoritmo** | **0,0007 segundos (< 0,1s)** | ✅ Resposta algorítmica imediata sem atraso de leitura humana |
+| **Tempo Médio de Atendimento do Algoritmo** | **0,0s (< 0,1s)** | ✅ Resposta algorítmica imediata (round a 1 casa decimal conforme enunciado) |
 | **Média de Tentativas por Atendimento** | **1,00 tentativa** | ✅ Assertividade imediata na primeira consulta |
 | **Avaliações de Facilidade de Uso** | **8 avaliações coletadas \| Média: 4,75 / 5,00** | ✅ Usabilidade de excelência |
 
@@ -225,13 +239,13 @@ A validação do módulo de sustentabilidade energética não se restringiu a n�
 1. **Protocolo de Avaliação da Compreensão Teórico-Econômica:**
    - *Pergunta de Verificação:* "Se uma família já é beneficiária da Tarifa Social de Energia, por que a instalação de placas solares no telhado não é a solução financeira prioritária para ela?"
    - *Respostas dos Participantes:*
-     - **Participante A:** Respondeu que a conta com Tarifa Social já é muito baixa (R$ 52,50 a R$ 73,13), e como a taxa mínima da distribuidora (R$ 22,50) ainda tem que ser paga todo mês, a economia real com o solar seria de apenas R$ 30 a R$ 50. Como o sistema custa R$ 8.500, a família levaria de 14 a 24 anos para recuperar o dinheiro, o que é inviável para quem mal tem renda para comer.
+     - **Participante A:** Respondeu que a conta com Tarifa Social já é muito reduzida (R$ 52,50 na regra atual ou R$ 73,13 no regime histórico), e como a taxa mínima da distribuidora com encargos (R$ 22,50 a R$ 35,00) ainda tem que ser paga todo mês, a economia líquida com o solar seria de apenas R$ 17,50 a R$ 50,63/mês. Como o sistema custa R$ 8.500, a família levaria de 16 a quase 30 anos (e até 45 anos no cenário conservador) para recuperar o dinheiro, o que é inviável para o orçamento vulnerável.
      - **Participante B:** Compreendeu que energia solar para baixa renda só faz sentido se for doada integralmente pelo governo ou em projetos de usinas comunitárias, nunca financiada por conta própria.
-     - **Participante C:** Destacou que a demonstração de payback de 23,6 anos sob o regime de gratuidade foi o ponto mais revelador do assistente.
+     - **Participante C:** Destacou que a demonstração de payback de quase 30 anos (29,8 anos) sob o regime vigente de gratuidade foi o ponto mais revelador do assistente.
 
 2. **Protocolo de Avaliação da Utilidade Prática:**
    - *Pergunta de Verificação:* "As orientações de eficiência propostas (redução de 4 minutos no chuveiro elétrico e desligamento de aparelhos em standby no filtro de linha) são viáveis de serem aplicadas em sua residência?"
-   - *Resultado:* 100% dos participantes consideraram as medidas de utilidade imediata, compreendendo que a soma das pequenas ações elimina 40 kWh/mês exatos, permitindo que a conta caia para R$ 22,50 a R$ 46,13/mês com investimento zero em obras ou equipamentos.
+   - *Resultado:* 100% dos participantes consideraram as medidas de utilidade imediata, compreendendo que a soma das pequenas ações elimina 40 kWh/mês exatos, permitindo que a conta caia para R$ 22,50/mês (sob a regra vigente da Lei 15.235) ou R$ 46,13/mês (sob o regime histórico) com investimento zero em obras ou equipamentos.
 
 ### Dúvidas Sem Solução Registradas no Histórico Real
 

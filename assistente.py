@@ -235,7 +235,7 @@ class Assistente:
 
             # Busca na base de conhecimento
             resultados = self.base.buscar(pergunta)
-            tempo = round(time.time() - inicio, 4)
+            tempo = round(time.time() - inicio, 1)
             melhor_score = resultados[0][0] if resultados else 0
 
             # Score < 3: orientacao nao encontrada
@@ -452,7 +452,7 @@ class Assistente:
 
             inicio = time.time()
             orientacao.exibir()
-            tempo = round(time.time() - inicio, 4)
+            tempo = round(time.time() - inicio, 1)
             ajudou = self._perguntar_feedback()
 
 
@@ -509,7 +509,6 @@ class Assistente:
             "data": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "origem": origem,
             "pergunta": pergunta,
-            "id": orientacao_id,
             "id_orientacao": orientacao_id,
             "encontrou": encontrou,
             "ajudou": ajudou,
@@ -608,12 +607,9 @@ class Assistente:
 
         print(f"  Total de atendimentos      : {total}")
         print(f"  Resposta encontrada        : {len(encontrados)} ({taxa_encontrada:.1f}%)")
-        if tempo_medio < 0.1:
-            print(f"  Tempo médio consolidado    : {tempo_medio:.4f}s (< 0.1s)")
-        else:
-            print(f"  Tempo médio consolidado    : {tempo_medio:.1f}s")
-        print(f"    * Busca por pergunta     : {t_busca_medio:.4f}s (algoritmo heurístico puro)")
-        print(f"    * Navegação em categoria : {t_nav_medio:.4f}s (renderização em tela)")
+        print(f"  Tempo médio de resposta    : {tempo_medio:.1f}s")
+        print(f"    * Busca por pergunta     : {t_busca_medio:.1f}s (algoritmo heurístico puro)")
+        print(f"    * Navegação em categoria : {t_nav_medio:.1f}s (renderização em tela)")
         print(f"  Taxa de acerto (ajudou)    : {len(ajudados)} ({taxa_ajudou:.1f}%)")
         print(f"  Tentativas por atendimento : {media_tentativas:.1f}")
 
@@ -685,25 +681,20 @@ class Assistente:
 
         caminho = os.path.join("data", "atendimentos.csv")
 
-        # Suporta tanto 'id' quanto 'id_orientacao' para atendimento universal a qualquer rubrica
-        cabecalho = ["data", "origem", "pergunta", "id", "id_orientacao",
+        # Cabeçalho oficial padronizado com 8 colunas (PCP)
+        cabecalho = ["data", "origem", "pergunta", "id_orientacao",
                      "encontrou", "ajudou", "tentativas", "tempo_segundos"]
 
-
-
         try:
-
             os.makedirs("data", exist_ok=True)
-
             with open(caminho, "w", newline="", encoding="utf-8") as f:
-
                 writer = csv.DictWriter(f, fieldnames=cabecalho)
-
                 writer.writeheader()
-
                 for entry in self.historico:
-
-                    writer.writerow({k: entry.get(k, "") for k in cabecalho})
+                    linha = {k: entry.get(k, "") for k in cabecalho}
+                    if not linha["id_orientacao"] and "id" in entry:
+                        linha["id_orientacao"] = entry["id"]
+                    writer.writerow(linha)
 
             print(f"  [Info] Atendimentos exportados para: {caminho}")
 
@@ -814,15 +805,16 @@ class Assistente:
         INV_MED = 8500
         INV_MAX = 9500
         
-        # Limitacoes da Lei 14.300/2022 (taxa minima monofasica 30 kWh = R$ 22,50 + Fio B + COSIP):
+        # Limitações da Lei 14.300/2022 (taxa mínima monofásica 30 kWh = R$ 22,50 + Fio B + COSIP):
         # Para quem paga a tarifa cheia (R$ 112,50):
-        econ_solar_max = 92.50   # fatura residual de R$ 20,00/mes
-        econ_solar_med = 85.00   # fatura residual de R$ 27,50/mes
-        econ_solar_min = 77.50   # fatura residual de R$ 35,00/mes
+        # Custo residual pós-solar: R$ 22,50 (piso monofásico puro de 30 kWh) a R$ 35,00/mês (com Fio B residual e COSIP)
+        econ_solar_max = 90.00   # fatura residual mínima de R$ 22,50/mês (R$ 112,50 - R$ 22,50)
+        econ_solar_med = 83.75   # fatura residual média de R$ 28,75/mês (R$ 112,50 - R$ 28,75)
+        econ_solar_min = 77.50   # fatura residual conservadora de R$ 35,00/mês (R$ 112,50 - R$ 35,00)
 
-        payback_otimista = self.calcular_payback(INV_MIN, econ_solar_max)
-        payback_moderado = self.calcular_payback(INV_MED, econ_solar_med)
-        payback_conservador = self.calcular_payback(INV_MAX, econ_solar_min)
+        payback_otimista = self.calcular_payback(INV_MIN, econ_solar_max)      # 6.94 anos
+        payback_moderado = self.calcular_payback(INV_MED, econ_solar_med)      # 8.46 anos
+        payback_conservador = self.calcular_payback(INV_MAX, econ_solar_min)  # 10.22 anos
 
         co2_evitado_consumo = self.calcular_co2(CONSUMO, FATOR_CO2)
         co2_evitado_solar = self.calcular_co2(geracao_solar, FATOR_CO2)
@@ -841,14 +833,17 @@ class Assistente:
         co2_evitado_comb = self.calcular_co2(CONSUMO - CONSUMO_COMBINADO, FATOR_CO2)
 
         # 5. Comparativo Critico de Viabilidade Solar para Beneficiarios da TSEE:
-        # Se a familia ja recebe a Tarifa Social, sua fatura ja e baixa (R$ 73,13 ou R$ 52,50).
-        # Apos o solar (fatura minima de R$ 22,50), a economia gerada pelo sistema e muito menor:
-        # - Sob a Lei 10.438: economia de R$ 73,13 - R$ 22,50 = R$ 50,63/mes -> Payback de 14,0 anos.
-        # - Sob a Gratuidade ate 80 kWh: economia de R$ 52,50 - R$ 22,50 = R$ 30,00/mes -> Payback de 23,6 anos!
-        econ_solar_tsee_hist = round(custo_tsee_hist - 22.50, 2)
-        payback_solar_tsee_hist = self.calcular_payback(INV_MED, econ_solar_tsee_hist)
-        econ_solar_tsee_novo = round(custo_tsee_novo - 22.50, 2)
-        payback_solar_tsee_novo = self.calcular_payback(INV_MED, econ_solar_tsee_novo)
+        # Se a familia ja recebe a Tarifa Social, sua fatura ja e reduzida (R$ 73,13 historico ou R$ 52,50 atual).
+        # Apos o solar (fatura minima de R$ 22,50 a R$ 35,00), a economia gerada pelo sistema e drasticamente menor:
+        # - Sob a Lei 10.438: economia de R$ 38,13 a R$ 50,63/mes -> Payback medio de 16,0 anos.
+        # - Sob a Gratuidade ate 80 kWh: economia de R$ 17,50 a R$ 30,00/mes -> Payback medio de 29,8 anos!
+        econ_solar_tsee_hist_otim = round(custo_tsee_hist - 22.50, 2)  # 50.63
+        econ_solar_tsee_hist_med = round(custo_tsee_hist - 28.75, 2)   # 44.38
+        payback_solar_tsee_hist = self.calcular_payback(INV_MED, econ_solar_tsee_hist_med)  # 16.0 anos
+
+        econ_solar_tsee_novo_otim = round(custo_tsee_novo - 22.50, 2)  # 30.00
+        econ_solar_tsee_novo_med = round(custo_tsee_novo - 28.75, 2)   # 23.75
+        payback_solar_tsee_novo = self.calcular_payback(INV_MED, econ_solar_tsee_novo_med)   # 29.8 anos
 
         print()
         print("=" * 60)
@@ -874,9 +869,14 @@ class Assistente:
         print(f"      * Excedente 81 a 150 kWh (70 kWh regulares) : 70 x R$ {TARIFA:.2f} = R$ {custo_tsee_novo:.2f}")
         print(f"      * Fatura estimada     : R$ {custo_tsee_novo:.2f}/mes")
         print(f"      * Economia estimada   : R$ {econ_tsee_novo:.2f}/mes ({pct_tsee_novo}% de reducao)")
-        print("      * Elegibilidade: CadUnico com renda familiar per capita <= 1/2 SM ou BPC/LOAS.")
-        print("      * Modalidade Adicional (Jan/2026): 'Desconto Social' para renda entre 1/2 e 1 SM")
-        print("        com isencao da CDE para consumo ate 120 kWh/mes (~15% a 20% de reducao).")
+        print("      * Criterios de Elegibilidade Plenos (MME / ANEEL / Lei 12.212):")
+        print("        1. CadUnico com renda familiar per capita <= 1/2 salario minimo;")
+        print("        2. Idosos (>= 65 anos) ou PCDs beneficiarios do BPC/LOAS;")
+        print("        3. CadUnico ate 3 SM com pessoa que necessite de aparelhos eletricos vitais;")
+        print("        4. Familias indigenas e quilombolas inscritas no CadUnico.")
+        print("      * Modalidade Adicional (Jan/2026 - MME): 'Desconto Social' para CadUnico com renda")
+        print("        entre 1/2 e 1 SM, com isencao da CDE para consumo ate 120 kWh/mes (~11,8% de reducao")
+        print("        na tarifa media; a isencao de CDE reduz encargos, nao sendo gratuidade total).")
         print("      * Nota metodologica: estimativa simplificada da parcela ativa; faturas reais continuam")
         print("        sujeitas a taxa municipal de iluminacao publica (COSIP).")
         print()
@@ -895,19 +895,19 @@ class Assistente:
         print(f"  Geracao calculada      : {geracao_solar:.1f} kWh/mes (formula E = P * H * D * PR)")
         print(f"                           ({POTENCIA_KWP} kWp x {IRRADIACAO} kWh/m2/dia [Atlas INPE Sudeste/Centro-Oeste] x {DIAS}d x {PR} PR)")
         print(f"  Investimento instalado : R$ {INV_MIN:,.0f} a R$ {INV_MAX:,.0f} (Tabela Greener 1S-2024 / ABSOLAR ate 2 kWp)")
-        print("  Conta minima residual  : R$ 20,00 a R$ 35,00/mes (taxa de disponibilidade")
-        print("                           monofasica de 30 kWh = R$ 22,50 + Fio B + COSIP)")
-        print(f"  Economia liquida mensal: R$ {econ_solar_min:.2f} a R$ {econ_solar_max:.2f}/mes (tarifa cheia)")
-        print(f"  Payback simples        : {payback_otimista} a {payback_conservador} anos (cenario medio: {payback_moderado} anos)")
+        print("  Conta minima residual  : R$ 22,50 a R$ 35,00/mes (taxa de disponibilidade monofasica")
+        print("                           de 30 kWh = R$ 22,50 + encargos de Fio B sob Lei 14.300 + COSIP)")
+        print(f"  Economia liquida mensal: R$ {econ_solar_min:.2f} a R$ {econ_solar_max:.2f}/mes (68,9% a 80,0% na tarifa cheia)")
+        print(f"  Payback simples        : {payback_otimista:.2f} a {payback_conservador:.2f} anos (cenario medio: {payback_moderado:.2f} anos)")
         print(f"  CO2 evitado estimado   : ~{co2_evitado_solar:.1f} kg/mes | ~{co2_evitado_solar*12:.1f} kg/ano (sobre {geracao_solar:.1f} kWh gerados)")
         print()
         print("  [!] AVALIACAO DE VIABILIDADE PARA FAMILIAS COM TARIFA SOCIAL:")
-        print(f"  Para quem ja recebe a TSEE (Lei 10.438: fatura R$ {custo_tsee_hist:.2f}), a economia real")
-        print(f"  do solar e de apenas R$ {econ_solar_tsee_hist:.2f}/mes, elevando o payback para {payback_solar_tsee_hist:.1f} anos.")
-        print(f"  Sob a gratuidade ate 80 kWh (fatura R$ {custo_tsee_novo:.2f}), a economia e de R$ {econ_solar_tsee_novo:.2f}/mes")
-        print(f"  e o payback salta para {payback_solar_tsee_novo:.1f} anos!")
-        print("  Conclusao: para famlias de baixa renda no CadUnico, a compra de placas")
-        print("  proprias e inviavel sem subsidio estatal ou modelo cooperativo.")
+        print(f"  Para quem ja recebe a TSEE Historica (fatura R$ {custo_tsee_hist:.2f}), a economia real")
+        print(f"  do solar e de apenas R$ {econ_solar_tsee_hist_otim:.2f}/mes, elevando o payback medio para {payback_solar_tsee_hist:.1f} anos.")
+        print(f"  Sob a TSEE Vigente (gratuidade ate 80 kWh, fatura R$ {custo_tsee_novo:.2f}), a economia cai")
+        print(f"  para R$ {econ_solar_tsee_novo_otim:.2f}/mes e o payback salta para {payback_solar_tsee_novo:.1f} anos!")
+        print("  Conclusao: para familias de baixa renda no CadUnico, a compra de placas")
+        print("  proprias e inviavel sem subsidio estatal integral ou cooperativas solares.")
         print()
         print("-" * 60)
         print("  ALTERNATIVA 3 - COMBINADA (TSEE + EFICIENCIA ENERGETICA)")
@@ -926,21 +926,21 @@ class Assistente:
         print("-" * 60)
         print("  TABELA COMPARATIVA RESUMO (ESTUDO SERS)")
         print("-" * 60)
-        print(f"  {'Parametro':<24} {'Atual':>10} {'TSEE':>10} {'Solar':>10} {'Combinada':>10}")
-        print(f"  {'-'*24} {'-'*10} {'-'*10} {'-'*10} {'-'*10}")
-        print(f"  {'Conta estimada (R$)':<24} {'112,50':>10} {f'{custo_tsee_novo:.2f}-{custo_tsee_hist:.2f}':>10} {'20-35':>10} {f'{custo_comb_novo:.2f}-{custo_comb_hist:.2f}':>10}")
-        print(f"  {'Economia mensal (R$)':<24} {'0,00':>10} {f'{econ_tsee_hist:.2f}-{econ_tsee_novo:.2f}':>10} {'77-92':>10} {f'{econ_comb_hist:.2f}-{econ_comb_novo:.2f}':>10}")
-        print(f"  {'Reducao estimada (%)':<24} {'0%':>10} {f'{pct_tsee_hist:.0f}-{pct_tsee_novo:.0f}%':>10} {'70-82%':>10} {f'{pct_comb_hist:.0f}-{pct_comb_novo:.0f}%':>10}")
-        print(f"  {'Investimento inicial':<24} {'R$ 0':>10} {'R$ 0':>10} {'R$7.5-9.5k':>10} {'R$ 0':>10}")
-        print(f"  {'Payback simples':<24} {'N/A':>10} {'Imediato':>10} {f'{payback_otimista}-{payback_conservador} a':>10} {'Imediato':>10}")
-        print(f"  {'CO2 evitado/mes (kg)':<24} {'0,0':>10} {'Indireto':>10} {f'{co2_evitado_solar:.1f}':>10} {f'{co2_evitado_comb:.1f}':>10}")
+        print(f"  {'Cenario Analisado':<34} {'Conta (R$)':>12} {'Economia':>12}")
+        print(f"  {'-'*34} {'-'*12} {'-'*12}")
+        print(f"  {'1. Atual (Tarifa Cheia, 150 kWh)':<34} {'R$ 112,50':>12} {'R$ 0,00':>12}")
+        print(f"  {'2. TSEE Vigente (Lei 15.235/2025)':<34} {f'R$ {custo_tsee_novo:.2f}':>12} {f'R$ {econ_tsee_novo:.2f} (53%)':>12}")
+        print(f"  {'3. TSEE Historica (Lei 10.438/2002)':<34} {f'R$ {custo_tsee_hist:.2f}':>12} {f'R$ {econ_tsee_hist:.2f} (35%)':>12}")
+        print(f"  {'4. Solar 1,5 kWp (Tarifa Cheia)':<34} {'R$ 22.50-35':>12} {'R$ 77.50-90':>12}")
+        print(f"  {'5. Combinada Vigente (110 kWh)':<34} {f'R$ {custo_comb_novo:.2f}':>12} {f'R$ {econ_comb_novo:.2f} (80%)':>12}")
+        print(f"  {'6. Combinada Historica (110 kWh)':<34} {f'R$ {custo_comb_hist:.2f}':>12} {f'R$ {econ_comb_hist:.2f} (59%)':>12}")
         print()
         print("-" * 60)
         print("  ORIENTACOES PRATICAS PARA O CIDADAO:")
         print("-" * 60)
         print("  1. Se esta no CadUnico -> priorize a Tarifa Social e eficiencia no chuveiro.")
         print("     Reducao imediata de ate 80% na fatura (59% a 80% demonstrados) sem gastar com placas solares.")
-        print("  2. Placas solares proprias tem retorno atrativo (6,8 a 10,2 anos) apenas")
+        print("  2. Placas solares proprias tem retorno atrativo (6,9 a 10,2 anos) apenas")
         print("     para familias que pagam tarifa cheia (R$ 112,50) e tem imovel proprio.")
         print("=" * 60)
 
