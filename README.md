@@ -299,31 +299,3 @@ python main.py
 python server.py
 ```
 *Ou simplesmente abra o arquivo `index.html` em qualquer navegador.*
-
----
-
-## 🎥 Roteiro Técnico dos Vídeos
-
-### Vídeo 1: Pensamento Computacional e Automação com Python (PCP)
-- **Duração Exigida:** Entre **5 e 8 minutos**.
-- **Conteúdo a Demonstrar:**
-  1. Apresentação dos integrantes e objetivo do assistente.
-  2. Modularização nos 4 arquivos: `main.py`, `orientacao.py`, `base_conhecimento.py` e `assistente.py`.
-  3. Composição de classes (`Assistente` -> `BaseConhecimento` -> `Orientacao`), destacando `self` e `__init__`.
-  4. Carregamento do JSON com tratamento de `FileNotFoundError` e `JSONDecodeError`.
-  5. Busca heurística determinística com retorno em tuplas, classificação de confiança e exibição de até 2 alternativas relevantes (filtradas com score >= 3).
-  6. Navegação por categorias com opção `0` para voltar em todas as telas.
-  7. Simulação de alteração ao vivo de palavra-chave no JSON comprovando atualização dinâmica.
-  8. Bloqueio de dados pessoais (CPF/e-mail) sem registro no histórico.
-  9. Encerramento com coleta de nota de facilidade (1 a 5), exibição dos 6 indicadores e exportação para CSV com `csv.DictWriter`.
-- **Link do Vídeo:** `[A ser inserido pelos integrantes antes do envio final]`
-
-### Vídeo 2: Soluções em Energias Renováveis e Sustentáveis (SERS)
-- **Duração Exigida:** **Máximo de 3 minutos**.
-- **Conteúdo a Demonstrar:**
-  1. Problema da pobreza energética e fatura de referência (150 kWh/mês = R$ 112,50).
-  2. Calculadora de consumo e aplicação das regras da Tarifa Social (TSEE).
-  3. Dimensionamento solar de 1,5 kWp pela fórmula de engenharia (168,5 kWh/mês), custos (Greener/ABSOLAR) e payback consistente (6,8 a 10,2 anos).
-  4. Análise crítica demonstrando por que placas solares próprias não são viáveis para quem já tem Tarifa Social (payback salta para 14 a 24 anos), destacando a Alternativa Combinada (TSEE + Eficiência) com até 80% de redução sem custos (59% a 80% demonstrados).
-  5. Fator oficial do SIN (0,0385 kg CO₂/kWh — MCTI/SIRENE) e emissões evitadas.
-- **Link do Vídeo:** `[A ser inserido pelos integrantes antes do envio final]`
