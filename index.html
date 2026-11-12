@@ -542,6 +542,143 @@
       padding-top: 10px;
     }
 
+    /* FORMATAÇÃO RICA DA RESPOSTA */
+    .card-resposta {
+      margin: 10px 0 16px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.65;
+      white-space: normal;
+    }
+    .card-study-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 4px 0 6px;
+      letter-spacing: -0.01em;
+    }
+    .card-para {
+      margin: 6px 0 10px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .card-gap {
+      height: 8px;
+    }
+    .card-section-badge {
+      display: inline-block;
+      font-weight: 800;
+      font-size: 12.5px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      padding: 4px 12px;
+      border-radius: 8px;
+      margin: 14px 0 6px;
+      box-shadow: 0 2px 6px rgba(25, 118, 210, 0.25);
+    }
+    .card-callout-box {
+      background: var(--accent-light);
+      color: var(--accent);
+      border-left: 4px solid var(--accent);
+      padding: 12px 14px;
+      border-radius: 0 8px 8px 0;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 14px 0 8px;
+    }
+    .card-callout-box strong {
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .card-list {
+      list-style: none !important;
+      padding-left: 0 !important;
+      margin: 6px 0 10px !important;
+    }
+    .card-li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 6px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .card-li::before {
+      content: "•";
+      position: absolute;
+      left: 4px;
+      color: var(--primary);
+      font-size: 18px;
+      top: -2px;
+    }
+    .card-li-sub {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 4px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .card-li-sub::before {
+      content: "–";
+      position: absolute;
+      left: 16px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+    .card-num-item {
+      display: flex;
+      gap: 8px;
+      margin: 4px 0 4px 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .card-num-item b {
+      color: var(--primary);
+      min-width: 18px;
+    }
+    .card-fontes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 6px 0 10px;
+    }
+    .card-fonte-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      color: var(--primary);
+      text-decoration: none;
+      word-break: break-all;
+      padding: 4px 10px;
+      background: var(--primary-light);
+      border-radius: 6px;
+      width: fit-content;
+      max-width: 100%;
+      transition: background 0.2s;
+    }
+    .card-fonte-link:hover {
+      text-decoration: underline;
+      background: #bbdefb;
+    }
+    .card-fonte-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+    }
+
     /* INPUT SEARCH */
     .ask-box {
       display: flex;
@@ -1492,20 +1629,103 @@
         : "<span style='font-size: 13px; color: var(--text-muted);'>Obrigado pelo retorno. Tente reformular usando outros termos ou consulte a aba Categorias.</span>";
     }
 
+    function formatarRespostaHTML(raw) {
+      if (!raw) return "";
+      const lines = raw.split("\n");
+      let html = "";
+      let inList = false;
+
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        let trimmed = line.trim();
+
+        if (!trimmed) {
+          if (inList) { html += "</ul>"; inList = false; }
+          html += "<div class='card-gap'></div>";
+          continue;
+        }
+
+        let safe = escapeHtml(trimmed);
+
+        // Header de seção: [1], [2], [3]
+        if (/^\[\d+\]/.test(safe)) {
+          if (inList) { html += "</ul>"; inList = false; }
+          html += `<div class="card-section-badge">${safe}</div>`;
+          continue;
+        }
+
+        // Callout de destaque: RECOMENDAÇÃO: ou COMO OBTER:
+        if (/^(RECOMENDAÇÃO|COMO OBTER):/i.test(safe)) {
+          if (inList) { html += "</ul>"; inList = false; }
+          const idx = safe.indexOf(":");
+          const tag = safe.slice(0, idx + 1);
+          const rest = safe.slice(idx + 1).trim();
+          html += `<div class="card-callout-box"><strong>${tag}</strong> ${rest}</div>`;
+          continue;
+        }
+
+        // Tópicos com marcadores (*, -, •)
+        if (/^[\*\-\•]\s+/.test(trimmed) || /^\s+[\*\-\•]\s+/.test(line)) {
+          if (!inList) { html += "<ul class='card-list'>"; inList = true; }
+          const bulletContent = safe.replace(/^[\*\-\•]\s+/, "");
+          const isSub = line.startsWith("  ") || line.startsWith("    ");
+          html += `<li class="${isSub ? 'card-li-sub' : 'card-li'}">${bulletContent}</li>`;
+          continue;
+        }
+
+        // Listas numeradas (1., 2., 3., etc.)
+        if (/^\d+\.\s+/.test(trimmed)) {
+          if (inList) { html += "</ul>"; inList = false; }
+          const numMatch = safe.match(/^(\d+\.)\s+(.*)/);
+          if (numMatch) {
+            html += `<div class="card-num-item"><b>${numMatch[1]}</b> <span>${numMatch[2]}</span></div>`;
+            continue;
+          }
+        }
+
+        // Linha regular / Parágrafo
+        if (inList) { html += "</ul>"; inList = false; }
+        if (i === 0 && safe.toUpperCase() === safe && safe.length > 20) {
+          html += `<div class="card-study-title">${safe}</div>`;
+        } else {
+          html += `<p class="card-para">${safe}</p>`;
+        }
+      }
+
+      if (inList) { html += "</ul>"; }
+      return html;
+    }
+
+    function formatarFontesHTML(fonte) {
+      if (!fonte) return "";
+      const parts = fonte.split("|").map(s => s.trim()).filter(Boolean);
+      return `
+        <div class="card-fontes-list">
+          ${parts.map(p => {
+            if (p.startsWith("http://") || p.startsWith("https://")) {
+              return `<a href="${escapeHtml(p)}" target="_blank" rel="noopener" class="card-fonte-link">🔗 ${escapeHtml(p)}</a>`;
+            } else {
+              return `<span class="card-fonte-badge">📜 ${escapeHtml(p)}</span>`;
+            }
+          }).join("")}
+        </div>
+      `;
+    }
+
     function renderCardHTML(o) {
       return `
         <div class="card-orientacao">
           <span class="card-tag">${escapeHtml(o.categoria)}</span>
           <h3>${escapeHtml(o.titulo)}</h3>
-          <p>${escapeHtml(o.resposta)}</p>
+          <div class="card-resposta">${formatarRespostaHTML(o.resposta)}</div>
           ${o.documentos && o.documentos.length ? `
             <div class="card-meta-title">Documentos Necessários:</div>
             <ul>${o.documentos.map(d => `<li>${escapeHtml(d)}</li>`).join("")}</ul>
           ` : ""}
           <div class="card-meta-title">Onde Buscar:</div>
           <p>${escapeHtml(o.onde)}</p>
-          <div class="card-meta-title">Fonte Oficial:</div>
-          <p><a href="${escapeHtml(o.fonte)}" target="_blank" rel="noopener">${escapeHtml(o.fonte)}</a></p>
+          <div class="card-meta-title">Fontes e Referências Oficiais:</div>
+          ${formatarFontesHTML(o.fonte)}
           <div class="card-warning">
             Verificado em: ${escapeHtml(o.verificado_em)} · <em>Aviso: este assistente é informativo e não é canal oficial.</em>
           </div>

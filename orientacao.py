@@ -22,17 +22,25 @@ class Orientacao:
         print(separador)
         print()
         print("ORIENTACAO:")
-        # Quebra a resposta em linhas de ~70 chars para melhor leitura
-        palavras = self.resposta.split()
-        linha = ""
-        for palavra in palavras:
-            if len(linha) + len(palavra) + 1 > 70:
-                print(f"  {linha}")
-                linha = palavra
-            else:
-                linha = f"{linha} {palavra}".strip()
-        if linha:
-            print(f"  {linha}")
+        # Exibe respeitando quebras de linha e paragrafos
+        for bloco in self.resposta.split("\n"):
+            bloco_strip = bloco.strip()
+            if not bloco_strip:
+                print()
+                continue
+            indent = "  "
+            if bloco.startswith("  "):
+                indent = "    "
+            palavras = bloco_strip.split()
+            linha = ""
+            for palavra in palavras:
+                if len(linha) + len(palavra) + 1 > 68:
+                    print(f"{indent}{linha}")
+                    linha = palavra
+                else:
+                    linha = f"{linha} {palavra}".strip()
+            if linha:
+                print(f"{indent}{linha}")
         print()
 
         if self.documentos:
@@ -46,7 +54,8 @@ class Orientacao:
         print()
 
         print("FONTE OFICIAL:")
-        print(f"  {self.fonte}")
+        for fonte_item in self.fonte.split("|"):
+            print(f"  * {fonte_item.strip()}")
         print()
 
         print(f"Verificado em: {self.verificado_em}")

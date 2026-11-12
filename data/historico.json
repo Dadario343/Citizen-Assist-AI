@@ -138,5 +138,45 @@
     "ajudou": true,
     "tentativas": 1,
     "tempo_segundos": 0.0
+  },
+  {
+    "data": "2026-11-12 15:48:56",
+    "origem": "pergunta",
+    "pergunta": "como eu faço o cartão do sus?",
+    "id_orientacao": 6,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0
+  },
+  {
+    "data": "2026-11-12 15:51:10",
+    "origem": "pergunta",
+    "pergunta": "como eu faço o meu cartao do sus?",
+    "id_orientacao": 6,
+    "encontrou": true,
+    "ajudou": true,
+    "tentativas": 1,
+    "tempo_segundos": 0.0
+  },
+  {
+    "data": "2026-11-12 15:51:20",
+    "origem": "pergunta",
+    "pergunta": "como eu faço pra renovar minha carteira de motorista",
+    "id_orientacao": null,
+    "encontrou": false,
+    "ajudou": false,
+    "tentativas": 1,
+    "tempo_segundos": 0.0
+  },
+  {
+    "data": "2026-11-12 15:57:55",
+    "origem": "pergunta",
+    "pergunta": "energia solidaria",
+    "id_orientacao": null,
+    "encontrou": false,
+    "ajudou": false,
+    "tentativas": 1,
+    "tempo_segundos": 0.0
   }
 ]
